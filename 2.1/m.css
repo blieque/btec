@@ -1,0 +1,112 @@
+@font-face {
+	font-family:'Source Sans Pro';
+	font-style:normal;
+	font-weight:400;
+	src:local('Source Sans Pro'),local('SourceSansPro-Regular'),url(http://fonts.gstatic.com/s/sourcesanspro/v9/ODelI1aHBYDBqgeIAH2zlBM0YzuT7MdOe03otPbuUS0.woff) format('woff');
+}
+@font-face {
+	font-family:'Source Sans Pro';
+	font-style:normal;
+	font-weight:700;
+	src:local('Source Sans Pro Bold'),local('SourceSansPro-Bold'),url(http://fonts.gstatic.com/s/sourcesanspro/v9/toadOcfmlt9b38dHJxOBGFkQc6VGVFSmCnC_l7QZG60.woff) format('woff');
+}
+@font-face {
+	font-family:'Source Sans Pro';
+	font-style:italic;
+	font-weight:400;
+	src:local('Source Sans Pro Italic'),local('SourceSansPro-It'),url(http://fonts.gstatic.com/s/sourcesanspro/v9/M2Jd71oPJhLKp0zdtTvoMzNrcjQuD0pTu1za2FULaMs.woff) format('woff');
+}
+@font-face {
+	font-family:'Source Sans Pro';
+	font-style:italic;
+	font-weight:700;
+	src:local('Source Sans Pro Bold Italic'),local('SourceSansPro-BoldIt'),url(http://fonts.gstatic.com/s/sourcesanspro/v9/fpTVHK8qsXbIeTHTrnQH6Nog-We9VNve39Jr4Vs_aDc.woff) format('woff');
+}
+
+body {
+	margin:3em 0;
+	font-family:'source sans pro';
+	font-size:13pt;
+	line-height:135%;
+}
+table {
+	margin:0 auto;
+	position:relative;
+	color:#222;
+	border:solid 1px #ddd;
+	border-radius:.2em;
+	border-spacing:0;
+}
+#nav {
+	color:inherit;
+	border-right:solid 1px #ddd;
+	box-shadow:inset -4px 0 0 0 rgba(0,0,0,.04);
+}
+#nav a {
+	padding:.4em 5em .4em .6em;
+	display:block;
+	color:inherit;
+	text-decoration:none;
+	border-bottom:solid 1px #ddd;
+	-webkit-transition:all ease .08s;
+	transition:all ease .08s;
+}
+#nav a:hover {
+	background-color:rgba(0,0,0,.08);
+}
+#nav a:last-child {
+	margin-bottom:-1px;
+}
+#nav em {
+	font-size:80%;
+}
+#cont {
+	padding:1.2em;
+	box-sizing:border-box;
+	width:calc(60% - 1px);
+	-webkit-transition:all ease 1s;
+	transition:all ease 1s;
+}
+td div>:first-child {
+	margin-top:0;
+}
+td div>:last-child {
+	margin-bottom:0;
+}
+td {
+	vertical-align:top;
+}
+h1,h2,h3 {
+	margin:0;
+}
+h1 {
+	font-size:28pt;
+	margin-bottom:.6em;
+}
+h2+h1 {
+	margin-top:.2em;
+}
+p {
+	margin:.8em 0;
+}
+div>div {
+	margin:0 0 1.2em 1.2em;
+	float:right;
+	width:40%;
+	color:#888;
+	font-style:italic;
+	font-size:80%;
+	line-height:110%;
+}
+.l {
+	margin:0 1.2em 1.2em 0;
+	float:left;
+}
+.f {
+	margin:0;
+	float:none;
+	width:100%;
+}
+img {
+	width:100%;
+}

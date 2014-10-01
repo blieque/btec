@@ -1,0 +1,119 @@
+/* loading webfonts */
+@font-face {
+	font-family:'Source Sans Pro';
+	font-style:normal;
+	font-weight:400;
+	src:local('Source Sans Pro'),local('SourceSansPro-Regular'),url(http://fonts.gstatic.com/s/sourcesanspro/v9/ODelI1aHBYDBqgeIAH2zlBM0YzuT7MdOe03otPbuUS0.woff) format('woff');
+}
+@font-face {
+	font-family:'Source Sans Pro';
+	font-style:normal;
+	font-weight:700;
+	src:local('Source Sans Pro Bold'),local('SourceSansPro-Bold'),url(http://fonts.gstatic.com/s/sourcesanspro/v9/toadOcfmlt9b38dHJxOBGFkQc6VGVFSmCnC_l7QZG60.woff) format('woff');
+}
+@font-face {
+	font-family:'Source Sans Pro';
+	font-style:italic;
+	font-weight:400;
+	src:local('Source Sans Pro Italic'),local('SourceSansPro-It'),url(http://fonts.gstatic.com/s/sourcesanspro/v9/M2Jd71oPJhLKp0zdtTvoMzNrcjQuD0pTu1za2FULaMs.woff) format('woff');
+}
+@font-face {
+	font-family:'Source Sans Pro';
+	font-style:italic;
+	font-weight:700;
+	src:local('Source Sans Pro Bold Italic'),local('SourceSansPro-BoldIt'),url(http://fonts.gstatic.com/s/sourcesanspro/v9/fpTVHK8qsXbIeTHTrnQH6Nog-We9VNve39Jr4Vs_aDc.woff) format('woff');
+}
+body { /* u-a styles overriding, text */
+	margin:3em 0;
+	font-family:'source sans pro',lucida sans,tahoma,sans-serif;
+	font-size:13pt;
+	line-height:135%;
+}
+section { /* main wrapper */
+	margin:0 auto;
+	padding:2em;
+	width:60%;
+	max-width:900px;
+	border:solid 1px #ddd;
+	text-align:justify;
+}
+section:after { /* wrapper clearfix up in here */
+	content:"";
+	display:block;
+	clear:both;
+}
+section>:first-child { /* first element in wrapper */
+	margin-top:0;
+}
+section>:last-child { /* last element in wrapper */
+	margin-bottom:0;
+}
+h1 { /* big headers (sod html5 user-agent styles) */
+	font-size:2em;
+}
+.i { /* floated image containers */
+	background:#ddd;
+	padding:1em;
+	font-size:90%;
+	font-style:italic;
+	line-height:120%;
+}
+.s { /* small; narrower image containers */
+	width:24%;
+}
+.r,.l { /* all image containers, but full sizers */
+	width:40%;
+}
+.r { /* right floated containers */
+	margin:0 0 1em 1em;
+	float:right;
+}
+.l { /* left floated containers */
+	margin:0 1em 1em 0;
+	float:left;
+}
+.i div { /* div for image source*/
+	margin-top:.8em;
+	font-style:normal;
+	font-size:80%;
+	line-height:110%;
+}
+img { /* actual image */
+	margin:-1em -1em .6em;
+	width:calc(100% + 2em);
+}
+li li { /* list items... */
+	margin-top:.4em;
+}
+.f { /* file attachment elements */
+	margin:0 -2em;
+	padding:1em 2em;
+	background:#7accb2;
+	text-shadow:0 1px 0 #69af98;
+	box-shadow:0 0 0 1px #69af98;
+}
+.f:before { /* text to title file attachment elements */
+	content:"File attachments:";
+	margin-right:1em;
+	color:#fff;
+	font-weight:bold;
+}
+.f a { /* links in file attachment elements */
+	color:#fff;
+	text-decoration:none;
+	font-style:italic;
+}
+.f a:hover { /* ditto, when hovered over */
+	color:rgba(255,255,255,0.86);
+	text-shadow:0 1px 2px #69af98;
+}
+.f a:not(:last-child):after { /* little dots after all but last f.a.e link */
+	content:"";
+	display:inline-block;
+	margin:.2em 2em;
+	width:4px;
+	height:4px;
+	background:#fff;
+	box-shadow:0 1px 1px 0 #69af98;
+	border-radius:2px;
+}
