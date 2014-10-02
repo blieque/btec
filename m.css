@@ -58,11 +58,11 @@ h1 { /* big headers (sod html5 user-agent styles) */
 	font-style:italic;
 	line-height:120%;
 }
-.s { /* small; narrower image containers */
-	width:24%;
-}
 .r,.l { /* all image containers, but full sizers */
 	width:40%;
+}
+.s { /* small; narrower image containers */
+	width:24%;
 }
 .r { /* right floated containers */
 	margin:0 0 1em 1em;
