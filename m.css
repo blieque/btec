@@ -61,9 +61,6 @@ h1 { /* big headers (sod html5 user-agent styles) */
 .r,.l { /* all image containers, but full sizers */
 	width:40%;
 }
-.s { /* small; narrower image containers */
-	width:24%;
-}
 .r { /* right floated containers */
 	margin:0 0 1em 1em;
 	float:right;
@@ -71,6 +68,17 @@ h1 { /* big headers (sod html5 user-agent styles) */
 .l { /* left floated containers */
 	margin:0 1em 1em 0;
 	float:left;
+}
+.s { /* small; narrower image containers */
+	width:24%;
+}
+.h img {
+	display:inline-block;
+	width:calc(50% + .5em);
+	vertical-align:top;
+}
+.h img:first-child {
+	margin-right:.5em;
 }
 .i div { /* div for image source*/
 	margin-top:.8em;
