@@ -51,6 +51,12 @@ section>:last-child { /* last element in wrapper */
 h1 { /* big headers (sod html5 user-agent styles) */
 	font-size:2em;
 }
+h2,h3,h4 {
+	margin-bottom:0;
+}
+h1+p,h2+p,h3+p,h4+p {
+	margin-top:.8em;
+}
 .i { /* floated image containers */
 	background:#ddd;
 	padding:1em;
@@ -124,4 +130,12 @@ li li { /* list items... */
 	background:#fff;
 	box-shadow:0 1px 1px 0 #69af98;
 	border-radius:2px;
+}
+a:not(.ref):after {
+	content:"";
+	display:inline-block;
+	margin:0 2px 0 0;
+	width:12px;
+	height:10px;
+	background:url(/btec/i/el.svg);
 }
