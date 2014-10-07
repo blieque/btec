@@ -53,10 +53,10 @@ h1 { /* big headers (sod html5 user-agent styles) */
 	font-size:2em;
 }
 h2,h3,h4 { /* remove margins below headings (except h1s) */
-	margin-bottom:0;
+	margin-bottom:.8em;
 }
 h1+p,h2+p,h3+p,h4+p { /* paragraphs after headings have less top margin */
-	margin-top:.8em;
+	margin-top:0;
 }
 code { /* make code more obvious */
 	padding:1px;
