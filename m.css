@@ -33,7 +33,7 @@ section { /* main wrapper */
 	margin:0 auto;
 	padding:2em;
 	width:60%;
-	max-width:900px;
+	max-width:800px;
 	border:solid 1px #ddd;
 	border-radius:2px;
 	text-align:justify;
@@ -52,22 +52,27 @@ section>:last-child { /* last element in wrapper */
 h1 { /* big headers (sod html5 user-agent styles) */
 	font-size:2em;
 }
+h1,h2,h3 {
+	clear:left;
+}
 h2,h3,h4 { /* remove margins below headings (except h1s) */
 	margin-bottom:.8em;
 }
 h1+p,h2+p,h3+p,h4+p { /* paragraphs after headings have less top margin */
 	margin-top:0;
 }
+code,.i {
+	background:#eee;
+}
 code { /* make code more obvious */
 	padding:1px;
-	background:#eee;
 	border:solid 1px #ccc;
 	border-radius:2px;
 	font-family:source code pro,consolas,lucida console,monospace;
 	font-size:84%;
+	line-height:100%;
 }
 .i { /* floated image containers */
-	background:#ddd;
 	padding:1em;
 	font-size:90%;
 	font-style:italic;
@@ -104,6 +109,7 @@ code { /* make code more obvious */
 img { /* actual image */
 	margin:-1em -1em .6em;
 	width:calc(100% + 2em);
+	background:#fff;
 }
 li li { /* list items... */
 	margin-top:.4em;
