@@ -21,11 +21,13 @@ $name = array(explode(".",$_GET["a"]),
 			28 => "Website Production",
 			31 => "Computer Animation",
 			42 => "Spreadsheet Modelling"
-		)
+		),
+		NULL // "Assignment X"
 	);
 
 if ($specified) {									// check a module is specified, and that we're doing it
-	$output .= $name[1][$name[0][0]] . " &ndash; Assignment " . $name[0][1];				// append title to output variable
+	$name[2] = "Assignment " . $name[0][1];
+	$output .= $name[1][$name[0][0]] . " &ndash; " . $name[2];				// append title to output variable
 } else {
 	$output .= 'IT BTEC Assignments';
 }
@@ -35,10 +37,14 @@ $output .= '</title><link rel="stylesheet" href="/btec/m.css"></head><body><sect
 if ($specified) {
 	// given an id of exisiting file, process markdown
 	if (file_exists($markdown = $_GET['a'] . ".md")) {
+		$markdown = file_get_contents($markdown);
+
+		// find task levels (PX, MX or DX)
+		
+
 		include "Parsedown.php";
 		$pd = new Parsedown();
-		$markdown = file_get_contents($markdown);
-		$output .= $pd->text($markdown);
+		$output .= "<h1>Unit " . $name[0][0] . " &ndash; " . $name[1][$name[0][0]] . "</h1><h3>" . $name[2] . ": " . $pd->text($markdown);
 	} else {
 		$output .= '404: Assignment not found.<br><a href="/btec/">Index</a>';
 	}
@@ -60,6 +66,7 @@ $output = str_replace(
 	$protocol . $_SERVER['SERVER_NAME'] . $prefix . "/btec/",
 	$output . "</section></body></html>"
 );
+
 echo $output;
 
 ?>
