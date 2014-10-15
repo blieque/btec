@@ -49,6 +49,13 @@ section>:first-child { /* first element in wrapper */
 section>:last-child { /* last element in wrapper */
 	margin-bottom:0;
 }
+h1:first-child {
+	display:block;
+	margin:-1em -1em .5em;
+	padding:1em;
+	background:#eee;
+	border-bottom:solid 1px #ddd;
+}
 h1 { /* big headers (sod html5 user-agent styles) */
 	font-size:2em;
 }
