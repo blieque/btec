@@ -79,17 +79,20 @@ code { /* make code more obvious */
 	font-size:84%;
 	line-height:100%;
 }
-table,td,th {
+table { /* stretch tables to full width */
+	width:100%;
+}
+table,td,th { /* giving borders to markdown-generated tables */
 	border:solid 1px #000;
 	border-spacing:0;
 }
-th,td {
+th,td {	/* spacing out tables a bit */
 	padding:.2em .3em;
 }
-td:not(:last-child),th:not(:last-child) {
+td:not(:last-child),th:not(:last-child) { /* prevent 2px border between cells vertically */
 	border-right:none;
 }
-tr:not(:last-child) td,tr:not(:last-child) th {
+tr:not(:last-child) td,tr:not(:last-child) th { /* prevent 2px border between cells horizontally */
 	border-bottom:none;
 }
 .i { /* floated image containers */
@@ -97,6 +100,9 @@ tr:not(:last-child) td,tr:not(:last-child) th {
 	font-size:90%;
 	font-style:italic;
 	line-height:120%;
+}
+div+.i {
+	margin-top:1em;
 }
 .r,.l { /* all image containers, but full sizers */
 	width:40%;
@@ -112,13 +118,21 @@ tr:not(:last-child) td,tr:not(:last-child) th {
 .s { /* small; narrower image containers */
 	width:24%;
 }
+.h {
+	clear:both;
+}
 .h img {
-	display:inline-block;
 	width:calc(50% + .5em);
 	vertical-align:top;
+	display:inline-block;
 }
 .h img:first-child {
 	margin-right:.5em;
+}
+.h img:not(:first-child):after { /* clearfix */
+	content:"";
+	display:block;
+	clear:both;
 }
 .i div { /* div for image source*/
 	margin-top:.8em;
@@ -128,15 +142,17 @@ tr:not(:last-child) td,tr:not(:last-child) th {
 }
 img { /* actual image */
 	margin:-1em -1em .6em;
-	width:calc(100% + 2em);
+	width:calc(100% + 2.06em);
 	background:#fff;
 }
 li li { /* list items... */
 	margin-top:.4em;
 }
+.f,.n {/* f.a.e.s and notes */
+	margin:.5em -2em;
+	padding:.8em 2em;
+}
 .f { /* file attachment elements */
-	margin:0 -2em;
-	padding:1em 2em;
 	background:#7accb2;
 	text-shadow:0 1px 0 #69af98;
 	box-shadow:0 0 0 1px #69af98;
@@ -156,7 +172,7 @@ li li { /* list items... */
 	color:rgba(255,255,255,0.86);
 	text-shadow:0 1px 2px #69af98;
 }
-.f a:not(:last-child):after { /* little dots after all but last f.a.e link */
+.f a:not(:last-child):after { /* little dots after all but last f.a.e. link */
 	content:"";
 	display:inline-block;
 	margin:.2em 2em;
@@ -166,7 +182,16 @@ li li { /* list items... */
 	box-shadow:0 1px 1px 0 #69af98;
 	border-radius:2px;
 }
-a:not(.ref):after {
+.n { /* notes */
+	background:#eee;
+	box-shadow:0 0 0 1px #ddd;
+	font-style:italic;
+}
+.n:before { /* just so we know it's a note, k? */
+	content:"Note: ";
+	font-weight:bold;
+}
+a:not(.ref):after { /* add external link svg thingy */
 	content:"";
 	display:inline-block;
 	margin:0 2px 0 0;
