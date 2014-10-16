@@ -79,6 +79,19 @@ code { /* make code more obvious */
 	font-size:84%;
 	line-height:100%;
 }
+table,td,th {
+	border:solid 1px #000;
+	border-spacing:0;
+}
+th,td {
+	padding:.2em .3em;
+}
+td:not(:last-child),th:not(:last-child) {
+	border-right:none;
+}
+tr:not(:last-child) td,tr:not(:last-child) th {
+	border-bottom:none;
+}
 .i { /* floated image containers */
 	padding:1em;
 	font-size:90%;
