@@ -140,10 +140,16 @@ div+.i {
 	font-size:80%;
 	line-height:110%;
 }
-img { /* actual image */
+img,.a>div:first-child { /* actual image */
 	margin:-1em -1em .6em;
 	width:calc(100% + 2.06em);
 	background:#fff;
+}
+.a>div:first-child { /* hover-alternative image containers */
+	height:450px;
+}
+.a>div:first-child:hover { /* move big sprite background for hover-alternatives */
+	background-position:0 100%;
 }
 li li { /* list items... */
 	margin-top:.4em;
