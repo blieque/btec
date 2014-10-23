@@ -101,6 +101,9 @@ tr:not(:last-child) td,tr:not(:last-child) th { /* prevent 2px border between ce
 	font-style:italic;
 	line-height:120%;
 }
+.i em {
+	font-style:normal;
+}
 div+.i {
 	margin-top:1em;
 }
