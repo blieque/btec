@@ -137,7 +137,7 @@ div+.i {
 	display:block;
 	clear:both;
 }
-.i div { /* div for image source*/
+.i div:last-child { /* div for image source*/
 	margin-top:.8em;
 	font-style:normal;
 	font-size:80%;
