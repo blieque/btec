@@ -1,7 +1,7 @@
 <?php
 
 $output		= "<!DOCTYPE html><html><head><title>";
-$name		= array(explode(".",$_GET["a"]),
+$name		= array(explode(".",$_GET["a"]),						// e.g., ["2","3"] for C.S. As. 2
 			array(
 				1  => "Communication and Employability Skills",
 				2  => "Computer Systems",
@@ -12,8 +12,8 @@ $name		= array(explode(".",$_GET["a"]),
 				11 => "Systems Analysis",
 				12 => "IT Technical Support",
 				14 => "Event Driven Programming",
-				19 => "Computer Systems Architecture ",
-				20 => "Client-Side Customisation of Web Pages ",
+				19 => "Computer Systems Architecture",
+				20 => "Client-Side Customisation of Web Pages",
 				22 => "Developing Computer Games",
 				27 => "Web Server Scripting",
 				28 => "Website Production",
@@ -22,15 +22,18 @@ $name		= array(explode(".",$_GET["a"]),
 			),
 			NULL // probably "Assignment X", basically a title
 		);
-$specified	= isset($_GET['a']);										// has an assignment or doc been specified?
-$isassign	= count($name[0]) > 1;										// if false, we're looking at a README or LICENSE
+$specified	= isset($_GET['a']);									// has an assignment or doc been specified?
+$isassign	= count($name[0]) > 1;									// if false, we're looking at a README, LICENSE or /ext/ document
 
 if ($specified) {
 	if ($isassign) {
 		$name[2] = "Assignment " . $name[0][1];
-		$output .= $name[1][$name[0][0]] . " &ndash; " . $name[2];				// append title to output variable
+		$output .= $name[1][$name[0][0]] . " &ndash; " . $name[2];			// append title to output variable
 	} else {
-		$name[2] = ucfirst(strtolower($name[0][0]));							// "README" or "LICENSE" probably
+		if ($name[0][1]) {
+			
+		}
+		$name[2] = ucfirst(strtolower($name[0][0]));						// "Readme" or "License" probably
 		$output .= $name[2];
 	}
 } else {
@@ -47,8 +50,8 @@ if ($specified) {
 		// find task levels (PX, MX or DX)
 		$matches = NULL;
 		preg_match_all("/\[[P|M|D][0-9]+\]/",$markdown,$matches);
-		$matches = $matches[0];													// we don't want no array-in-an-array bull
-		foreach ($matches as &$match) {											// iterate through the array
+		$matches = $matches[0];												// we don't want no array-in-an-array bull
+		foreach ($matches as &$match) {										// iterate through the array
 			$match = preg_replace("/\[([A-Z0-9]+)\]/","$1",$match);
 		}
 		$matchesstr = implode(", ",$matches);
