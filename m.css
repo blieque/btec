@@ -143,6 +143,8 @@ div+.i {
 	font-size:80%;
 	line-height:110%;
 }
+.i .c { /* clearfix */
+}
 img,.a>div:first-child { /* actual image */
 	margin:-1em -1em .6em;
 	width:calc(100% + 2.06em);
