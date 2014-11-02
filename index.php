@@ -1,50 +1,71 @@
 <?php
 
-$output		= "<!DOCTYPE html><html><head><title>";
-$name		= array(explode(".",$_GET["a"]),						// e.g., ["2","3"] for C.S. As. 2
-			array(
-				1  => "Communication and Employability Skills",
-				2  => "Computer Systems",
-				3  => "Information Systems",
-				6  => "Software Design & Development",
-				8  => "e-Commerce",
-				9  => "Computer Networks",
-				11 => "Systems Analysis",
-				12 => "IT Technical Support",
-				14 => "Event Driven Programming",
-				19 => "Computer Systems Architecture",
-				20 => "Client-Side Customisation of Web Pages",
-				22 => "Developing Computer Games",
-				27 => "Web Server Scripting",
-				28 => "Website Production",
-				31 => "Computer Animation",
-				42 => "Spreadsheet Modelling"
-			),
-			NULL // probably "Assignment X", basically a title
-		);
-$specified	= isset($_GET['a']);									// has an assignment or doc been specified?
-$isassign	= count($name[0]) > 1;									// if false, we're looking at a README, LICENSE or /ext/ document
+$unit_names	= array (
+	1  => "Communication and Employability Skills",
+	2  => "Computer Systems",
+	3  => "Information Systems",
+	6  => "Software Design & Development",
+	8  => "e-Commerce",
+	9  => "Computer Networks",
+	11 => "Systems Analysis",
+	12 => "IT Technical Support",
+	14 => "Event Driven Programming",
+	19 => "Computer Systems Architecture",
+	20 => "Client-Side Customisation of Web Pages",
+	22 => "Developing Computer Games",
+	27 => "Web Server Scripting",
+	28 => "Website Production",
+	31 => "Computer Animation",
+	42 => "Spreadsheet Modelling"
+);
+$is_given	= isset($_GET['a']);									// has an assignment or doc name been given?
+$title		= NULL;													// probably "Spreadsheet Modelling - Assignment 3" or "Readme" or suchlike
+$md_path	= NULL;													// path to markdown file's directory
 
-if ($specified) {
-	if ($isassign) {
-		$name[2] = "Assignment " . $name[0][1];
-		$output .= $name[1][$name[0][0]] . " &ndash; " . $name[2];			// append title to output variable
-	} else {
-		if ($name[0][1]) {
-			
-		}
-		$name[2] = ucfirst(strtolower($name[0][0]));						// "Readme" or "License" probably
-		$output .= $name[2];
+$output		= "<!DOCTYPE html><html><head><title>";
+
+if ($is_given) {
+	$split	= explode(".",$_GET["a"]);
+
+	if ($_GET['s'] == "ext") {											// extra assignment page (see docs for detail)
+
+		$md_path = "markdown/ext/";
+		$title = $unit_names[$split[0]] . " &ndash; Assignment " . $split[1] . " &ndash; Excerpt";
+
+	} else if ($_GET['s'] == "doc") {										// documentation page
+
+		$word_split = str_replace("-"," ",$split[2]);
+		$word_split = ucwords(strtolower($word_split));
+
+		$md_path = "doc/";
+		$title = "Documentation &ndash; " . $word_split;
+
+	} else if ($_GET['s'] == "rol") {										// readme or license (tacky id, yes)
+
+		$md_path = "";
+		$title = ucfirst(strtolower($split[0]));
+
+	} else {															// standard assignment page
+
+		$md_path = "markdown/";
+		$title = $unit_names[$split[0]] . " &ndash; Assignment " . $split[1];
+
 	}
-} else {
+
+	$output .= $title;													// add our title to the output var
+
+} else {															// index page, when no markdown file name has been given
+
 	$output .= 'IT BTEC Assignments';
+
 }
 
-$output .= '</title><link rel="stylesheet" href="/btec/m.css"></head><body><section>';
 
-if ($specified) {
+$output .= '</title><link rel="stylesheet" href="/btec/css/m.css"></head><body><section>';
+
+if ($is_given) {
 	// given an id of exisiting file, process markdown
-	if (file_exists($markdown = $_GET['a'] . ".md")) {
+	if (file_exists($markdown = "markdown/" . $_GET['a'] . ".md")) {
 		$markdown = file_get_contents($markdown);
 
 		// find task levels (PX, MX or DX)
@@ -56,7 +77,7 @@ if ($specified) {
 		}
 		$matchesstr = implode(", ",$matches);
 
-		include "Parsedown.php";
+		include "include/parsedown.php";
 		$pd = new Parsedown();
 
 		if ($isassign) {
@@ -71,7 +92,7 @@ if ($specified) {
 } else {
 	// no assignment id given
 	$output .= 'No assignment specified.<br>Maybe one of these will take your fancy.<ul>';
-	foreach (glob('*.*.md') as $filename) {
+	foreach (glob('markdown/*.md') as $filename) {
 		$file_split = explode(".",$filename);
 		$file_module = $name[1][$file_split[0]];
 		$output .= '<li><a href="/btec/' . str_replace('.md','',$filename) . '" class="ref">' . $file_module . ' &ndash; Assignment ' . $file_split[1] . '</a></li>';
@@ -79,8 +100,8 @@ if ($specified) {
 	$output .= '</ul>You can also view the <a href="/btec/README" class="ref">README</a> and <a href="/btec/LICENSE" class="ref">LICENSE</a> documents.';
 }
 
-$prefix = explode("/btec/",$_SERVER['REQUEST_URI'])[0];
 $protocol = (empty($_SERVER['HTTPS']) ? "http://" : "https://");
+$prefix = explode("/btec/",$_SERVER['REQUEST_URI'])[0];
 // change semi-absolute links with real ones
 $output = str_replace(
 	"/btec/",

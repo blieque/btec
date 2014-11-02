@@ -208,5 +208,5 @@ a:not(.ref):after { /* add external link svg thingy */
 	margin:0 2px 0 0;
 	width:12px;
 	height:10px;
-	background:url(/btec/i/el.svg);
+	background:url(/btec/img/el.svg);
 }
