@@ -25,7 +25,7 @@ $md_path	= NULL;													// path to markdown file's directory
 $output		= "<!DOCTYPE html><html><head><title>";
 
 if ($is_given) {
-	$split	= explode(".",$_GET["a"]);
+	$split	= explode(".", $_GET["a"]);
 
 	if ($_GET['s'] == "ext") {											// extra assignment page (see docs for detail)
 
@@ -34,7 +34,7 @@ if ($is_given) {
 
 	} else if ($_GET['s'] == "doc") {										// documentation page
 
-		$word_split = str_replace("-"," ",$split[2]);
+		$word_split = str_replace("-", " ", $split[2]);
 		$word_split = ucwords(strtolower($word_split));
 
 		$md_path = "doc/";
@@ -60,49 +60,68 @@ if ($is_given) {
 
 }
 
-
 $output .= '</title><link rel="stylesheet" href="/btec/css/m.css"></head><body><section>';
 
 if ($is_given) {
-	// given an id of exisiting file, process markdown
+
+	// given a valid markdown filename, process said markdown
 	if (file_exists($markdown = "markdown/" . $_GET['a'] . ".md")) {
-		$markdown = file_get_contents($markdown);
+
+		$output .= "<h1>" . $title . "</h1>";
+
+		$markdown = file_get_contents($markdown);							// load the file into a variable for wikkid modificashunz
+
 
 		// find task levels (PX, MX or DX)
-		$matches = NULL;
-		preg_match_all("/\[[P|M|D][0-9]+\]/",$markdown,$matches);
+		$matches = NULL;													// variable to hold matched strings
+		preg_match_all("/\[[P|M|D][0-9]+\]/", $markdown, $matches);			// find all task level identifiers, e.g., [M3]
 		$matches = $matches[0];												// we don't want no array-in-an-array bull
+
 		foreach ($matches as &$match) {										// iterate through the array
-			$match = preg_replace("/\[([A-Z0-9]+)\]/","$1",$match);
+			$match = preg_replace("/\[([A-Z0-9]+)\]/", "$1", $match);				// clean square brackets out of array for contents generation
 		}
-		$matchesstr = implode(", ",$matches);
+
+		$matchesstr = implode(", ", $matches);
+
+
+		// replace all markdown headers with HTML, id'd header elements
+	//	str_repeat("#", hash_count)
+
 
 		include "include/parsedown.php";
 		$pd = new Parsedown();
 
-		if ($isassign) {
-			$output .= "<h1>Unit " . $name[0][0] . " &ndash; " . $name[1][$name[0][0]] . "</h1><h3>" . $name[2] . ": " . $matchesstr . "</h3>";
-		} else {
-			$output .= "<h1>" . $name[2] . "</h1>";
-		}
 		$output .= $pd->text($markdown);
+
+	// no markdown file of the name given found
 	} else {
+
+		header("HTTP/1.0 404 Not Found");									// send actual 404 code
 		$output .= '<h1>404</h1>Assignment not found. You can view a list at the <a class="ref" href="/btec/">index</a>.';
+
 	}
+
 } else {
-	// no assignment id given
+
+	// no markdown name given ($_GET['a'] not set)
 	$output .= 'No assignment specified.<br>Maybe one of these will take your fancy.<ul>';
+
 	foreach (glob('markdown/*.md') as $filename) {
-		$file_split = explode(".",$filename);
+
+		$file_split = explode(".", $filename);
 		$file_module = $name[1][$file_split[0]];
-		$output .= '<li><a href="/btec/' . str_replace('.md','',$filename) . '" class="ref">' . $file_module . ' &ndash; Assignment ' . $file_split[1] . '</a></li>';
+		$output .= '<li><a href="/btec/' . str_replace('.md', '', $filename) . '" class="ref">' . $file_module . ' &ndash; Assignment ' . $file_split[1] . '</a></li>';
+
 	}
+
 	$output .= '</ul>You can also view the <a href="/btec/README" class="ref">README</a> and <a href="/btec/LICENSE" class="ref">LICENSE</a> documents.';
+
 }
 
-$protocol = (empty($_SERVER['HTTPS']) ? "http://" : "https://");
-$prefix = explode("/btec/",$_SERVER['REQUEST_URI'])[0];
-// change semi-absolute links with real ones
+$protocol = (empty($_SERVER['HTTPS']) ? "http://" : "https://");	// detect http or https
+$prefix = explode("/btec/", $_SERVER['REQUEST_URI'])[0];				// trim "/btec/" and anything after it from address
+
+// change semi-absolute links with real ones, by adding protocol and domain before link addresses
 $output = str_replace(
 	"/btec/",
 	$protocol . $_SERVER['SERVER_NAME'] . $prefix . "/btec/",
