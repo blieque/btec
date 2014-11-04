@@ -71,21 +71,34 @@ if ($is_given) {
 
 		$markdown = file_get_contents($markdown);							// load the file into a variable for wikkid modificashunz
 
+		// find markdown header lines
+		$header_lines = NULL;												// variable to hold matched strings
+		preg_match_all("/[#]+[A-z0-9 :;,.&-]*/", $markdown, $header_lines);	// pick out lines starting with any number of hashes, add to $header_lines[0]
+		$header_lines = $header_lines[0];									// preg_match_all() has a weird output
 
-		// find task levels (PX, MX or DX)
-		$matches = NULL;													// variable to hold matched strings
-		preg_match_all("/\[[P|M|D][0-9]+\]/", $markdown, $matches);			// find all task level identifiers, e.g., [M3]
-		$matches = $matches[0];												// we don't want no array-in-an-array bull
+		foreach ($header_lines as &$header) {								// iterate through the array
 
-		foreach ($matches as &$match) {										// iterate through the array
-			$match = preg_replace("/\[([A-Z0-9]+)\]/", "$1", $match);				// clean square brackets out of array for contents generation
+			$header_id	= NULL;
+			$header_new	= $header;
+
+			$task_level = NULL;
+			preg_match("/\[([P|M|D][0-9])\]/", $header_new, $task_level);		// e.g., [M3]
+
+			if ($task_level != NULL) {											// if header has a task level in it
+				$task_level	= substr($task_level[0], 1, 2);							// clear out square brackets around task level
+				$header_id	= " id=\"" . strtolower($task_level) . "\"";			// id attribute for headers
+			}
+
+			$header_size = preg_match_all("/[#]/", $header_new);				// h1, h2, h3, etc.
+
+			$header_new = preg_replace("/[#]+ /", "<h" . $header_size . $header_id . ">", $header_new);
+			$header_new .= "</h" . $header_size . ">";
+
+			$markdown = str_replace($header, $header_new, $markdown);
+
 		}
 
-		$matchesstr = implode(", ", $matches);
-
-
 		// replace all markdown headers with HTML, id'd header elements
-	//	str_repeat("#", hash_count)
 
 
 		include "include/parsedown.php";
