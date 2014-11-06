@@ -36,7 +36,9 @@ if ($is_given) {
 	if ($ext) {															// extra assignment page (see docs for detail)
 
 		$md_path = "markdown/ext/";
-		$title = $unit_names[$split[0]] . " &ndash; Assignment " . $split[1] . " &ndash; Excerpt";
+		$word_split = explode("-", $split[1]);
+
+		$title = $unit_names[$split[0]] . " &ndash; Assignment " . $word_split[0] . " &ndash; Excerpt";
 
 	} else if ($doc) {													// documentation page
 
@@ -76,17 +78,15 @@ if ($is_given) {
 		$output .= "<h1>" . $title . "</h1>";								// add same title as before, but in an h1 in the body
 		$markdown = file_get_contents($markdown);							// load the file into a variable for wikkid modificashunz
 	
-		if ($ext) {															// extra assignment page (see docs for detail)
-			echo "placehold";
-		} else if ($doc) {
-			echo "placehold";
+		if ($doc) {
+			$output .= "placehold";
 		} else if ($rol) {
-			echo "placehold";
+			$output .= "placehold";
 		} else {
 
 			// find markdown header lines
 			$header_lines = null;												// variable to hold matched strings
-			preg_match_all("/[#]+[A-z0-9 :;,.&-]*/", $markdown, $header_lines);	// pick out lines starting with any number of hashes, add to $header_lines[0]
+			preg_match_all("/[#]+ [A-z0-9 :;,.&-]*/", $markdown, $header_lines);	// pick out lines starting with any number of hashes, add to $header_lines[0]
 			$header_lines = $header_lines[0];									// preg_match_all() has a weird output
 	
 			foreach ($header_lines as &$header) {								// iterate through the array
@@ -96,9 +96,9 @@ if ($is_given) {
 	
 				$task_level = null;
 
-				if (preg_match()) {
-					echo "placehold";
-				}
+				// if (preg_match()) {
+				// 	echo "placehold";
+				// }
 
 				preg_match("/\[([P|M|D][0-9])\]/", $header_new, $task_level);		// e.g., [M3]
 	
@@ -113,7 +113,7 @@ if ($is_given) {
 				$header_new .= "</h" . $header_size . ">";
 	
 				$markdown = str_replace($header, $header_new, $markdown);
-	
+
 			}
 
 		}
