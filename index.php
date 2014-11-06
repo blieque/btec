@@ -18,21 +18,27 @@ $unit_names	= array (
 	31 => "Computer Animation",
 	42 => "Spreadsheet Modelling"
 );
-$is_given	= isset($_GET['a']);									// has an assignment or doc name been given?
-$title		= NULL;													// probably "Spreadsheet Modelling - Assignment 3" or "Readme" or suchlike
-$md_path	= NULL;													// path to markdown file's directory
 
+$is_given	= isset($_GET['a']);									// has an assignment or doc name been given?
 $output		= "<!DOCTYPE html><html><head><title>";
 
 if ($is_given) {
+	$title		= null;													// probably "Spreadsheet Modelling - Assignment 3" or "Readme" or suchlike
+	$md_path	= null;													// path to markdown file's directory
+	
+	// these make conditions easier later
+	$ext		= $_GET['s'] == "ext";
+	$doc		= $_GET['s'] == "doc";
+	$rol		= $_GET['s'] == "rol";
+
 	$split	= explode(".", $_GET["a"]);
 
-	if ($_GET['s'] == "ext") {											// extra assignment page (see docs for detail)
+	if ($ext) {															// extra assignment page (see docs for detail)
 
 		$md_path = "markdown/ext/";
 		$title = $unit_names[$split[0]] . " &ndash; Assignment " . $split[1] . " &ndash; Excerpt";
 
-	} else if ($_GET['s'] == "doc") {										// documentation page
+	} else if ($doc) {													// documentation page
 
 		$word_split = str_replace("-", " ", $split[2]);
 		$word_split = ucwords(strtolower($word_split));
@@ -40,7 +46,7 @@ if ($is_given) {
 		$md_path = "doc/";
 		$title = "Documentation &ndash; " . $word_split;
 
-	} else if ($_GET['s'] == "rol") {										// readme or license (tacky id, yes)
+	} else if ($rol) {													// readme or license (tacky id, yes)
 
 		$md_path = "";
 		$title = ucfirst(strtolower($split[0]));
@@ -52,7 +58,7 @@ if ($is_given) {
 
 	}
 
-	$output .= $title;													// add our title to the output var
+	$output .= $title;													// add title text to title element in head
 
 } else {															// index page, when no markdown file name has been given
 
@@ -65,40 +71,52 @@ $output .= '</title><link rel="stylesheet" href="/btec/css/m.css"></head><body><
 if ($is_given) {
 
 	// given a valid markdown filename, process said markdown
-	if (file_exists($markdown = "markdown/" . $_GET['a'] . ".md")) {
+	if (file_exists($markdown = $md_path . $_GET['a'] . ".md")) {
 
-		$output .= "<h1>" . $title . "</h1>";
-
+		$output .= "<h1>" . $title . "</h1>";								// add same title as before, but in an h1 in the body
 		$markdown = file_get_contents($markdown);							// load the file into a variable for wikkid modificashunz
+	
+		if ($ext) {															// extra assignment page (see docs for detail)
+			echo "placehold";
+		} else if ($doc) {
+			echo "placehold";
+		} else if ($rol) {
+			echo "placehold";
+		} else {
 
-		// find markdown header lines
-		$header_lines = NULL;												// variable to hold matched strings
-		preg_match_all("/[#]+[A-z0-9 :;,.&-]*/", $markdown, $header_lines);	// pick out lines starting with any number of hashes, add to $header_lines[0]
-		$header_lines = $header_lines[0];									// preg_match_all() has a weird output
+			// find markdown header lines
+			$header_lines = null;												// variable to hold matched strings
+			preg_match_all("/[#]+[A-z0-9 :;,.&-]*/", $markdown, $header_lines);	// pick out lines starting with any number of hashes, add to $header_lines[0]
+			$header_lines = $header_lines[0];									// preg_match_all() has a weird output
+	
+			foreach ($header_lines as &$header) {								// iterate through the array
+	
+				$header_id	= null;
+				$header_new	= $header;
+	
+				$task_level = null;
 
-		foreach ($header_lines as &$header) {								// iterate through the array
+				if (preg_match()) {
+					echo "placehold";
+				}
 
-			$header_id	= NULL;
-			$header_new	= $header;
-
-			$task_level = NULL;
-			preg_match("/\[([P|M|D][0-9])\]/", $header_new, $task_level);		// e.g., [M3]
-
-			if ($task_level != NULL) {											// if header has a task level in it
-				$task_level	= substr($task_level[0], 1, 2);							// clear out square brackets around task level
-				$header_id	= " id=\"" . strtolower($task_level) . "\"";			// id attribute for headers
+				preg_match("/\[([P|M|D][0-9])\]/", $header_new, $task_level);		// e.g., [M3]
+	
+				if ($task_level != null) {											// if header has a task level in it
+					$task_level	= substr($task_level[0], 1, 2);							// clear out square brackets around task level
+					$header_id	= " id=\"" . strtolower($task_level) . "\"";			// id attribute for headers
+				}
+	
+				$header_size = preg_match_all("/[#]/", $header_new);				// h1, h2, h3, etc.
+	
+				$header_new = preg_replace("/[#]+ /", "<h" . $header_size . $header_id . ">", $header_new);
+				$header_new .= "</h" . $header_size . ">";
+	
+				$markdown = str_replace($header, $header_new, $markdown);
+	
 			}
 
-			$header_size = preg_match_all("/[#]/", $header_new);				// h1, h2, h3, etc.
-
-			$header_new = preg_replace("/[#]+ /", "<h" . $header_size . $header_id . ">", $header_new);
-			$header_new .= "</h" . $header_size . ">";
-
-			$markdown = str_replace($header, $header_new, $markdown);
-
 		}
-
-		// replace all markdown headers with HTML, id'd header elements
 
 
 		include "include/parsedown.php";
@@ -121,8 +139,10 @@ if ($is_given) {
 
 	foreach (glob('markdown/*.md') as $filename) {
 
-		$file_split = explode(".", $filename);
-		$file_module = $name[1][$file_split[0]];
+		$file_split		= explode(".", $filename);
+		$module_split	= explode("/", $file_split[0]);
+		$file_module	= $unit_names[$module_split[1]];
+
 		$output .= '<li><a href="/btec/' . str_replace('.md', '', $filename) . '" class="ref">' . $file_module . ' &ndash; Assignment ' . $file_split[1] . '</a></li>';
 
 	}
@@ -132,13 +152,15 @@ if ($is_given) {
 }
 
 $protocol = (empty($_SERVER['HTTPS']) ? "http://" : "https://");	// detect http or https
-$prefix = explode("/btec/", $_SERVER['REQUEST_URI'])[0];				// trim "/btec/" and anything after it from address
+$prefix = explode("/btec/", $_SERVER['REQUEST_URI'])[0];			// trim "/btec/" and anything after it from address
 
 // change semi-absolute links with real ones, by adding protocol and domain before link addresses
 $output = str_replace(
+
 	"/btec/",
 	$protocol . $_SERVER['SERVER_NAME'] . $prefix . "/btec/",
 	$output . "</section></body></html>"
+
 );
 
 echo $output;
