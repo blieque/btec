@@ -54,8 +54,10 @@ Adding this to a file in `/etc/nginx/sites-available/` and creating a symlink to
     		include fastcgi_params;
     	}
     
-    	rewrite ^([/A-Za-z.-]*)/btec/([0-9]+).([0-9]+)$ $1/btec/index.php?a=$2.$3;
-    	rewrite ^([/A-Za-z.-]*)/btec/([A-Z]+)$ $1/btec/index.php?a=$2;
+	rewrite ^([/A-Za-z.-]*)/btec/([0-9]+.[0-9]+)$ $1/btec/index.php?a=$2;
+	rewrite ^([/A-Za-z.-]*)/btec/([A-Z]+)$ $1/btec/index.php?s=rol&a=$2;
+	rewrite ^([/A-Za-z.-]*)/btec/ext/([A-Z0-9-]+)$ $1/btec/index.php?s=ext&a=$2;
+	rewrite ^([/A-Za-z.-]*)/btec/doc/([A-Z0-9-]+)$ $1/btec/index.php?s=doc&a=$2;
     }
 
 Make sure to change the italic bits to fit your set-up. The directory specified as `root` should have a descendent directory called `btec` in it, in turn containing this repository. The above configuration also relies on a `php-fpm` server running and listening on the local port 9000.
