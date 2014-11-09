@@ -24,7 +24,7 @@ $output		= "<!DOCTYPE html><html><head><title>";
 
 if ($is_given) {
 	$title		= null;													// probably "Spreadsheet Modelling - Assignment 3" or "Readme" or suchlike
-	$md_path	= null;													// path to markdown file's directory
+	$markdown	= null;													// path to markdown file's directory
 	
 	// these make conditions easier later
 	$ext		= $_GET['s'] == "ext";
@@ -35,7 +35,7 @@ if ($is_given) {
 
 	if ($ext) {															// extra assignment page (see docs for detail)
 
-		$md_path = "markdown/ext/";
+		$markdown = "markdown/ext/" . strtolower($_GET['a']) . ".md";
 		$word_split = explode("-", $split[1]);
 
 		$title = $unit_names[$split[0]] . " &ndash; Assignment " . $word_split[0] . " &ndash; Excerpt";
@@ -45,17 +45,17 @@ if ($is_given) {
 		$word_split = str_replace("-", " ", $split[2]);
 		$word_split = ucwords(strtolower($word_split));
 
-		$md_path = "doc/";
+		$markdown = "doc/" . strtolower($_GET['a']) . ".md";
 		$title = "Documentation &ndash; " . $word_split;
 
 	} else if ($rol) {													// readme or license (tacky id, yes)
 
-		$md_path = "";
+		$markdown = "" . strtoupper($_GET['a']) . ".md";
 		$title = ucfirst(strtolower($split[0]));
 
 	} else {															// standard assignment page
 
-		$md_path = "markdown/";
+		$markdown = "markdown/" . $_GET['a'] . ".md";
 		$title = $unit_names[$split[0]] . " &ndash; Assignment " . $split[1];
 
 	}
@@ -73,7 +73,7 @@ $output .= '</title><link rel="stylesheet" href="/btec/css/m.css"></head><body><
 if ($is_given) {
 
 	// given a valid markdown filename, process said markdown
-	if (file_exists($markdown = $md_path . $_GET['a'] . ".md")) {
+	if (file_exists($markdown)) {
 
 		$output .= "<h1>" . $title . "</h1>";								// add same title as before, but in an h1 in the body
 		$markdown = file_get_contents($markdown);							// load the file into a variable for wikkid modificashunz
@@ -81,7 +81,7 @@ if ($is_given) {
 		if ($doc) {
 			$output .= "placehold";
 		} else if ($rol) {
-			$output .= "placehold";
+			$output .= "Maybe an index/contents";
 		} else {
 
 			// find markdown header lines
@@ -117,7 +117,6 @@ if ($is_given) {
 			}
 
 		}
-
 
 		include "include/parsedown.php";
 		$pd = new Parsedown();
