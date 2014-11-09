@@ -139,11 +139,11 @@ if ($is_given) {
 
 	foreach (glob('markdown/*.md') as $filename) {
 
-		$file_split		= explode(".", $filename);
-		$module_split	= explode("/", $file_split[0]);
-		$file_module	= $unit_names[$module_split[1]];
+		$module_split	= explode("/", $filename);
+		$file_split		= explode(".", $module_split[1]);
+		$file_module	= $unit_names[$file_split[0]];
 
-		$output .= '<li><a href="/btec/' . str_replace('.md', '', $filename) . '" class="ref">' . $file_module . ' &ndash; Assignment ' . $file_split[1] . '</a></li>';
+		$output .= '<li><a href="/btec/' . substr($module_split[1], 0, -3) . '" class="ref">' . $file_module . ' &ndash; Assignment ' . $file_split[1] . '</a></li>';
 
 	}
 
