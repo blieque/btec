@@ -86,7 +86,7 @@ if ($is_given) {
 
 			// find markdown header lines
 			$header_lines = null;												// variable to hold matched strings
-			preg_match_all("/[#]+ [A-z0-9 :;,.&-]*/", $markdown, $header_lines);	// pick out lines starting with any number of hashes, add to $header_lines[0]
+			preg_match_all("/[#]+ [A-z0-9 :;,.&-\/]*/", $markdown, $header_lines);	// pick out lines starting with any number of hashes, add to $header_lines[0]
 			$header_lines = $header_lines[0];									// preg_match_all() has a weird output
 	
 			foreach ($header_lines as &$header) {								// iterate through the array
