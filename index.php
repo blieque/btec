@@ -77,7 +77,18 @@ if ($is_given) {
 
 		$output .= "<h1>" . $title . "</h1>";								// add same title as before, but in an h1 in the body
 		$markdown = file_get_contents($markdown);							// load the file into a variable for wikkid modificashunz
-	
+
+		preg_match_all("/%% include [A-z0-9\-_\/.]*.[md|txt|html] %%/", $markdown, $includes);
+		$includes = $includes[0];									// preg_match_all() has a weird output
+
+		foreach ($includes as &$include) {
+			
+			$file			= explode(" ", $include);
+			$file_contents	= file_get_contents($file[2]);
+			str_replace($include, $file_contents, $markdown);
+
+		}
+
 		if ($doc) {
 			$output .= "placehold";
 		} else if ($rol) {
@@ -86,7 +97,7 @@ if ($is_given) {
 
 			// find markdown header lines
 			$header_lines = null;												// variable to hold matched strings
-			preg_match_all("/[#]+ [A-z0-9 :;,.&-\/]*/", $markdown, $header_lines);	// pick out lines starting with any number of hashes, add to $header_lines[0]
+			preg_match_all("/[#]+ [A-z0-9 :;,.&-\/!]*\n/", $markdown, $header_lines);	// pick out lines starting with any number of hashes, add to $header_lines[0]
 			$header_lines = $header_lines[0];									// preg_match_all() has a weird output
 	
 			foreach ($header_lines as &$header) {								// iterate through the array
