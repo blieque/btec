@@ -81,26 +81,41 @@ if ($is_given) {
 
 		# process markdown includes
 
-		preg_match_all("/<!-- \[INCLUDE\] [A-z0-9\-_\/.]*.[md|txt|html] -->/", $markdown, $includes);
+		preg_match_all("/(?<=<!--\[INCLUDE\] )[A-z0-9\-_\/.]*.[md|txt|html](?= -->)/", $markdown, $includes);
 		$includes = $includes[0];									// preg_match_all() has a weird output
 
 		foreach ($includes as &$include) {
 			
-			var_dump("foreach'd");
-			$file_name	= explode(" ", $include);
-			if (file_exists($file_name[2])) {
+			if (file_exists($include)) {
 
-				$file_contents	= file_get_contents($file_name[2]);
-				$markdown		= str_replace($include, $file_contents, $markdown);
+				$file_contents	= file_get_contents($include);
+				$include		= preg_quote($include,"/");						// escape any regex syntax
+				$markdown		= preg_replace("/<!--\[INCLUDE\] $include -->/", $file_contents, $markdown);
 
 			}
 
 		}
 
-		# markdown-style emphasis in divs
 
-		// $markdown	= preg_replace("/<div([a-z0-9\-_<>=\/\\\"' \n]*)\*([A-z0-9\-_.,:; ]*)\*([a-z0-9\-_<>=\/\\\"' \n]*)<\/div>/", "<div$1<em>$2</em>$3</div>", $markdown);
-		$markdown	= preg_replace("/\*([A-z0-9\-_.,:;\ ]*)\*/", "<em>$1</em>", $markdown);
+		# markdown-style emphasis, strong and code elements in divs
+
+		for ($i = 0; $i < 3; $i++) {								// convert up to 3 em elements in image divs (this is *messy*)
+	
+			$markdown	= preg_replace("/(div>[A-z0-9\-_.,:;<>= \/\\\"\n\r\t]*)\*([A-z0-9\-_.,:; ]*)\*/", "$1<em>$2</em>", $markdown);
+
+		}
+
+		for ($i = 0; $i < 3; $i++) {								// convert up to 3 strong elements
+	
+			$markdown	= preg_replace("/(div>[A-z0-9\-_.,:;<>= \/\\\"\n\r\t]*)\*\*([A-z0-9\-_.,:; ]*)\*\*/", "$1<strong>$2</strong>", $markdown);
+
+		}
+
+		for ($i = 0; $i < 3; $i++) {								// convert up to 3 code elements
+	
+			$markdown	= preg_replace("/(div>[A-z0-9\-_.,:;<>= \/\\\"\n\r\t]*)`([A-z0-9\-_.,:; ]*)`/", "$1<code>$2</code>", $markdown);
+
+		}
 
 
 		# type-specific additions
@@ -114,7 +129,6 @@ if ($is_given) {
 			// find markdown header lines
 			preg_match_all("/[#]+ [A-z0-9 :;,.&-\/!()]*\n/", $markdown, $header_lines);
 			$header_lines = $header_lines[0];									// preg_match_all() has a weird output
-
 
 	
 			foreach ($header_lines as &$header) {								// iterate through the array
