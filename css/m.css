@@ -34,7 +34,7 @@ section { /* main wrapper */
 	padding:2em;
 	width:60%;
 	max-width:800px;
-	border:solid 1px #ddd;
+	border:solid 1px #ccc;
 	border-radius:2px;
 	text-align:justify;
 }
@@ -54,7 +54,7 @@ h1:first-child {
 	margin:-1em -1em .5em;
 	padding:1em;
 	background:#eee;
-	border-bottom:solid 1px #ddd;
+	border-bottom:solid 1px #ccc;
 }
 h1 { /* big headers (sod html5 user-agent styles) */
 	font-size:2em;
@@ -68,16 +68,27 @@ h2,h3,h4 { /* remove margins below headings (except h1s) */
 h1+p,h2+p,h3+p,h4+p { /* paragraphs after headings have less top margin */
 	margin-top:0;
 }
-code,.i {
+pre,code,.i {
 	background:#eee;
+}
+pre,code {
+	border:solid 1px #ccc;
+	font-family:source code pro,consolas,lucida console,monospace;
+}
+pre {
+	margin:.5em -2em;
+	padding:.5em 2em;
+	border-width:1px 0;
+	overflow-x:scroll;
 }
 code { /* make code more obvious */
 	padding:1px;
-	border:solid 1px #ccc;
 	border-radius:2px;
-	font-family:source code pro,consolas,lucida console,monospace;
 	font-size:84%;
 	line-height:100%;
+}
+pre code {
+	border:none;
 }
 table { /* stretch tables to full width */
 	width:100%;
@@ -195,7 +206,7 @@ li li { /* list items... */
 }
 .n { /* notes */
 	background:#eee;
-	box-shadow:0 0 0 1px #ddd;
+	box-shadow:0 0 0 1px #ccc;
 	font-style:italic;
 }
 .n:before { /* just so we know it's a note, k? */

@@ -78,27 +78,44 @@ if ($is_given) {
 		$output .= "<h1>" . $title . "</h1>";								// add same title as before, but in an h1 in the body
 		$markdown = file_get_contents($markdown);							// load the file into a variable for wikkid modificashunz
 
-		preg_match_all("/%% include [A-z0-9\-_\/.]*.[md|txt|html] %%/", $markdown, $includes);
+
+		# process markdown includes
+
+		preg_match_all("/<!-- \[INCLUDE\] [A-z0-9\-_\/.]*.[md|txt|html] -->/", $markdown, $includes);
 		$includes = $includes[0];									// preg_match_all() has a weird output
 
 		foreach ($includes as &$include) {
 			
-			$file			= explode(" ", $include);
-			$file_contents	= file_get_contents($file[2]);
-			str_replace($include, $file_contents, $markdown);
+			var_dump("foreach'd");
+			$file_name	= explode(" ", $include);
+			if (file_exists($file_name[2])) {
+
+				$file_contents	= file_get_contents($file_name[2]);
+				$markdown		= str_replace($include, $file_contents, $markdown);
+
+			}
 
 		}
 
+		# markdown-style emphasis in divs
+
+		// $markdown	= preg_replace("/<div([a-z0-9\-_<>=\/\\\"' \n]*)\*([A-z0-9\-_.,:; ]*)\*([a-z0-9\-_<>=\/\\\"' \n]*)<\/div>/", "<div$1<em>$2</em>$3</div>", $markdown);
+		$markdown	= preg_replace("/\*([A-z0-9\-_.,:;\ ]*)\*/", "<em>$1</em>", $markdown);
+
+
+		# type-specific additions
+
 		if ($doc) {
-			$output .= "placehold";
+			$output .= "## Contents\n\nI have yet to make this a thing\n\n";
 		} else if ($rol) {
-			$output .= "Maybe an index/contents";
+			$output .= "## Contents\n\nI have yet to make this a thing\n\n";
 		} else {
 
 			// find markdown header lines
-			$header_lines = null;												// variable to hold matched strings
-			preg_match_all("/[#]+ [A-z0-9 :;,.&-\/!]*\n/", $markdown, $header_lines);	// pick out lines starting with any number of hashes, add to $header_lines[0]
+			preg_match_all("/[#]+ [A-z0-9 :;,.&-\/!()]*\n/", $markdown, $header_lines);
 			$header_lines = $header_lines[0];									// preg_match_all() has a weird output
+
+
 	
 			foreach ($header_lines as &$header) {								// iterate through the array
 	
@@ -107,7 +124,7 @@ if ($is_given) {
 	
 				$task_level = null;
 
-				// if (preg_match()) {
+				// if (preg_match()) { for contents
 				// 	echo "placehold";
 				// }
 
@@ -164,14 +181,17 @@ if ($is_given) {
 $protocol = (empty($_SERVER['HTTPS']) ? "http://" : "https://");	// detect http or https
 $prefix = explode("/btec/", $_SERVER['REQUEST_URI'])[0];			// trim "/btec/" and anything after it from address
 
-// change semi-absolute links with real ones, by adding protocol and domain before link addresses
+# change semi-absolute links into real ones, by adding protocol and domain before link addresses
 $output = str_replace(
 
-	"/btec/",
-	$protocol . $_SERVER['SERVER_NAME'] . $prefix . "/btec/",
+	"\"/btec/",
+	"\"" . $protocol . $_SERVER['SERVER_NAME'] . $prefix . "/btec/",
 	$output . "</section></body></html>"
 
 );
+
+
+# the big reveal
 
 echo $output;
 

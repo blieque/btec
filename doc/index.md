@@ -18,7 +18,7 @@ Below the key directories and files in the repository are listed, and their cont
 
 * **markdown** &ndash; all assignment markdown documents
 
-	* **ext** &ndash; extra markdown for particular assignments, often included in the main assignment document (i.e., pointlessness)
+    * **ext** &ndash; extra markdown for particular assignments, often included in the main assignment document (i.e., pointlessness)
 
 * **index.php** &ndash; the magic script, that handles almost all requests (certainly any markdown pages)
 
@@ -32,32 +32,33 @@ In order for everything to run smoothly when mirroring the repository and hostin
 
 ### As English
 
-The directory of the repository 
+The directory of the repository... I have yet to write this.
 
 ### As Nginx Configuration
 
 Adding this to a file in `/etc/nginx/sites-available/` and creating a symlink to said file in `/etc/nginx/sites-enabled`, before reloading with `sudo /etc/init.d/nginx reload` should do the trick.
 
-    server {
-    	root */path/to/web/root*;
-    
-    	server_name *host*;
-    
-    	location / {
-    		try_files $uri $uri/ =404;
-    	}
-    
-    	location ~ \.php$ {
-    		fastcgi_split_path_info ^(.+\.php)(/.+)$;
-    		fastcgi_pass 127.0.0.1:9000;
-    		fastcgi_index index.php;
-    		include fastcgi_params;
-    	}
-    
-	rewrite ^([/A-Za-z.-]*)/btec/([0-9]+.[0-9]+)$ $1/btec/index.php?a=$2;
-	rewrite ^([/A-Za-z.-]*)/btec/([A-Z]+)$ $1/btec/index.php?s=rol&a=$2;
-	rewrite ^([/A-Za-z.-]*)/btec/ext/([A-Z0-9-]+)$ $1/btec/index.php?s=ext&a=$2;
-	rewrite ^([/A-Za-z.-]*)/btec/doc/([A-Z0-9-]+)$ $1/btec/index.php?s=doc&a=$2;
-    }
+	server {
+		root </path/to/web/root>;
+	
+		server_name <host>;
+	
+		location / {
+			try_files $uri $uri/ =404;
+		}
+	
+		location ~ \.php$ {
+			fastcgi_split_path_info ^(.+\.php)(/.+)$;
+			fastcgi_pass 127.0.0.1:9000;
+			#fastcgi_pass unix:/var/run/php5-fpm.sock;
+			fastcgi_index index.php;
+			include fastcgi_params;
+		}
+	
+		rewrite ^([/A-z.-]*)/btec/([0-9]+.[0-9]+)$ $1/btec/index.php?a=$2;
+		rewrite ^([/A-z.-]*)/btec/([A-z]+)$ $1/btec/index.php?s=rol&a=$2;
+		rewrite ^([/A-z.-]*)/btec/ext/([A-z0-9-]+)$ $1/btec/index.php?s=ext&a=$2;
+		rewrite ^([/A-z.-]*)/btec/doc/([A-z0-9-]+)$ $1/btec/index.php?s=doc&a=$2;
+	}
 
-Make sure to change the italic bits to fit your set-up. The directory specified as `root` should have a descendent directory called `btec` in it, in turn containing this repository. The above configuration also relies on a `php-fpm` server running and listening on the local port 9000.
+Make sure to change the parts between `<>` in order to match your set-up. The directory specified as `root` should have a descendent directory called `btec` in it, in turn containing this repository. The above configuration also relies on a `php-fpm` server running and listening on the local port 9000 (or the specified Unix socket).
