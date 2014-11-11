@@ -95,6 +95,9 @@ td:not(:last-child),th:not(:last-child) { /* prevent 2px border between cells ve
 tr:not(:last-child) td,tr:not(:last-child) th { /* prevent 2px border between cells horizontally */
 	border-bottom:none;
 }
+.ar { /* align right */
+	text-align:right;
+}
 .i { /* floated image containers */
 	padding:1em;
 	font-size:90%;
