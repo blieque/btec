@@ -2,10 +2,10 @@
         ' submits data in the form to the database worksheet
         ' shortcut: ctrl + shift + s
         
-        ' just to be sure
+        ' select the form sheet, which is redundant in all likelihood, but adds stability
         Sheets("Form").Select
         
-        ' unprotect and unhide workbook and database sheet, because excel is bad
+        ' unprotect and unhide workbook and database sheet
         ActiveWorkbook.Unprotect Password:="password"
         Sheets("Form Database").Visible = True
         Sheets("Form Database").Unprotect Password:="password"
@@ -16,9 +16,10 @@
         Sheets("Form Database").Select          ' move to database sheet
         Range("A1").Select                      ' move to storage cell
         Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
-            :=False, Transpose:=False           ' paste data as actual values (e.g., pastes date as text, rather than as a formula)
+            :=False, Transpose:=False           ' paste data as actual values (e.g., pastes date
+                                                ' as text, rather than as a formula)
 
-        ' essentially repeat above block a load of times..
+        ' repeat above block for each input field
         Sheets("Form").Select
         Range("E8").Select
         Application.CutCopyMode = False
@@ -91,17 +92,17 @@
         Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
             :=False, Transpose:=False
 
-        ' insert entire row (again, because excel is bad) above new results, pushing all results down (prep for next submission)
+        ' insert row above new results, pushing all results down (prep for next submission)
         ActiveCell.EntireRow.Insert
 
-        ' move guff on the right back into place (of couse, because excel is bad)
+        ' move information on the right back into place
         Range("K2:K14").Select
         Selection.Cut Destination:=Range("K1:K13")
 
-        ' shift selection to A1 in database sheet (because of obsessive compulsion)
+        ' shift selection to A1 in database sheet, for orgnisational and performance purposes
         Range("A1").Select
 
-        ' re-protect and re-hide database sheet (because excel is still bad)
+        ' re-protect and re-hide database sheet
         Sheets("Form Database").Protect Password:="password"
         Sheets("Form Database").Visible = False
         ActiveWorkbook.Protect Password:="password", Structure:=True, Windows:=True
@@ -122,6 +123,6 @@
         ' save our edited workbook
         ActiveWorkbook.Save
 
-        ' be nice and sociable
+        ' be nice and sociable; show a sucess dialogue window on screen
         MsgBox "Your information was submitted sucessfully. Thank-you for participating!"
     End Sub
