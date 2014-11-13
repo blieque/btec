@@ -4,7 +4,7 @@ This is just an easier way for me to manage my college assignments for an IT BTE
 
 ## License
 
-*More in `LICENSE.md` file.*
+*More in [`LICENSE.md`](/btec/license) file.*
 
 All of the images on any of these pages belong to their respective owners.  
 Any images that are entirely my own creation and the text are given a CC-BY-SA license.  

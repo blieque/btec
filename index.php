@@ -1,5 +1,7 @@
 <?php
 
+# variables
+
 $unit_names	= array (
 	1  => "Communication and Employability Skills",
 	2  => "Computer Systems",
@@ -22,14 +24,28 @@ $unit_names	= array (
 $is_given	= isset($_GET['a']);									// has an assignment or doc name been given?
 $output		= "<!DOCTYPE html><html><head><title>";
 
+
+# script
+
 if ($is_given) {
 	$title		= null;													// probably "Spreadsheet Modelling - Assignment 3" or "Readme" or suchlike
 	$markdown	= null;													// path to markdown file's directory
 	
 	// these make conditions easier later
-	$ext		= $_GET['s'] == "ext";
-	$doc		= $_GET['s'] == "doc";
-	$rol		= $_GET['s'] == "rol";
+	if (isset($_GET['s'])) {
+		
+		$ext	= $_GET['s'] == "ext";
+		$doc	= $_GET['s'] == "doc";
+		$rol	= $_GET['s'] == "rol";
+
+		global $ext, $doc, $rol;
+
+	} else {
+
+		$ext = $doc = $rol = false;
+		global $ext, $doc, $rol;
+
+	}
 
 	$split	= explode(".", $_GET["a"]);
 
@@ -89,7 +105,16 @@ if ($is_given) {
 			if (file_exists($include)) {
 
 				$file_contents	= file_get_contents($include);
-				$include		= preg_quote($include,"/");						// escape any regex syntax
+
+				if (end(explode(".", $include)) == "html") {
+
+					preg_match("/<body[A-z0-9='.,:; \"]*>((?s).*)<\/body>/", $file_contents, $file_contents);
+					$file_contents	= $file_contents[1];
+					$file_contents	= preg_replace("/[\n\r\t]*/", "", $file_contents);
+
+				}
+
+				$include		= preg_quote($include,"/");						// escape regex syntax
 				$markdown		= preg_replace("/<!--\[INCLUDE\] $include -->/", $file_contents, $markdown);
 
 			}
@@ -99,20 +124,22 @@ if ($is_given) {
 
 		# markdown-style emphasis, strong and code elements in divs
 
-		for ($i = 0; $i < 3; $i++) {								// convert up to 3 em elements in image divs (this is *messy*)
-	
-			$markdown	= preg_replace("/(div>[A-z0-9\-_.,:;<>= \/\\\"\n\r\t]*)\*([A-z0-9\-_.,:; ]*)\*/", "$1<em>$2</em>", $markdown);
+		$markdown	= str_replace("\*", "ESCAPED-ASTERISK", $markdown); // un-escape escaped asterisks, episode 1
+		for ($i = 0; $i < 5; $i++) {								// convert up to 5 em elements in image divs (this is *messy*)
+
+			$markdown	= preg_replace("/(div>[A-z0-9-_.,:;<>= \/\\\"\n\r\t]*)\*([A-z0-9.,:; \-\(\)]*)\*/", "$1<em>$2</em>", $markdown);
 
 		}
+		$markdown	= str_replace("ESCAPED-ASTERISK", "*", $markdown); // un-escape escaped asterisks, episode 2 (I know there's bound to be a better way)
 
-		for ($i = 0; $i < 3; $i++) {								// convert up to 3 strong elements
-	
+		for ($i = 0; $i < 5; $i++) {								// convert up to 5 strong elements
+
 			$markdown	= preg_replace("/(div>[A-z0-9\-_.,:;<>= \/\\\"\n\r\t]*)\*\*([A-z0-9\-_.,:; ]*)\*\*/", "$1<strong>$2</strong>", $markdown);
 
 		}
 
-		for ($i = 0; $i < 3; $i++) {								// convert up to 3 code elements
-	
+		for ($i = 0; $i < 5; $i++) {								// convert up to 5 code elements
+
 			$markdown	= preg_replace("/(div>[A-z0-9\-_.,:;<>= \/\\\"\n\r\t]*)`([A-z0-9\-_.,:; ]*)`/", "$1<code>$2</code>", $markdown);
 
 		}
@@ -121,13 +148,17 @@ if ($is_given) {
 		# type-specific additions
 
 		if ($doc) {
-			$output .= "## Contents\n\nI have yet to make this a thing\n\n";
+
+			$output .= "<h2>Contents</h2><p>I have yet to make this a thing.</p>";
+
 		} else if ($rol) {
-			$output .= "## Contents\n\nI have yet to make this a thing\n\n";
+
+			$output .= "<h2>Contents</h2><p>I have yet to make this a thing.</p>";
+
 		} else {
 
 			// find markdown header lines
-			preg_match_all("/[#]+ [A-z0-9 :;,.&-\/!()]*\n/", $markdown, $header_lines);
+			preg_match_all("/[#]+ [A-z0-9 :;,.&-\/!()]*\n(\r)?/", $markdown, $header_lines);
 			$header_lines = $header_lines[0];									// preg_match_all() has a weird output
 
 	
@@ -188,14 +219,16 @@ if ($is_given) {
 
 	}
 
-	$output .= '</ul>You can also view the <a href="/btec/README" class="ref">README</a> and <a href="/btec/LICENSE" class="ref">LICENSE</a> documents.';
+	$output .= '</ul>You can also view the <a href="/btec/readme" class="ref">read-me</a> and <a href="/btec/license" class="ref">license</a> documents.';
 
 }
 
 $protocol = (empty($_SERVER['HTTPS']) ? "http://" : "https://");	// detect http or https
 $prefix = explode("/btec/", $_SERVER['REQUEST_URI'])[0];			// trim "/btec/" and anything after it from address
 
+
 # change semi-absolute links into real ones, by adding protocol and domain before link addresses
+
 $output = str_replace(
 
 	"\"/btec/",
@@ -203,6 +236,12 @@ $output = str_replace(
 	$output . "</section></body></html>"
 
 );
+
+
+# semi-minify output
+
+$output	= preg_replace("/[\n\r\t]*/", "", $output);					// strip newlines and tab indentation
+$output	= preg_replace("/<!\-\-.*\-\->/", "", $output);				// strip HTML comments
 
 
 # the big reveal
