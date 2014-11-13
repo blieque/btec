@@ -97,24 +97,42 @@ if ($is_given) {
 
 		# process markdown includes
 
-		preg_match_all("/(?<=<!--\[INCLUDE\] )[A-z0-9\-_\/.]*.[md|txt|html](?= -->)/", $markdown, $includes);
-		$includes = $includes[0];									// preg_match_all() has a weird output
+		preg_match_all("/(?<=<!--\[INCLUDE\] )[A-z0-9\-_\/.]*.[md|txt|html|vba|conf](?= -->)/", $markdown, $includes);
+		$includes = $includes[0];											// preg_match_all() has a weird output
 
 		foreach ($includes as &$include) {
 			
 			if (file_exists($include)) {
 
+				# read the file requested
+
 				$file_contents	= file_get_contents($include);
 
-				if (end(explode(".", $include)) == "html") {
+				# process the contents, for some languages
+
+				$include_extension	= end(explode(".", $include));					// avoid variables passes in reference strict error
+
+				if ($include_extension == "html") {
 
 					preg_match("/<body[A-z0-9='.,:; \"]*>((?s).*)<\/body>/", $file_contents, $file_contents);
 					$file_contents	= $file_contents[1];
-					$file_contents	= preg_replace("/[\n\r\t]*/", "", $file_contents);
+					$file_contents	= preg_replace("/[\n\r\t]*/", "", $file_contents);	// prevents markdown from converting markup to HTML entities
 
 				}
 
-				$include		= preg_quote($include,"/");						// escape regex syntax
+				if ($include_extension == "vba") {									// if we're in a dire situation
+
+					$file_contents	= preg_replace("/\n    /", "\n", $file_contents);
+					$file_contents	= preg_replace("/\n/", "ESCAPED-NEWLINE", $file_contents);
+
+					include "includes/class.highlight.php";
+					$highlight	= new Highlight;
+
+				}
+
+				# replace include line with processed file contents
+
+				$include		= preg_quote($include,"/");							// escape regex syntax
 				$markdown		= preg_replace("/<!--\[INCLUDE\] $include -->/", $file_contents, $markdown);
 
 			}
@@ -124,21 +142,20 @@ if ($is_given) {
 
 		# markdown-style emphasis, strong and code elements in divs
 
-		$markdown	= str_replace("\*", "ESCAPED-ASTERISK", $markdown); // un-escape escaped asterisks, episode 1
-		for ($i = 0; $i < 5; $i++) {								// convert up to 5 em elements in image divs (this is *messy*)
+		$markdown	= str_replace("\*", "ESCAPED-ASTERISK", $markdown); 	// un-escape escaped asterisks, episode 1
+		for ($i = 0; $i < 5; $i++) {										// convert up to 5 em elements in image divs (this is *messy*)
 
 			$markdown	= preg_replace("/(div>[A-z0-9-_.,:;<>= \/\\\"\n\r\t]*)\*([A-z0-9.,:; \-\(\)]*)\*/", "$1<em>$2</em>", $markdown);
 
 		}
-		$markdown	= str_replace("ESCAPED-ASTERISK", "*", $markdown); // un-escape escaped asterisks, episode 2 (I know there's bound to be a better way)
 
-		for ($i = 0; $i < 5; $i++) {								// convert up to 5 strong elements
+		for ($i = 0; $i < 5; $i++) {										// convert up to 5 strong elements
 
 			$markdown	= preg_replace("/(div>[A-z0-9\-_.,:;<>= \/\\\"\n\r\t]*)\*\*([A-z0-9\-_.,:; ]*)\*\*/", "$1<strong>$2</strong>", $markdown);
 
 		}
 
-		for ($i = 0; $i < 5; $i++) {								// convert up to 5 code elements
+		for ($i = 0; $i < 5; $i++) {										// convert up to 5 code elements
 
 			$markdown	= preg_replace("/(div>[A-z0-9\-_.,:;<>= \/\\\"\n\r\t]*)`([A-z0-9\-_.,:; ]*)`/", "$1<code>$2</code>", $markdown);
 
@@ -191,7 +208,7 @@ if ($is_given) {
 
 		}
 
-		include "include/parsedown.php";
+		include "includes/parsedown.php";
 		$pd = new Parsedown();
 
 		$output .= $pd->text($markdown);
@@ -237,6 +254,11 @@ $output = str_replace(
 
 );
 
+
+# un-escape escaped characters (hello /r/shittyprogramming)
+
+$output	= str_replace("ESCAPED-ASTERISK", "*", $output);		// un-escape escaped asterisks, episode 2
+$output	= str_replace("ESCAPED-NEWLINE", "<br>", $output);
 
 # semi-minify output
 

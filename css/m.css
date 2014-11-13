@@ -87,6 +87,29 @@ code { /* make code more obvious */
 	font-size:84%;
 	line-height:100%;
 }
+pre>code {
+	line-height:160%;
+}
+blockquote {
+	position:relative;
+}
+blockquote:before,blockquote:after {
+	margin:24px 0;
+	position:absolute;
+	width:100%;
+	left:-20px;
+	font-weight:bold;
+	font-size:80pt;
+	color:#bbb;
+	z-index:-1;
+}
+blockquote:before {
+	content:"\201c";
+}
+blockquote:after {
+	content:"\201d";
+	text-align:right;
+}
 pre code {
 	border:none;
 }
