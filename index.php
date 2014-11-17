@@ -122,11 +122,16 @@ if ($is_given) {
 
 				if ($include_extension == "vba") {									// if we're in a dire situation
 
-					$file_contents	= preg_replace("/\n    /", "\n", $file_contents);
-					$file_contents	= preg_replace("/\n/", "ESCAPED-NEWLINE", $file_contents);
+					$file_contents	= preg_replace("/\n    /", "\n", $file_contents);	// remove once level of space indentation
+					$file_contents	= preg_replace("/\n/", "ESCAPED-NEWLINE", $file_contents);	// prevent newlines from being stripped later (line ~250)
+
+					# pull in highlighting class
 
 					include "includes/class.highlight.php";
 					$highlight	= new Highlight;
+
+					$file_contents_hl	= $highlight->vba($file_contents);
+					$file_contents		= $file_contents_hl[1];
 
 				}
 
@@ -136,28 +141,6 @@ if ($is_given) {
 				$markdown		= preg_replace("/<!--\[INCLUDE\] $include -->/", $file_contents, $markdown);
 
 			}
-
-		}
-
-
-		# markdown-style emphasis, strong and code elements in divs
-
-		$markdown	= str_replace("\*", "ESCAPED-ASTERISK", $markdown); 	// un-escape escaped asterisks, episode 1
-		for ($i = 0; $i < 5; $i++) {										// convert up to 5 em elements in image divs (this is *messy*)
-
-			$markdown	= preg_replace("/(div>[A-z0-9-_.,:;<>= \/\\\"\n\r\t]*)\*([A-z0-9.,:; \-\(\)]*)\*/", "$1<em>$2</em>", $markdown);
-
-		}
-
-		for ($i = 0; $i < 5; $i++) {										// convert up to 5 strong elements
-
-			$markdown	= preg_replace("/(div>[A-z0-9\-_.,:;<>= \/\\\"\n\r\t]*)\*\*([A-z0-9\-_.,:; ]*)\*\*/", "$1<strong>$2</strong>", $markdown);
-
-		}
-
-		for ($i = 0; $i < 5; $i++) {										// convert up to 5 code elements
-
-			$markdown	= preg_replace("/(div>[A-z0-9\-_.,:;<>= \/\\\"\n\r\t]*)`([A-z0-9\-_.,:; ]*)`/", "$1<code>$2</code>", $markdown);
 
 		}
 
@@ -263,7 +246,7 @@ $output	= str_replace("ESCAPED-NEWLINE", "<br>", $output);
 # semi-minify output
 
 $output	= preg_replace("/[\n\r\t]*/", "", $output);					// strip newlines and tab indentation
-$output	= preg_replace("/<!\-\-.*\-\->/", "", $output);				// strip HTML comments
+$output	= preg_replace("/<!\-\-.*?\-\->/", "", $output);				// strip HTML comments
 
 
 # the big reveal
