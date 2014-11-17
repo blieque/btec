@@ -158,21 +158,16 @@ div+.i {
 .s { /* small; narrower image containers */
 	width:24%;
 }
-.h {
+.h { /* halved image containers clear floats */
 	clear:both;
 }
-.h img {
-	width:calc(50% + .5em);
+.h img,.h object { /* both images/objects */
+	width:calc(50% + .8em);
 	vertical-align:top;
 	display:inline-block;
 }
-.h img:first-child {
+.h :first-child { /* first img or object */
 	margin-right:.5em;
-}
-.h img:not(:first-child):after { /* clearfix */
-	content:"";
-	display:block;
-	clear:both;
 }
 .i div:last-child { /* div for image source*/
 	margin-top:.8em;
@@ -180,12 +175,13 @@ div+.i {
 	font-size:80%;
 	line-height:110%;
 }
-.i .c { /* clearfix */
-}
-img,.a>div:first-child { /* actual image */
+img,object,.a>div:first-child { /* actual image */
 	margin:-1em -1em .6em;
 	width:calc(100% + 2.06em);
 	background:#fff;
+}
+object { /* this is the kind of thing that makes flash stupid */
+	margin-right:-.99em;
 }
 .a>div:first-child { /* hover-alternative image containers */
 	height:450px;
