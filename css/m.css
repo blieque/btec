@@ -235,11 +235,11 @@ li li { /* list items... */
 	content:"Note: ";
 	font-weight:bold;
 }
-a:not(.ref):after { /* add external link svg thingy */
+a.ext:after { /* add external link svg thingy */
 	content:"";
 	display:inline-block;
 	margin:0 2px 0 0;
 	width:12px;
 	height:10px;
-	background:url(/btec/img/el.svg);
+	background:url(../img/el.svg);
 }
