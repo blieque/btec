@@ -116,6 +116,9 @@ pre code {
 table { /* stretch tables to full width */
 	width:100%;
 }
+table:not(:last-child) {
+	margin-bottom:1em;
+}
 table,td,th { /* giving borders to markdown-generated tables */
 	border:solid 1px #000;
 	border-spacing:0;
@@ -179,9 +182,6 @@ img,object,.a>div:first-child { /* actual image */
 	margin:-1em -1em .6em;
 	width:calc(100% + 2.06em);
 	background:#fff;
-}
-object { /* this is the kind of thing that makes flash stupid */
-	margin-right:-.99em;
 }
 .a>div:first-child { /* hover-alternative image containers */
 	height:450px;
