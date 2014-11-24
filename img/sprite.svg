@@ -1,0 +1,36 @@
+<svg width="20" height="25" viewbox="0 0 20 30" xmlns="http://www.w3.org/2000/svg">
+	<style>
+		/* <![CDATA[ */
+		#perm path {
+			fill:#000;
+		}
+
+		#el path,#el rect {
+			stroke:#888;
+			stroke-width:1px;
+			fill:none;
+		}
+		#el .w {
+			stroke:#fff;
+			stroke-width:3.6px;
+		}
+		#el .h {
+			stroke-width:1.2px;
+		}
+		/* ]]> */
+	</style>
+
+	<!-- permalink icon -->
+	<g id="perm">
+		<path d="M5.6,6H4C2.9,6,2,5.1,2,4c0-1.1,0.9-2,2-2h5c1.1,0,2,0.9,2,2c0,0.5-0.2,0.9-0.4,1.2c0.1,0.2,0.2,0.3,0.4,0.3h1.7C12.9,5,13,4.5,13,4c0-2.2-1.8-4-4-4H4C1.8,0,0,1.8,0,4c0,2.2,1.8,4,4,4h2.4C6,7.4,5.7,6.7,5.6,6z"/>
+		<path d="M14.4,3H16c1.1,0,2,0.9,2,2c0,1.1-0.9,2-2,2h-5C9.9,7,9,6.1,9,5c0-0.5,0.2-0.9,0.4-1.2C9.4,3.6,9.2,3.5,9,3.5H7.3C7.1,4,7,4.5,7,5c0,2.2,1.8,4,4,4h5c2.2,0,4-1.8,4-4c0-2.2-1.8-4-4-4h-2.4C14,1.6,14.3,2.3,14.4,3z"/>
+	</g>
+
+	<!-- external link icon -->
+	<g id="el">
+		<rect x="0.5" y="17.5" width="7" height="7"/>
+		<path d="M3 22l5 -5" class="w"/>
+		<path d="M3 22l7 -7" class="h"/>
+		<path d="M9.5 19l0 -3.5l-3.5 0"/>
+	</g>
+</svg>

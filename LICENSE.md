@@ -2,7 +2,7 @@
 
 All images are subject to the license given to them by their authors. They are used for educational purposes, and will be removed from any of the pages upon request (a request being an email to himself@blieque.co.uk, tweet to @blieque on twitter, or issue submitted on GitHub [repository](https://github.com/blieque/btec/issues)).
 
-Images that I have created are free of copyright. I allow anyone to use, modify, distribute (including commercially) and re-license these images, without giving any attribution. They are given without any guarantee whatsoever. I do not accept any responsibility for harm caused to anything or anyone as a result of the images or their use.
+Images that I or class members have created are free of copyright. I allow anyone to use, modify, distribute (including commercially) and re-license these images, without giving any attribution. They are given without any guarantee whatsoever. Neither I nor any other class members accept any responsibility for harm caused to anything or anyone as a result of the images or their use.
 
 ## My Source Code
 

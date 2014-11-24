@@ -1,5 +1,12 @@
 <?php
 
+/* highlight:
+ *
+ * Takes plain text and highlights its syntax, returning HTML. The language is
+ * defined by the function that is called.
+ * 
+ */
+
 class Highlight {
 
 	public function vba($input)	{

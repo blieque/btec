@@ -1,5 +1,13 @@
 <?php
 
+# includes
+
+include "includes/functions.php";
+
+include "includes/class.highlight.php";
+include 'includes/class.headings-handler.php';
+
+
 # variables
 
 $unit_names	= array (
@@ -29,9 +37,10 @@ $output		= "<!DOCTYPE html><html><head><title>";
 
 if ($is_given) {
 	$title		= null;													// probably "Spreadsheet Modelling - Assignment 3" or "Readme" or suchlike
-	$markdown	= null;													// path to markdown file's directory
+	$markdown_file	= null;													// path to markdown file's directory
 	
-	// these make conditions easier later
+	# these make conditions easier later
+
 	if (isset($_GET['s'])) {
 		
 		$ext	= $_GET['s'] == "ext";
@@ -43,6 +52,7 @@ if ($is_given) {
 	} else {
 
 		$ext = $doc = $rol = false;
+
 		global $ext, $doc, $rol;
 
 	}
@@ -51,7 +61,7 @@ if ($is_given) {
 
 	if ($ext) {															// extra assignment page (see docs for detail)
 
-		$markdown = "markdown/ext/" . strtolower($_GET['a']) . ".md";
+		$markdown_file = "markdown/ext/" . strtolower($_GET['a']) . ".md";
 		$word_split = explode("-", $split[1]);
 
 		$title = $unit_names[$split[0]] . " &ndash; Assignment " . $word_split[0] . " &ndash; Excerpt";
@@ -61,17 +71,17 @@ if ($is_given) {
 		$word_split = str_replace("-", " ", $split[2]);
 		$word_split = ucwords(strtolower($word_split));
 
-		$markdown = "doc/" . strtolower($_GET['a']) . ".md";
+		$markdown_file = "doc/" . strtolower($_GET['a']) . ".md";
 		$title = "Documentation &ndash; " . $word_split;
 
 	} else if ($rol) {													// readme or license (tacky id, yes)
 
-		$markdown = "" . strtoupper($_GET['a']) . ".md";
+		$markdown_file = "" . strtoupper($_GET['a']) . ".md";
 		$title = ucfirst(strtolower($split[0]));
 
 	} else {															// standard assignment page
 
-		$markdown = "markdown/" . $_GET['a'] . ".md";
+		$markdown_file = "markdown/" . $_GET['a'] . ".md";
 		$title = $unit_names[$split[0]] . " &ndash; Assignment " . $split[1];
 
 	}
@@ -88,11 +98,13 @@ $output .= '</title><link rel="stylesheet" href="/btec/css/m.css"></head><body><
 
 if ($is_given) {
 
-	// given a valid markdown filename, process said markdown
-	if (file_exists($markdown)) {
+	# given a valid markdown filename, process said markdown
 
-		$output .= "<h1>" . $title . "</h1>";								// add same title as before, but in an h1 in the body
-		$markdown = file_get_contents($markdown);							// load the file into a variable for wikkid modificashunz
+	if (file_exists($markdown_file)) {
+
+		$output	   .= "<h1>" . $title . "</h1>";							// add same title as before, but in an h1 in the body
+		$markdown	= file_get_contents($markdown_file);					// load the file into a variable for wikkid modificashunz
+		global $markdown;
 
 
 		# process markdown includes
@@ -114,7 +126,7 @@ if ($is_given) {
 
 				if ($include_extension == "html") {
 
-					preg_match("/<body[A-z0-9='.,:; \"]*>((?s).*)<\/body>/", $file_contents, $file_contents);
+					preg_match("/<body[A-z0-9='.,:; \"]*>((?s).*?)<\/body>/", $file_contents, $file_contents);
 					$file_contents	= $file_contents[1];
 					$file_contents	= preg_replace("/[\n\r\t]*/", "", $file_contents);	// prevents markdown from converting markup to HTML entities
 
@@ -127,8 +139,7 @@ if ($is_given) {
 
 					# pull in highlighting class
 
-					include "includes/class.highlight.php";
-					$highlight	= new Highlight;
+					$highlight	= new Highlight();
 
 					$file_contents_hl	= $highlight->vba($file_contents);
 					$file_contents		= $file_contents_hl[1];
@@ -145,6 +156,15 @@ if ($is_given) {
 		}
 
 
+		# downscale headings by one level
+
+		if (substr($markdown, 0, 1) != "\n") {
+			$markdown	= "#" . $markdown;
+		}
+
+		$markdown	= str_replace("\n#", "\n##", $markdown);
+
+
 		# type-specific additions
 
 		if ($doc) {
@@ -157,35 +177,40 @@ if ($is_given) {
 
 		} else {
 
-			// find markdown header lines
-			preg_match_all("/[#]+ [A-z0-9 :;,.&-\/!()]*\n(\r)?/", $markdown, $header_lines);
-			$header_lines = $header_lines[0];									// preg_match_all() has a weird output
+			# find markdown header lines
+			preg_match_all("/[#]+ .*/", $markdown, $heading_lines);
+			$heading_lines		= $heading_lines[0];									// preg_match_all() has a weird output
 
+			$headings_handler	= new HeadingsHandler();
+
+			$markdown			= str_replace($heading_lines, $headings_handler->replacement_array($heading_lines, $_GET['a']), $markdown);
 	
-			foreach ($header_lines as &$header) {								// iterate through the array
+			// $indexing_level	= 0;
+
+			foreach ($heading_lines as &$heading) {								// iterate through the array
 	
-				$header_id	= null;
-				$header_new	= $header;
+				$heading_new	= $heading;
+				$heading_id		= null;
+				$heading_level	= null;
 	
+
+				# extract task references
+
 				$task_level = null;
 
-				// if (preg_match()) { for contents
-				// 	echo "placehold";
-				// }
+				preg_match("/\[([P|M|D][0-9])\]/", $heading_new, $task_level);		// e.g., [M3]
 
-				preg_match("/\[([P|M|D][0-9])\]/", $header_new, $task_level);		// e.g., [M3]
-	
-				if ($task_level != null) {											// if header has a task level in it
+				if ($task_level != null) {											// if heading has a task level in it
 					$task_level	= substr($task_level[0], 1, 2);							// clear out square brackets around task level
-					$header_id	= " id=\"" . strtolower($task_level) . "\"";			// id attribute for headers
+					$heading_id	= " id=\"" . strtolower($task_level) . "\"";			// id attribute for headings
 				}
-	
-				$header_size = preg_match_all("/[#]/", $header_new);				// h1, h2, h3, etc.
-	
-				$header_new = preg_replace("/[#]+ /", "<h" . $header_size . $header_id . ">", $header_new);
-				$header_new .= "</h" . $header_size . ">";
-	
-				$markdown = str_replace($header, $header_new, $markdown);
+
+				$heading_level	= preg_match_all("/[#]/", $heading_new);				// h1, h2, h3, etc.
+
+				$heading_new	= preg_replace("/[#]+ /", "<h" . $heading_level . $heading_id . ">", $heading_new);
+				$heading_new   .= "</h" . $heading_level . ">";
+
+				$markdown		= str_replace($heading, $heading_new, $markdown);
 
 			}
 
@@ -207,7 +232,7 @@ if ($is_given) {
 } else {
 
 	// no markdown name given ($_GET['a'] not set)
-	$output .= 'No assignment specified.<br>Maybe one of these will take your fancy.<ul>';
+	$output .= '<h1>BTEC IT</h1>An assignment was not specified. All of the available assignments are listed below.<ul>';
 
 	foreach (glob('markdown/*.md') as $filename) {
 
@@ -219,7 +244,7 @@ if ($is_given) {
 
 	}
 
-	$output .= '</ul>You can also view the <a href="/btec/readme" class="ref">read-me</a> and <a href="/btec/license" class="ref">license</a> documents.';
+	$output .= '</ul>You can also view the <a href="/btec/readme" class="ref">read-me</a> and <a href="/btec/license" class="ref">license</a> documents, or the <a href="/btec/docs/index">documentation</a> for this website.';
 
 }
 
@@ -245,9 +270,7 @@ $output	= str_replace("ESCAPED-NEWLINE", "<br>", $output);
 
 # semi-minify output
 
-$output	= preg_replace("/[\n\r\t]*/", "", $output);					// strip newlines and tab indentation
-$output	= preg_replace("/<!\-\-.*?\-\->/", "", $output);				// strip HTML comments
-
+$output	= minify($output);										// function from functions.php
 
 # the big reveal
 

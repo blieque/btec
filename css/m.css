@@ -31,7 +31,7 @@ body { /* u-a styles overriding, text */
 }
 section { /* main wrapper */
 	margin:0 auto;
-	padding:2em;
+	padding:32px;
 	width:60%;
 	max-width:800px;
 	border:solid 1px #ccc;
@@ -43,30 +43,57 @@ section:after { /* wrapper clearfix up in here */
 	display:block;
 	clear:both;
 }
-section>:first-child { /* first element in wrapper */
-	margin-top:0;
-}
 section>:last-child { /* last element in wrapper */
 	margin-bottom:0;
 }
-h1:first-child {
+h1 { /* big headers (sod html5 user-agent styles) */
 	display:block;
-	margin:-1em -1em .5em;
-	padding:1em;
+	margin:-32px -32px 16px;
+	padding:32px 32px;
 	background:#eee;
 	border-bottom:solid 1px #ccc;
+	font-size:28pt;
 }
-h1 { /* big headers (sod html5 user-agent styles) */
-	font-size:2em;
+h2 {
+	font-size:24.5pt;
+}
+h3 {
+	font-size:21pt;
+}
+h4 {
+	font-size:17.5pt;
+}
+h5 {
+	font-size:14pt;
+}
+h6 {
+	font-size:12pt;
 }
 h1,h2,h3 {
 	clear:left;
 }
-h2,h3,h4 { /* remove margins below headings (except h1s) */
+h2,h3,h4,h5,h6 { /* remove margins below headings (except h1s) */
 	margin-bottom:.8em;
 }
-h1+p,h2+p,h3+p,h4+p { /* paragraphs after headings have less top margin */
+h1+p,h2+p,h3+p,h4+p,h5+p,h6+p { /* paragraphs after headings have no top margin */
 	margin-top:0;
+}
+h2 a,h3 a,h4 a,h5 a,h6 a { /* permalinks to the left of headings */
+	display:inline-block;
+	position:relative;
+	top:2px;
+	width:26px;
+	height:20px;
+	background:url(../img/sprite.svg) no-repeat 0 6px;
+	text-indent:-999em;
+	margin:0 0 -2px -26px;
+	opacity:0;
+}
+h2:hover a,h3:hover a,h4:hover a,h5:hover a,h6:hover a {
+	opacity:.3;
+}
+h2 a:hover,h3 a:hover,h4 a:hover,h5 a:hover,h6 a:hover {
+	opacity:.8;
 }
 pre,code,.i {
 	background:#eee;
@@ -76,8 +103,8 @@ pre,code {
 	font-family:source code pro,consolas,lucida console,monospace;
 }
 pre {
-	margin:.5em -2em;
-	padding:.5em 2em;
+	margin:.5em -32px;
+	padding:.5em 32px;
 	border-width:1px 0;
 	overflow-x:scroll;
 }
@@ -136,7 +163,7 @@ tr:not(:last-child) td,tr:not(:last-child) th { /* prevent 2px border between ce
 	text-align:right;
 }
 .i { /* floated image containers */
-	padding:1em;
+	padding:16px;
 	font-size:90%;
 	font-style:italic;
 	line-height:120%;
@@ -164,23 +191,23 @@ div+.i {
 .h { /* halved image containers clear floats */
 	clear:both;
 }
-.h img,.h object { /* both images/objects */
-	width:calc(50% + .8em);
+.h img { /* halfed images */
+	width:calc(50% + 12px);
 	vertical-align:top;
 	display:inline-block;
 }
-.h :first-child { /* first img or object */
-	margin-right:.5em;
+.h>:first-child { /* left image */
+	margin-right:24px;
 }
-.i div:last-child { /* div for image source*/
-	margin-top:.8em;
+.i div:last-child { /* div for image source */
+	margin-top:8px;
 	font-style:normal;
 	font-size:80%;
 	line-height:110%;
 }
-img,object,.a>div:first-child { /* actual image */
-	margin:-1em -1em .6em;
-	width:calc(100% + 2.06em);
+img,.a>div:first-child { /* actual image */
+	margin:-16px -16px 12px;
+	width:calc(100% + 32px);
 	background:#fff;
 }
 .a>div:first-child { /* hover-alternative image containers */
@@ -189,12 +216,12 @@ img,object,.a>div:first-child { /* actual image */
 .a>div:first-child:hover { /* move big sprite background for hover-alternatives */
 	background-position:0 100%;
 }
-li li { /* list items... */
+li li { /* lists in lists, yo */
 	margin-top:.4em;
 }
 .f,.n {/* f.a.e.s and notes */
-	margin:.5em -2em;
-	padding:.8em 2em;
+	margin:16px -32px;
+	padding:12px 32px;
 }
 .f { /* file attachment elements */
 	background:#7accb2;
@@ -241,5 +268,6 @@ a.ext:after { /* add external link svg thingy */
 	margin:0 2px 0 0;
 	width:12px;
 	height:10px;
-	background:url(../img/el.svg);
+	background:url(../img/sprite.svg);
+	background-position:0 20px;
 }
