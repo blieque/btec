@@ -23,6 +23,8 @@
 	font-weight:700;
 	src:local('Source Sans Pro Bold Italic'),local('SourceSansPro-BoldIt'),url(http://fonts.gstatic.com/s/sourcesanspro/v9/fpTVHK8qsXbIeTHTrnQH6Nog-We9VNve39Jr4Vs_aDc.woff) format('woff');
 }
+
+/* styling */
 body { /* u-a styles overriding, text */
 	margin:3em 0;
 	font-family:'source sans pro',lucida sans,tahoma,sans-serif;
@@ -46,7 +48,7 @@ section:after { /* wrapper clearfix up in here */
 section>:last-child { /* last element in wrapper */
 	margin-bottom:0;
 }
-h1 { /* big headers (sod html5 user-agent styles) */
+h1 { /* real big headings (sod html5 user-agent styles) */
 	display:block;
 	margin:-32px -32px 16px;
 	padding:32px 32px;
@@ -54,26 +56,28 @@ h1 { /* big headers (sod html5 user-agent styles) */
 	border-bottom:solid 1px #ccc;
 	font-size:28pt;
 }
-h2 {
+h2 { /* pretty big headings */
 	font-size:24.5pt;
 }
-h3 {
+h3 { /* medium headings */
 	font-size:21pt;
 }
-h4 {
+h4 { /* small headings */
 	font-size:17.5pt;
 }
-h5 {
+h5 { /* tiny headings */
 	font-size:14pt;
 }
-h6 {
+h6 { /* embarrassingly small headings */
 	font-size:12pt;
 }
-h1,h2,h3 {
-	clear:left;
+h1,h2,h3,h4,h5,h6 { /* heading specific guff */
+	text-align:left;
+	line-height:1;
 }
-h2,h3,h4,h5,h6 { /* remove margins below headings (except h1s) */
-	margin-bottom:.8em;
+h2,h3,h4,h5,h6 { /* remove margins below headings and clear left floats */
+	margin-bottom:.5em;
+	clear:left;
 }
 h1+p,h2+p,h3+p,h4+p,h5+p,h6+p { /* paragraphs after headings have no top margin */
 	margin-top:0;
@@ -81,7 +85,7 @@ h1+p,h2+p,h3+p,h4+p,h5+p,h6+p { /* paragraphs after headings have no top margin 
 h2 a,h3 a,h4 a,h5 a,h6 a { /* permalinks to the left of headings */
 	display:inline-block;
 	position:relative;
-	top:2px;
+	top:.18em;
 	width:26px;
 	height:20px;
 	background:url(../img/sprite.svg) no-repeat 0 6px;
@@ -89,20 +93,20 @@ h2 a,h3 a,h4 a,h5 a,h6 a { /* permalinks to the left of headings */
 	margin:0 0 -2px -26px;
 	opacity:0;
 }
-h2:hover a,h3:hover a,h4:hover a,h5:hover a,h6:hover a {
+h2:hover a,h3:hover a,h4:hover a,h5:hover a,h6:hover a { /* permalinks visible when their heading is hovered over */
 	opacity:.3;
 }
-h2 a:hover,h3 a:hover,h4 a:hover,h5 a:hover,h6 a:hover {
+h2 a:hover,h3 a:hover,h4 a:hover,h5 a:hover,h6 a:hover { /* darker on direct hover */
 	opacity:.8;
 }
-pre,code,.i {
+pre,code,.i { /* grey background for code and image captions */
 	background:#eee;
 }
-pre,code {
+pre,code { /* monospace font and grey border for code */
 	border:solid 1px #ccc;
 	font-family:source code pro,consolas,lucida console,monospace;
 }
-pre {
+pre { /* multi-line blocks of code */
 	margin:.5em -32px;
 	padding:.5em 32px;
 	border-width:1px 0;
@@ -114,13 +118,14 @@ code { /* make code more obvious */
 	font-size:84%;
 	line-height:100%;
 }
-pre>code {
+pre code { /* code in big blocks */
 	line-height:160%;
+	border:none;
 }
-blockquote {
+blockquote { /* aids positioning of quotation mark */
 	position:relative;
 }
-blockquote:before,blockquote:after {
+blockquote:before,blockquote:after {  /* quotation marks */
 	margin:24px 0;
 	position:absolute;
 	width:100%;
@@ -130,21 +135,25 @@ blockquote:before,blockquote:after {
 	color:#bbb;
 	z-index:-1;
 }
-blockquote:before {
+blockquote:before { /* opening quotation mark */
 	content:"\201c";
 }
-blockquote:after {
+blockquote:after { /* closing quotation mark */
 	content:"\201d";
 	text-align:right;
-}
-pre code {
-	border:none;
 }
 table { /* stretch tables to full width */
 	width:100%;
 }
-table:not(:last-child) {
+table:not(:last-child) { /* give tables a bit of space below */
 	margin-bottom:1em;
+}
+thead { /* table title text bottom and left aligned */
+	vertical-align:bottom;
+	text-align:left;
+}
+tbody { /* text in table bodies in the top of cells */
+	vertical-align:top;
 }
 table,td,th { /* giving borders to markdown-generated tables */
 	border:solid 1px #000;
@@ -159,6 +168,8 @@ td:not(:last-child),th:not(:last-child) { /* prevent 2px border between cells ve
 tr:not(:last-child) td,tr:not(:last-child) th { /* prevent 2px border between cells horizontally */
 	border-bottom:none;
 }
+
+/* class and id styling */
 .ar { /* align right */
 	text-align:right;
 }

@@ -79,7 +79,7 @@ class HeadingsHandler {
 
 		for ($i = 0; $i < count($index); $i++) {
 
-			$heading_level	= count(explode(".", $index[$i])) + 2;
+			$heading_level	= count(explode(".", $index[$i])) + 1;
 			$heading_id		= $index[$i];
 
 			$heading_new	= preg_replace("/[#]+ (.*)/", "<h$heading_level id=\"$heading_id\"><a href=\"/btec/$assignment_id#$heading_id\" title=\"permalink\">permalink</a>$1</h$heading_level>", $headings[$i]);
