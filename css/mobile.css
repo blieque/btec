@@ -1,0 +1,7 @@
+body {
+	margin:1em;
+}
+aside,section {
+	width:100%;
+	position:static;
+}

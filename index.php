@@ -4,8 +4,10 @@
 
 include "includes/functions.php";
 
-include "includes/class.highlight.php";
+include "includes/parsedown.php";
+
 include 'includes/class.headings-handler.php';
+include "includes/class.highlight.php";
 
 
 # variables
@@ -94,7 +96,7 @@ if ($is_given) {
 
 }
 
-$output .= '</title><link rel="stylesheet" href="/btec/css/m.css"></head><body><section>';
+$output .= '</title><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/btec/css/m.css"><link rel="stylesheet" href="/btec/css/mobile.css" media="max-device-width:700px"></head><body><aside></aside><section>';
 
 if ($is_given) {
 
@@ -116,7 +118,7 @@ if ($is_given) {
 			
 			if (file_exists($include)) {
 
-				# read the file requested
+				# read the requested file
 
 				$file_contents	= file_get_contents($include);
 
@@ -159,72 +161,34 @@ if ($is_given) {
 		# downscale headings by one level
 
 		if (substr($markdown, 0, 1) != "\n") {
-			$markdown	= "#" . $markdown;
+			$markdown		= "#" . $markdown;
 		}
 
-		$markdown	= str_replace("\n#", "\n##", $markdown);
+		$markdown			= str_replace("\n#", "\n##", $markdown);
+
+		# find markdown header lines
+
+		preg_match_all("/[#]+ .*/", $markdown, $heading_lines);
+		$heading_lines		= $heading_lines[0];									// preg_match_all() has a weird output
+
+		# id headings and contents list
+
+		$headings_handler	= new HeadingsHandler();
+		$markdown			= str_replace($heading_lines, $headings_handler->replacement_array($heading_lines, $_GET['a']), $markdown);
+		// $output				= preg_replace("/(?<=<\/head><body><aside>)(?=<\/aside><section>)/", $headings_handler->contents($heading_lines), $output);
+		$output				= preg_replace("/(?<=<\/head><body><aside>)(?=<\/aside><section>)/", $headings_handler->contents($heading_lines), $output);
+
+		# parse what markdown is left that I haven't mutilated
+
+		$pd					= new Parsedown();
+		$output			   .= $pd->text($markdown);
+
+		# place contents list into output
 
 
-		# type-specific additions
+	} else {																	// no markdown file of the name given found
 
-		if ($doc) {
-
-			$output .= "<h2>Contents</h2><p>I have yet to make this a thing.</p>";
-
-		} else if ($rol) {
-
-			$output .= "<h2>Contents</h2><p>I have yet to make this a thing.</p>";
-
-		} else {
-
-			# find markdown header lines
-			preg_match_all("/[#]+ .*/", $markdown, $heading_lines);
-			$heading_lines		= $heading_lines[0];									// preg_match_all() has a weird output
-
-			$headings_handler	= new HeadingsHandler();
-
-			$markdown			= str_replace($heading_lines, $headings_handler->replacement_array($heading_lines, $_GET['a']), $markdown);
-	
-			// $indexing_level	= 0;
-
-			foreach ($heading_lines as &$heading) {								// iterate through the array
-	
-				$heading_new	= $heading;
-				$heading_id		= null;
-				$heading_level	= null;
-	
-
-				# extract task references
-
-				$task_level = null;
-
-				preg_match("/\[([P|M|D][0-9])\]/", $heading_new, $task_level);		// e.g., [M3]
-
-				if ($task_level != null) {											// if heading has a task level in it
-					$task_level	= substr($task_level[0], 1, 2);							// clear out square brackets around task level
-					$heading_id	= " id=\"" . strtolower($task_level) . "\"";			// id attribute for headings
-				}
-
-				$heading_level	= preg_match_all("/[#]/", $heading_new);				// h1, h2, h3, etc.
-
-				$heading_new	= preg_replace("/[#]+ /", "<h" . $heading_level . $heading_id . ">", $heading_new);
-				$heading_new   .= "</h" . $heading_level . ">";
-
-				$markdown		= str_replace($heading, $heading_new, $markdown);
-
-			}
-
-		}
-
-		include "includes/parsedown.php";
-		$pd = new Parsedown();
-
-		$output .= $pd->text($markdown);
-
-	// no markdown file of the name given found
-	} else {
-
-		header("HTTP/1.0 404 Not Found");									// send actual 404 code
+		header("HTTP/1.0 404 Not Found");											// send http 404 code
 		$output .= '<h1>404</h1>Assignment not found. You can view a list at the <a class="ref" href="/btec/">index</a>.';
 
 	}

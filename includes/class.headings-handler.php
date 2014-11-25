@@ -16,7 +16,7 @@ class HeadingsHandler {
 	private function index_headings($headings) {
 
 		/*
-		 * This function accepst a list of headings in markdown formatting.
+		 * This function accepts a list of headings in markdown formatting.
 		 *
 		 * The function returns an array of strings that act as identifiers for
 		 * headings. The output is the numbers for blocks of text in a document,
@@ -28,8 +28,8 @@ class HeadingsHandler {
 		 *
 		 */
 		
-		$index			= array(0, null, null, null, null, null);			// keeps track of position in headings
-		$current_level	= 2;												// headings will never be bigger than h2
+		$index				= array(0, null, null, null, null, null);		// keeps track of position in headings
+		$heading_level_prev	= 2;											// headings will never be bigger than h2
 
 		$output			= array();
 
@@ -38,16 +38,16 @@ class HeadingsHandler {
 			preg_match("/[#]+/", $heading, $hashes);							// isolate hashes at the beginning
 			$heading_level	= strlen($hashes[0]);								// number of hashes -> size of heading
 
-			if ($heading_level > $current_level) {								// if heading is smaller than the previous
+			if ($heading_level > $heading_level_prev) {							// if heading is smaller than the previous
 
 				$index[$heading_level - 2]	= 1;
-				$current_level++;
+				$heading_level_prev++;
 
-			} else if ($heading_level < $current_level) {						// if heading is bigger than the previous
+			} else if ($heading_level < $heading_level_prev) {					// if heading is bigger than the previous
 
-				$index[$current_level - 2]	= null;
-				$index[$current_level - 3]++;
-				$current_level--;
+				$index[$heading_level_prev - 2]	= null;
+				$index[$heading_level_prev - 3]++;
+				$heading_level_prev--;
 
 			} else {															// if heading is the same size as the previous
 
@@ -74,13 +74,27 @@ class HeadingsHandler {
 
 	public function replacement_array($headings, $assignment_id) {
 
+		/*
+		 * This function formats markdown headings as HTML, IDing them in the
+		 * process, and adds the permalink anchor to them as well.
+		 * 
+		 * The function accepts an array of markdown headings, and the ID of the
+		 * page the headings are on. This will most-likely be something like
+		 * "2.3" or "readme". The latter is required for good permalinks.
+		 * 
+		 * The function returns an array of HTML headings that correlates with
+		 * the headings it was originally given. These are placed on the page
+		 * using a simple find and replace.
+		 * 
+		 */
+
+		$index_of_headings	= $this->index_headings($headings);
 		$output	= array();
-		$index	= $this->index_headings($headings);
 
-		for ($i = 0; $i < count($index); $i++) {
+		for ($i = 0; $i < count($index_of_headings); $i++) {
 
-			$heading_level	= count(explode(".", $index[$i])) + 1;
-			$heading_id		= $index[$i];
+			$heading_level	= count(explode(".", $index_of_headings[$i])) + 1;
+			$heading_id		= $index_of_headings[$i];
 
 			$heading_new	= preg_replace("/[#]+ (.*)/", "<h$heading_level id=\"$heading_id\"><a href=\"/btec/$assignment_id#$heading_id\" title=\"permalink\">permalink</a>$1</h$heading_level>", $headings[$i]);
 			array_push($output, $heading_new);
@@ -91,7 +105,69 @@ class HeadingsHandler {
 
 	}
 
-	public function contents($markdown) {
+	public function contents($headings) {
+
+		/*
+		 * This function generates an HTML-formatted, un-ordered (although in
+		 * fact ordered) list of anchors. This can be embedded directly in a
+		 * page as a contents list.
+		 * 
+		 * The function accepts an array of markdown-formatted headings 
+		 * 
+		 */
+
+		if (count($headings) < 1) {
+
+			return "<ul></ul>";													// abandon ship if no headings have been supplied.
+
+		}
+
+		$index_of_headings		= $this->index_headings($headings);
+		$output					= "<h6>Contents</h6><ul><li>";
+
+		$heading_level_prev	= 1;
+
+		for ($i = 0; $i < count($headings); $i++) { 
+
+			$heading_level	= count(explode(".", $index_of_headings[$i]));
+			$heading_text	= preg_replace("/[#]+ /", "", $headings[$i], 1);
+
+			if ($i > 0) {														// we don't want to add a divider on the first round
+
+				if ($heading_level > $heading_level_prev) {							// if heading is smaller than the previous
+
+					$output    .= "<ul><li>";
+					$heading_level_prev++;
+
+				} else if ($heading_level < $heading_level_prev) {					// if heading is bigger than the previous
+
+					$output    .= "</li></ul></li><li>";
+					$heading_level_prev--;
+
+				} else {															// if heading is the same size as the previous
+
+					$output    .= "</li><li>";
+
+				}
+
+			}
+
+			$bold	= "";
+
+			if (preg_match("/\[[P|M|D][0-9]\]/", $headings[$i])) {
+				
+				$bold	= " class=\"b\"";
+
+			}
+
+			$index		= $index_of_headings[$i];
+			$output    .= "<a href=\"#$index\"$bold>$index: $heading_text</a>";
+
+		}
+
+		$output	    .= str_repeat("</li></ul>", $heading_level_prev);
+
+		return $output;
 
 	}
 
