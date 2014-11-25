@@ -96,7 +96,7 @@ if ($is_given) {
 
 }
 
-$output .= '</title><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/btec/css/m.css"><link rel="stylesheet" href="/btec/css/mobile.css" media="max-device-width:700px"></head><body><aside></aside><section>';
+$output .= '</title><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/btec/css/main.css"><link rel="stylesheet" href="/btec/css/mobile.css" media="max-device-width:700px"></head><body><aside></aside><section>';
 
 if ($is_given) {
 
@@ -208,7 +208,7 @@ if ($is_given) {
 
 	}
 
-	$output .= '</ul>You can also view the <a href="/btec/readme" class="ref">read-me</a> and <a href="/btec/license" class="ref">license</a> documents, or the <a href="/btec/docs/index">documentation</a> for this website.';
+	$output .= '</ul>You can also view the <a href="/btec/readme" class="ref">read-me</a> and <a href="/btec/license" class="ref">license</a> documents, or the <a href="/btec/docs/index">documentation</a> for this website. Everything can also be viewed as source code on <a href="https://github.com/blieque/btec">GitHub</a>, the home of its public repository..';
 
 }
 
