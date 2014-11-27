@@ -27,7 +27,10 @@ $unit_names	= array (
 	22 => "Developing Computer Games",
 	27 => "Web Server Scripting",
 	28 => "Website Production",
+	30 => "Digital Graphics",
 	31 => "Computer Animation",
+	32 => "Networked Systems Security",
+	41 => "3D Modelling",
 	42 => "Spreadsheet Modelling"
 );
 
