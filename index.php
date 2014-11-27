@@ -99,7 +99,7 @@ if ($is_given) {
 
 }
 
-$output .= '</title><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/btec/css/m.css"><link rel="stylesheet" href="/btec/css/mobile.css" media="max-device-width:700px"></head><body><aside></aside><section>';
+$output .= '</title><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/btec/css/main.css"><link rel="stylesheet" href="/btec/css/mobile.css" media="max-device-width:700px"></head><body><aside></aside><section>';
 
 if ($is_given) {
 
@@ -207,16 +207,19 @@ if ($is_given) {
 		$file_split		= explode(".", $module_split[1]);
 		$file_module	= $unit_names[$file_split[0]];
 
-		$output .= '<li><a href="/btec/' . substr($module_split[1], 0, -3) . '" class="ref">' . $file_module . ' &ndash; Assignment ' . $file_split[1] . '</a></li>';
+		$output .= '<li><a href="/btec/' . substr($module_split[1], 0, -3) . '">' . $file_module . ' &ndash; Assignment ' . $file_split[1] . '</a></li>';
 
 	}
 
-	$output .= '</ul>You can also view the <a href="/btec/readme" class="ref">read-me</a> and <a href="/btec/license" class="ref">license</a> documents, or the <a href="/btec/docs/index">documentation</a> for this website.';
+	$output .= '</ul>You can also view the <a href="/btec/readme" class="ref">read-me</a> and <a href="/btec/license" class="ref">license</a> documents, or the <a href="/btec/docs/index">documentation</a> for this website. Everything can also be viewed as source code on <a href="https://github.com/blieque/btec">GitHub</a>, the home of its public repository..';
 
 }
 
-$protocol = (empty($_SERVER['HTTPS']) ? "http://" : "https://");	// detect http or https
-$prefix = explode("/btec/", $_SERVER['REQUEST_URI'])[0];			// trim "/btec/" and anything after it from address
+$output		   .= "</section></body></html>";
+
+$protocol		= empty($_SERVER['HTTPS']) ? "http://" : "https://";	// detect http or https
+$prefix			= explode("/btec/", $_SERVER['REQUEST_URI'])[0];		// trim "/btec/" and anything after it from address
+$prefix_full	= $protocol . $_SERVER['SERVER_NAME'] . $prefix . "/btec/";	// lets go adding that "/btec/" part back, eh?
 
 
 # change semi-absolute links into real ones, by adding protocol and domain before link addresses
@@ -224,20 +227,27 @@ $prefix = explode("/btec/", $_SERVER['REQUEST_URI'])[0];			// trim "/btec/" and 
 $output = str_replace(
 
 	"\"/btec/",
-	"\"" . $protocol . $_SERVER['SERVER_NAME'] . $prefix . "/btec/",
-	$output . "</section></body></html>"
+	"\"" . $prefix_full,
+	$output
 
 );
 
 
+# add ext class to external anchors
+
+// href="http://omni.dev/btec/
+$prefix_quote	= preg_quote($prefix_full, "/");
+$output			= preg_replace("/<a href=\"(?!=$prefix_quote|#)/", "<a class=\"ext\" href=\"", $output);
+
+
 # un-escape escaped characters (hello /r/shittyprogramming)
 
-$output	= str_replace("ESCAPED-ASTERISK", "*", $output);		// un-escape escaped asterisks, episode 2
+$output	= str_replace("ESCAPED-ASTERISK", "*", $output);				// un-escape escaped asterisks, episode 2
 $output	= str_replace("ESCAPED-NEWLINE", "<br>", $output);
 
 # semi-minify output
 
-$output	= minify($output);										// function from functions.php
+$output	= minify($output);												// function from functions.php
 
 # the big reveal
 
