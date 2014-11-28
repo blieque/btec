@@ -31,7 +31,7 @@ class HeadingsHandler {
 		$index				= array(0, null, null, null, null, null);		// keeps track of position in headings
 		$heading_level_prev	= 2;											// headings will never be bigger than h2
 
-		$output			= array();
+		$output				= array();
 
 		foreach ($headings as &$heading) {
 			
@@ -41,13 +41,13 @@ class HeadingsHandler {
 			if ($heading_level > $heading_level_prev) {							// if heading is smaller than the previous
 
 				$index[$heading_level - 2]	= 1;
-				$heading_level_prev++;
+				$heading_level_prev				= $heading_level;
 
 			} else if ($heading_level < $heading_level_prev) {					// if heading is bigger than the previous
 
 				$index[$heading_level_prev - 2]	= null;
 				$index[$heading_level_prev - 3]++;
-				$heading_level_prev--;
+				$heading_level_prev				= $heading_level;
 
 			} else {															// if heading is the same size as the previous
 
@@ -125,7 +125,7 @@ class HeadingsHandler {
 		$index_of_headings		= $this->index_headings($headings);
 		$output					= "<h6>Contents</h6><ul><li>";
 
-		$heading_level_prev	= 1;
+		$heading_level_prev		= 1;
 
 		for ($i = 0; $i < count($headings); $i++) { 
 
@@ -136,13 +136,13 @@ class HeadingsHandler {
 
 				if ($heading_level > $heading_level_prev) {							// if heading is smaller than the previous
 
-					$output    .= "<ul><li>";
-					$heading_level_prev++;
+					$output			   .= "<ul><li>";
+					$heading_level_prev	= $heading_level;
 
 				} else if ($heading_level < $heading_level_prev) {					// if heading is bigger than the previous
 
-					$output    .= "</li></ul></li><li>";
-					$heading_level_prev--;
+					$output			   .= "</li></ul></li><li>";
+					$heading_level_prev	= $heading_level;
 
 				} else {															// if heading is the same size as the previous
 

@@ -58,8 +58,8 @@ aside {
 	padding:8px;
 	width:25%;
 	position:fixed;
-	top:4em;
-	left:10%;
+	top:5em;
+	left:calc(50% - 550px);
 	font-size:85%;
 	line-height:1;
 }
@@ -81,10 +81,10 @@ aside * {
 	list-style:none;
 }
 aside:hover {
-	left:5%;
+	left:calc(50% - 640px);
 }
 aside:hover+section {
-	left:15%;
+	left:180px;
 }
 h1 { /* real big headings (sod html5 user-agent styles) */
 	display:block;
