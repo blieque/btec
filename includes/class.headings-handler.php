@@ -40,14 +40,19 @@ class HeadingsHandler {
 
 			if ($heading_level > $heading_level_prev) {							// if heading is smaller than the previous
 
+				$heading_level_prev			= $heading_level;
 				$index[$heading_level - 2]	= 1;
-				$heading_level_prev				= $heading_level;
 
 			} else if ($heading_level < $heading_level_prev) {					// if heading is bigger than the previous
 
-				$index[$heading_level_prev - 2]	= null;
-				$index[$heading_level_prev - 3]++;
-				$heading_level_prev				= $heading_level;
+				// for ($i = $heading_level; $i < 7; $i++) { 
+
+				// 	$index[$i - 1]				= null;
+					
+				// }
+
+				$heading_level_prev			= $heading_level;
+				$index[$heading_level - 2]++;
 
 			} else {															// if heading is the same size as the previous
 
@@ -88,8 +93,9 @@ class HeadingsHandler {
 		 * 
 		 */
 
-		$index_of_headings	= $this->index_headings($headings);
+
 		$output	= array();
+		$index_of_headings	= $this->index_headings($headings);
 
 		for ($i = 0; $i < count($index_of_headings); $i++) {
 
@@ -118,14 +124,14 @@ class HeadingsHandler {
 
 		if (count($headings) < 1) {
 
-			return "<ul></ul>";													// abandon ship if no headings have been supplied.
+			return 1;															// abandon ship if no headings have been supplied.
 
 		}
 
-		$index_of_headings		= $this->index_headings($headings);
-		$output					= "<h6>Contents</h6><ul><li>";
+		$index_of_headings	= $this->index_headings($headings);
+		$output				= "<h6>Contents</h6><ul><li>";
 
-		$heading_level_prev		= 1;
+		$heading_level_prev	= 1;
 
 		for ($i = 0; $i < count($headings); $i++) { 
 

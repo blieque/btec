@@ -163,7 +163,7 @@ if ($is_given) {
 
 		# downscale headings by one level
 
-		if (substr($markdown, 0, 1) != "\n") {
+		if (substr($markdown, 0, 1) == "#") {										// downscale first heading if it's the first line
 			$markdown		= "#" . $markdown;
 		}
 
@@ -171,14 +171,13 @@ if ($is_given) {
 
 		# find markdown header lines
 
-		preg_match_all("/[#]+ .*/", $markdown, $heading_lines);
+		preg_match_all("/[#]{2,6} .*/", $markdown, $heading_lines);
 		$heading_lines		= $heading_lines[0];									// preg_match_all() has a weird output
 
 		# id headings and contents list
 
 		$headings_handler	= new HeadingsHandler();
 		$markdown			= str_replace($heading_lines, $headings_handler->replacement_array($heading_lines, $_GET['a']), $markdown);
-		// $output				= preg_replace("/(?<=<\/head><body><aside>)(?=<\/aside><section>)/", $headings_handler->contents($heading_lines), $output);
 		$output				= preg_replace("/(?<=<\/head><body><aside>)(?=<\/aside><section>)/", $headings_handler->contents($heading_lines), $output);
 
 		# parse what markdown is left that I haven't mutilated
