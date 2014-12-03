@@ -3,11 +3,8 @@
 # includes
 
 include "includes/functions.php";
-
 include "includes/parsedown.php";
-
 include 'includes/class.headings-handler.php';
-include "includes/class.highlight.php";
 
 
 # variables
@@ -99,7 +96,7 @@ if ($is_given) {
 
 }
 
-$output .= '</title><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/btec/css/main.css"><link rel="stylesheet" href="/btec/css/mobile.css" media="max-device-width:700px"></head><body><aside></aside><section>';
+$output .= '</title><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/btec/css/main.css"><link rel="stylesheet" href="/btec/css/mobile.css" media="max-device-width:700px"></head><body><section>';
 
 if ($is_given) {
 
@@ -125,29 +122,38 @@ if ($is_given) {
 
 				$file_contents	= file_get_contents($include);
 
-				# process the contents, for some languages
+				# process the contents, for some filetypes
 
-				$include_extension	= end(explode(".", $include));					// avoid variables passes in reference strict error
+				$include_split		= explode(".", $include);
+				$include_directory	= explode("/", $include)[0];
 
-				if ($include_extension == "html") {
+				if ($include_directory == "file") {
 
-					preg_match("/<body[A-z0-9='.,:; \"]*>((?s).*?)<\/body>/", $file_contents, $file_contents);
-					$file_contents	= $file_contents[1];
-					$file_contents	= preg_replace("/[\n\r\t]*/", "", $file_contents);	// prevents markdown from converting markup to HTML entities
+					$include_extension	= end($include_split);
+					$include_category	= preg_match("/(?<=file\/)(.*?)(?=\/)/", $include);
 
-				}
+					echo $include;
 
-				if ($include_extension == "vba") {									// if we're in a dire situation
+					if ($include_category == "code") {
 
-					$file_contents	= preg_replace("/\n    /", "\n", $file_contents);	// remove once level of space indentation
-					$file_contents	= preg_replace("/\n/", "ESCAPED-NEWLINE", $file_contents);	// prevent newlines from being stripped later (line ~250)
+						echo "we got a code 6 over here";
 
-					# pull in highlighting class
+					}
 
-					$highlight	= new Highlight();
+					if ($include_extension == "html") {
 
-					$file_contents_hl	= $highlight->vba($file_contents);
-					$file_contents		= $file_contents_hl[1];
+						preg_match("/<body[A-z0-9='.,:; \"]*>((?s).*?)<\/body>/", $file_contents, $file_contents);
+						$file_contents	= $file_contents[1];
+						$file_contents	= preg_replace("/[\n\r\t]*/", "", $file_contents);	// prevents markdown from converting markup to HTML entities
+
+					}
+
+					if ($include_extension == "vba") {									// if we're in a dire situation
+
+						$file_contents	= preg_replace("/\n    /", "\n", $file_contents);	// remove once level of space indentation
+						$file_contents	= preg_replace("/\n/", "ESCAPED-NEWLINE", $file_contents);	// prevent newlines from being stripped later (line ~250)
+
+					}
 
 				}
 
@@ -177,8 +183,30 @@ if ($is_given) {
 		# id headings and contents list
 
 		$headings_handler	= new HeadingsHandler();
-		$markdown			= str_replace($heading_lines, $headings_handler->replacement_array($heading_lines, $_GET['a']), $markdown);
-		$output				= preg_replace("/(?<=<\/head><body><aside>)(?=<\/aside><section>)/", $headings_handler->contents($heading_lines), $output);
+		// $markdown			= str_replace($heading_lines, $headings_handler->replacement_array($heading_lines, $_GET['a']), $markdown);
+		$replacements		= $headings_handler->replacement_array($heading_lines, $_GET['a']);
+
+		/* Below, I had to use a for loop to replace the markdown headings with
+		 * their processed, HTML equivalents. I would prefer to use a single
+		 * str_replace() and hand it arrays, but this causes issues if there are
+		 * multiple identical headings. As str_replace() doesn't have a limit
+		 * parameter, and preg_replace() is clunky and would require stuff to be
+		 * escaped with preg_quote(). This is imperfect, but I don't think
+		 * there's another way.
+		 * Thanks to http://stackoverflow.com/questions/1252693 */
+		for ($i = 0; $i < count($heading_lines); $i++) {
+
+			$position		= strpos($markdown,$heading_lines[$i]);
+			if ($position !== false) {
+				$markdown	= substr_replace($markdown,$replacements[$i],$position,strlen($heading_lines[$i]));
+			}
+
+		}
+
+		$contents 			= $headings_handler->contents($heading_lines);
+		if ($contents != 1) {               
+			$output			= preg_replace("/(?<=<\/head><body>)(?=<section>)/", "<aside>" . $contents . "</aside>", $output);
+		}
 
 		# parse what markdown is left that I haven't mutilated
 
@@ -200,17 +228,33 @@ if ($is_given) {
 	// no markdown name given ($_GET['a'] not set)
 	$output .= '<h1>BTEC IT</h1>An assignment was not specified. All of the available assignments are listed below.<ul>';
 
-	foreach (glob('markdown/*.md') as $filename) {
+	foreach (glob("markdown/*.md") as $filename) {
 
-		$module_split	= explode("/", $filename);
-		$file_split		= explode(".", $module_split[1]);
-		$file_module	= $unit_names[$file_split[0]];
+		$path_split		= explode("/", $filename);
+		$doc_split		= explode(".", end($path_split));
+		$doc_module		= $unit_names[$doc_split[0]];
 
-		$output .= '<li><a href="/btec/' . substr($module_split[1], 0, -3) . '">' . $file_module . ' &ndash; Assignment ' . $file_split[1] . '</a></li>';
+		$output .= '<li><a href="/btec/' . substr($path_split[1], 0, -3) . '">' . $doc_module . ' &ndash; Assignment ' . $doc_split[1] . '</a></li>';
 
 	}
 
-	$output .= '</ul>You can also view the <a href="/btec/readme" class="ref">read-me</a> and <a href="/btec/license" class="ref">license</a> documents, or the <a href="/btec/docs/index">documentation</a> for this website. Everything can also be viewed as source code on <a href="https://github.com/blieque/btec">GitHub</a>, the home of its public repository..';
+	$output .= '</ul>Excerpts and notes documents are also available.<ul>';
+
+	foreach (glob("markdown/ext/*.md") as $filename) {
+
+		$path_split		= explode("/", $filename);
+
+		preg_match("/[0-9]+/", $path_split[2], $doc_unit);
+		$doc_unit		= $unit_names[$doc_unit[0]];
+
+		preg_match("/(?<=-).*?(?=.md)/", $path_split[2], $doc_name);
+		$doc_name		= ucwords(strtolower(str_replace("-", " ", $doc_name[0])));
+
+		$output .= '<li><a href="/btec/ext/' . substr($path_split[2], 0, -3) . '">' . $doc_unit . ' &ndash; ' . $doc_name . '</a></li>';
+
+	}
+
+	$output .= '</ul>You can also view the <a href="/btec/readme" class="ref">readme</a> and <a href="/btec/license" class="ref">license</a> documents, or the <a href="/btec/docs/index">documentation</a> for this website. Everything can also be viewed as source code on <a href="https://github.com/blieque/btec">GitHub</a>, the home of its public repository..';
 
 }
 

@@ -18,7 +18,7 @@ class HeadingsHandler {
 		/*
 		 * This function accepts a list of headings in markdown formatting.
 		 *
-		 * The function returns an array of strings that act as identifiers for
+		 * The function returns an array of arrays that act as identifiers for
 		 * headings. The output is the numbers for blocks of text in a document,
 		 * which is used to create a numbered contents list very much like a
 		 * Wikipedia article has.
@@ -28,7 +28,7 @@ class HeadingsHandler {
 		 *
 		 */
 		
-		$index				= array(0, null, null, null, null, null);		// keeps track of position in headings
+		$index				= array(0);		// keeps track of position in headings
 		$heading_level_prev	= 2;											// headings will never be bigger than h2
 
 		$output				= array();
@@ -40,18 +40,16 @@ class HeadingsHandler {
 
 			if ($heading_level > $heading_level_prev) {							// if heading is smaller than the previous
 
-				$heading_level_prev			= $heading_level;
-				$index[$heading_level - 2]	= 1;
+				array_push($index, 1);
 
 			} else if ($heading_level < $heading_level_prev) {					// if heading is bigger than the previous
 
-				// for ($i = $heading_level; $i < 7; $i++) { 
+				for ($i = $heading_level; $i < $heading_level_prev + 1; $i++) {
 
-				// 	$index[$i - 1]				= null;
-					
-				// }
+					unset($index[$i - 1]);
 
-				$heading_level_prev			= $heading_level;
+				}
+
 				$index[$heading_level - 2]++;
 
 			} else {															// if heading is the same size as the previous
@@ -60,16 +58,9 @@ class HeadingsHandler {
 
 			}
 
-			$heading_id		= array();
+			$heading_level_prev	= $heading_level;								// update last level variable
 
-			foreach ($index as &$i) {											// create an id from index variable
-				if ($i > 0) {
-					array_push($heading_id, $i);
-				}
-			}
-
-			$heading_id		= implode(".", $heading_id);
-			array_push($output, $heading_id);
+			array_push($output, $index);
 
 		}
 
@@ -93,14 +84,13 @@ class HeadingsHandler {
 		 * 
 		 */
 
-
 		$output	= array();
 		$index_of_headings	= $this->index_headings($headings);
 
 		for ($i = 0; $i < count($index_of_headings); $i++) {
 
-			$heading_level	= count(explode(".", $index_of_headings[$i])) + 1;
-			$heading_id		= $index_of_headings[$i];
+			$heading_id		= implode(".", $index_of_headings[$i]);
+			$heading_level	= count($index_of_headings[$i]) + 1;
 
 			$heading_new	= preg_replace("/[#]+ (.*)/", "<h$heading_level id=\"$heading_id\"><a href=\"/btec/$assignment_id#$heading_id\" title=\"permalink\">permalink</a>$1</h$heading_level>", $headings[$i]);
 			array_push($output, $heading_new);
@@ -135,26 +125,32 @@ class HeadingsHandler {
 
 		for ($i = 0; $i < count($headings); $i++) { 
 
-			$heading_level	= count(explode(".", $index_of_headings[$i]));
+			$heading_level	= count($index_of_headings[$i]);
 			$heading_text	= preg_replace("/[#]+ /", "", $headings[$i], 1);
 
 			if ($i > 0) {														// we don't want to add a divider on the first round
 
 				if ($heading_level > $heading_level_prev) {							// if heading is smaller than the previous
 
-					$output			   .= "<ul><li>";
-					$heading_level_prev	= $heading_level;
+					$output		   .= "<ul><li>";
 
 				} else if ($heading_level < $heading_level_prev) {					// if heading is bigger than the previous
 
-					$output			   .= "</li></ul></li><li>";
-					$heading_level_prev	= $heading_level;
+					for ($j = $heading_level; $j < $heading_level_prev; $j++) {
+
+						$output		   .= "</li></ul></li>";
+
+					}
+
+					$output		   .= "<li>";
 
 				} else {															// if heading is the same size as the previous
 
-					$output    .= "</li><li>";
+					$output 	   .= "</li><li>";
 
 				}
+
+				$heading_level_prev	= $heading_level;
 
 			}
 
@@ -166,7 +162,7 @@ class HeadingsHandler {
 
 			}
 
-			$index		= $index_of_headings[$i];
+			$index		= implode(".", $index_of_headings[$i]);
 			$output    .= "<a href=\"#$index\"$bold>$index: $heading_text</a>";
 
 		}

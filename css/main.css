@@ -26,7 +26,7 @@
 
 /* styling */
 body { /* u-a styles overriding, text */
-	margin:3em 0;
+	margin:1.8em 0;
 	font-family:'source sans pro',lucida sans,tahoma,sans-serif;
 	font-size:105%;
 	line-height:135%;
@@ -58,7 +58,7 @@ aside {
 	padding:8px;
 	width:25%;
 	position:fixed;
-	top:5em;
+	top:3em;
 	left:calc(50% - 550px);
 	font-size:85%;
 	line-height:1;
