@@ -162,23 +162,31 @@ pre code { /* code in big blocks */
 	border:none;
 }
 blockquote { /* aids positioning of quotation mark */
-	position:relative;
+	margin:0;
+	padding:24px 32px 0;
+	background:#eee;
+	overflow:hidden;
+}
+blockquote :first-child {
+	margin-top:0;
+}
+blockquote :last-child {
+	margin-bottom:0;
 }
 blockquote:before,blockquote:after {  /* quotation marks */
-	margin:24px 0;
-	position:absolute;
+	display:block;
 	width:100%;
-	left:-20px;
 	font-weight:bold;
-	font-size:80pt;
-	color:#bbb;
-	z-index:-1;
+	font-size:60pt;
+	color:#fff;
+	-webkit-text-stroke:3px #fff;
 }
 blockquote:before { /* opening quotation mark */
 	content:"\201c";
 }
 blockquote:after { /* closing quotation mark */
 	content:"\201d";
+	margin-top:30px;
 	text-align:right;
 }
 table { /* stretch tables to full width */
