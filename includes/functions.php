@@ -15,7 +15,6 @@ function minify($input) {
 	
 	$output	= preg_replace("/[\n\r\t]*/", "", $output);					// newlines and tab indentation
 	$output	= preg_replace("/<!\-\-.*?\-\->/", "", $output);			// HTML comments
-	$output	= preg_replace("/([>.])[ ]{2,}([A-z0-9<])/", "$1$2", $output);		// space indentation
 
 	return $output;
 

@@ -111,10 +111,9 @@ if ($is_given) {
 
 		# process markdown includes
 
-		preg_match_all("/(?<=<!--\[INCLUDE\] )[A-z0-9\-_\/.]*.[md|txt|html|vba|conf](?= -->)/", $markdown, $includes);
-		$includes = $includes[0];											// preg_match_all() has a weird output
+		preg_match_all("/(?<=<!--\[INCLUDE\] )[A-z0-9\-_\/.]*.[md|txt|html|vba|conf|py](?= -->)/", $markdown, $includes);
 
-		foreach ($includes as &$include) {
+		foreach ($includes[0] as &$include) {
 			
 			if (file_exists($include)) {
 
@@ -130,13 +129,25 @@ if ($is_given) {
 				if ($include_directory == "file") {
 
 					$include_extension	= end($include_split);
-					$include_category	= preg_match("/(?<=file\/)(.*?)(?=\/)/", $include);
+					preg_match("/(?<=file\/)(.*?)(?=\/)/", $include, $include_category);
 
-					echo $include;
+					$include_category	= $include_category[0];
 
 					if ($include_category == "code") {
 
-						echo "we got a code 6 over here";
+						preg_match_all("/.*?\t/", $file_contents, $tab_indents);
+
+						foreach ($tab_indents[0] as &$tab_indent) {
+							
+							$position		= strpos($tab_indent, "\t");
+							$tab_width		= 4;
+							$space_count	= $tab_width - $position % $tab_width;
+							$file_contents	= preg_replace("/\t/", str_repeat(" ", $space_count), $file_contents, 1);
+
+						}
+
+						$file_contents	= "    " . $file_contents;							// indent the first line with four sapces for markdown
+						$file_contents	= preg_replace("/\n/", "ESCAPED-NEWLINE", $file_contents);	// prevent newlines from being stripped later (line ~300)
 
 					}
 
@@ -145,13 +156,6 @@ if ($is_given) {
 						preg_match("/<body[A-z0-9='.,:; \"]*>((?s).*?)<\/body>/", $file_contents, $file_contents);
 						$file_contents	= $file_contents[1];
 						$file_contents	= preg_replace("/[\n\r\t]*/", "", $file_contents);	// prevents markdown from converting markup to HTML entities
-
-					}
-
-					if ($include_extension == "vba") {									// if we're in a dire situation
-
-						$file_contents	= preg_replace("/\n    /", "\n", $file_contents);	// remove once level of space indentation
-						$file_contents	= preg_replace("/\n/", "ESCAPED-NEWLINE", $file_contents);	// prevent newlines from being stripped later (line ~250)
 
 					}
 
@@ -166,10 +170,12 @@ if ($is_given) {
 
 		}
 
-
 		# downscale headings by one level
 
-		if (substr($markdown, 0, 1) == "#") {										// downscale first heading if it's the first line
+		/* This isn't as neat as using preg_replace(), but it is better for
+		 * performance. */
+
+		if (substr($markdown, 0, 1) == "#") {								// downscale first heading if it's the first line
 			$markdown		= "#" . $markdown;
 		}
 
@@ -178,32 +184,34 @@ if ($is_given) {
 		# find markdown header lines
 
 		preg_match_all("/[#]{2,6} .*/", $markdown, $heading_lines);
-		$heading_lines		= $heading_lines[0];									// preg_match_all() has a weird output
 
 		# id headings and contents list
 
 		$headings_handler	= new HeadingsHandler();
-		// $markdown			= str_replace($heading_lines, $headings_handler->replacement_array($heading_lines, $_GET['a']), $markdown);
-		$replacements		= $headings_handler->replacement_array($heading_lines, $_GET['a']);
+		$replacements		= $headings_handler->replacement_array($heading_lines[0], $_GET['a']);
 
-		/* Below, I had to use a for loop to replace the markdown headings with
+		/* 
+		 * Below, I had to use a for loop to replace the markdown headings with
 		 * their processed, HTML equivalents. I would prefer to use a single
 		 * str_replace() and hand it arrays, but this causes issues if there are
 		 * multiple identical headings. As str_replace() doesn't have a limit
 		 * parameter, and preg_replace() is clunky and would require stuff to be
 		 * escaped with preg_quote(). This is imperfect, but I don't think
 		 * there's another way.
-		 * Thanks to http://stackoverflow.com/questions/1252693 */
-		for ($i = 0; $i < count($heading_lines); $i++) {
+		 * Thanks to http://stackoverflow.com/questions/1252693
+		 *
+		 */
 
-			$position		= strpos($markdown,$heading_lines[$i]);
+		for ($i = 0; $i < count($heading_lines[0]); $i++) { 
+
+			$position		= strpos($markdown,$heading_lines[0][$i]);
 			if ($position !== false) {
-				$markdown	= substr_replace($markdown,$replacements[$i],$position,strlen($heading_lines[$i]));
+				$markdown	= substr_replace($markdown,$replacements[$i],$position,strlen($heading_lines[0][$i]));
 			}
 
 		}
 
-		$contents 			= $headings_handler->contents($heading_lines);
+		$contents 			= $headings_handler->contents($heading_lines[0]);
 		if ($contents != 1) {               
 			$output			= preg_replace("/(?<=<\/head><body>)(?=<section>)/", "<aside>" . $contents . "</aside>", $output);
 		}
@@ -213,19 +221,18 @@ if ($is_given) {
 		$pd					= new Parsedown();
 		$output			   .= $pd->text($markdown);
 
-		# place contents list into output
 
+	} else {															// no markdown file of the name given found
 
-	} else {																	// no markdown file of the name given found
-
-		header("HTTP/1.0 404 Not Found");											// send http 404 code
+		header("HTTP/1.0 404 Not Found");									// send http 404 code
 		$output .= '<h1>404</h1>Assignment not found. You can view a list at the <a class="ref" href="/btec/">index</a>.';
 
 	}
 
 } else {
 
-	// no markdown name given ($_GET['a'] not set)
+	# no markdown name given ($_GET['a'] not set)
+	
 	$output .= '<h1>BTEC IT</h1>An assignment was not specified. All of the available assignments are listed below.<ul>';
 
 	foreach (glob("markdown/*.md") as $filename) {
@@ -258,6 +265,7 @@ if ($is_given) {
 
 }
 
+
 $output		   .= "</section></body></html>";
 
 $protocol		= empty($_SERVER['HTTPS']) ? "http://" : "https://";	// detect http or https
@@ -275,13 +283,10 @@ $output = str_replace(
 
 );
 
-
 # add ext class to external anchors
 
-// href="http://omni.dev/btec/
 $prefix_quote	= preg_quote($prefix_full, "/");
 $output			= preg_replace("/<a href=\"(?!=$prefix_quote|#)/", "<a class=\"ext\" href=\"", $output);
-
 
 # un-escape escaped characters (hello /r/shittyprogramming)
 
