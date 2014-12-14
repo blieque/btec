@@ -13,7 +13,7 @@ function minify($input) {
 
 	$output	= $input;
 	
-	$output	= preg_replace("/[\n\r\t]*/", "", $output);					// newlines and tab indentation
+	$output	= preg_replace("/[\t]*/", "", $output);						// tab indentation
 	$output	= preg_replace("/<!\-\-.*?\-\->/", "", $output);			// HTML comments
 
 	return $output;

@@ -102,7 +102,7 @@ if ($is_given) {
 
 	# given a valid markdown filename, process said markdown
 
-	if (file_exists($markdown_file)) {
+	if (is_readable($markdown_file)) {
 
 		$output	   .= "<h1>" . $title . "</h1>";							// add same title as before, but in an h1 in the body
 		$markdown	= file_get_contents($markdown_file);					// load the file into a variable for wikkid modificashunz
@@ -135,6 +135,7 @@ if ($is_given) {
 
 					if ($include_category == "code") {
 
+						$file_contents	= str_replace("\\", "\\\\", $file_contents);
 						preg_match_all("/.*?\t/", $file_contents, $tab_indents);
 
 						foreach ($tab_indents[0] as &$tab_indent) {
@@ -147,7 +148,6 @@ if ($is_given) {
 						}
 
 						$file_contents	= "    " . $file_contents;							// indent the first line with four sapces for markdown
-						$file_contents	= preg_replace("/\n/", "ESCAPED-NEWLINE", $file_contents);	// prevent newlines from being stripped later (line ~300)
 
 					}
 
@@ -225,7 +225,7 @@ if ($is_given) {
 	} else {															// no markdown file of the name given found
 
 		header("HTTP/1.0 404 Not Found");									// send http 404 code
-		$output .= '<h1>404</h1>Assignment not found. You can view a list at the <a class="ref" href="/btec/">index</a>.';
+		$output .= '<h1>404</h1>The assignment was not found or is not readable. You can view a list at the <a class="ref" href="/btec/">index</a>.';
 
 	}
 
@@ -291,7 +291,6 @@ $output			= preg_replace("/<a href=\"(?!=$prefix_quote|#)/", "<a class=\"ext\" h
 # un-escape escaped characters (hello /r/shittyprogramming)
 
 $output	= str_replace("ESCAPED-ASTERISK", "*", $output);				// un-escape escaped asterisks, episode 2
-$output	= str_replace("ESCAPED-NEWLINE", "<br>", $output);
 
 # semi-minify output
 
