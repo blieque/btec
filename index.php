@@ -147,7 +147,7 @@ if ($is_given) {
 
 						}
 
-						$file_contents	= "    " . $file_contents;							// indent the first line with four sapces for markdown
+						$file_contents		= preg_replace("/(.*\n)/", "\t$1", $file_contents);							// indent each line with a tab for markdown
 
 					}
 

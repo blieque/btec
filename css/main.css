@@ -74,11 +74,12 @@ aside>ul {
 	padding:0;
 }
 aside li>ul {
-	margin:4px 0 8px;
+	margin:3px 0 6px;
 	padding-left:16px;
 }
-aside * {
+aside ul, aside li {
 	list-style:none;
+	margin-bottom:3px;
 }
 aside:hover {
 	left:calc(50% - 640px);
@@ -191,13 +192,13 @@ blockquote:after { /* closing quotation mark */
 }
 table { /* stretch tables to full width */
 	width:100%;
+	text-align:left;
 }
 table:not(:last-child) { /* give tables a bit of space below */
 	margin-bottom:1em;
 }
 thead { /* table title text bottom and left aligned */
 	vertical-align:bottom;
-	text-align:left;
 }
 tbody { /* text in table bodies in the top of cells */
 	vertical-align:top;
@@ -274,9 +275,6 @@ img,.a>div:first-child { /* actual image */
 }
 .a>div:first-child:hover { /* move big sprite background for hover-alternatives */
 	background-position:0 100%;
-}
-li li { /* lists in lists, yo */
-	margin-top:.4em;
 }
 .f,.n {/* f.a.e.s and notes */
 	margin:16px -32px;
