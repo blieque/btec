@@ -163,7 +163,7 @@ pre code { /* code in big blocks */
 	border:none;
 }
 blockquote { /* aids positioning of quotation mark */
-	margin:0;
+	margin:16px 0;
 	padding:24px 32px 0;
 	background:#eee;
 	overflow:hidden;
@@ -215,6 +215,14 @@ td:not(:last-child),th:not(:last-child) { /* prevent 2px border between cells ve
 }
 tr:not(:last-child) td,tr:not(:last-child) th { /* prevent 2px border between cells horizontally */
 	border-bottom:none;
+}
+iframe {
+	margin-right:4px;
+	width:396px;
+	height:253px;
+}
+iframe.right {
+	margin:0;
 }
 
 /* class and id styling */
