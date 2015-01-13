@@ -265,7 +265,7 @@ div+.i { /* image containers following divs */
 	display:inline-block;
 }
 .h>:first-child { /* left image */
-	margin-right:24px;
+	margin-right:8px;
 }
 .i div:last-child { /* div for image source */
 	margin-top:8px;
