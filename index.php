@@ -111,7 +111,7 @@ if ($is_given) {
 
 		# process markdown includes
 
-		preg_match_all("/(?<=<!--\[INCLUDE\] )[A-z0-9\-_\/.]*.[md|txt|html|vba|conf|py](?= -->)/", $markdown, $includes);
+		preg_match_all("/(?<=<!--\[INCLUDE\] )[A-z0-9\-_\/.]*.[md|txt|html|vba|conf|py|c](?= -->)/", $markdown, $includes);
 
 		foreach ($includes[0] as &$include) {
 			
@@ -140,9 +140,10 @@ if ($is_given) {
 
 						foreach ($tab_indents[0] as &$tab_indent) {
 							
-							$position		= strpos($tab_indent, "\t");
 							$tab_width		= 4;
+							$position		= strlen($tab_indent) - 1;
 							$space_count	= $tab_width - $position % $tab_width;
+							$space_count	= $space_count < 4 ? $space_count + substr_count($tab_indent, "\\n") : $space_count;
 							$file_contents	= preg_replace("/\t/", str_repeat(" ", $space_count), $file_contents, 1);
 
 						}
