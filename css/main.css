@@ -151,6 +151,7 @@ pre,code { /* monospace font and grey border for code */
 pre { /* multi-line blocks of code */
 	margin:.5em -32px;
 	padding:.5em 32px;
+	width:100%;
 	border-width:1px 0;
 	overflow-x:scroll;
 }
