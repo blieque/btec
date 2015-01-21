@@ -342,3 +342,8 @@ a.ext:after { /* add external link svg thingy */
 .b {
 	font-weight:bold;
 }
+
+/* highlighting */
+.hb {
+	background:rgba(32,170,214,.5);
+}
