@@ -3,7 +3,7 @@
 # includes
 
 include "includes/functions.php";
-include "includes/parsedown.php";
+include "includes/class.parsedown.php";
 include 'includes/class.headings-handler.php';
 
 
@@ -38,8 +38,8 @@ $output		= "<!DOCTYPE html><html><head><title>";
 # script
 
 if ($is_given) {
-	$title		= null;													// probably "Spreadsheet Modelling - Assignment 3" or "Readme" or suchlike
-	$markdown_file	= null;													// path to markdown file's directory
+	$title			= null;												// probably "Spreadsheet Modelling - Assignment 3" or "Readme" or suchlike
+	$markdown_file	= null;												// path to markdown file's directory
 	
 	# these make conditions easier later
 
@@ -109,67 +109,9 @@ if ($is_given) {
 		global $markdown;
 
 
-		# process markdown includes
+		# process includes
 
-		preg_match_all("/(?<=<!--\[INCLUDE\] )[A-z0-9\-_\/.]*.[md|txt|html|vba|conf|py|c](?= -->)/", $markdown, $includes);
-
-		foreach ($includes[0] as &$include) {
-			
-			if (file_exists($include)) {
-
-				# read the requested file
-
-				$file_contents	= file_get_contents($include);
-
-				# process the contents, for some filetypes
-
-				$include_split		= explode(".", $include);
-				$include_directory	= explode("/", $include)[0];
-
-				if ($include_directory == "file") {
-
-					$include_extension	= end($include_split);
-					preg_match("/(?<=file\/)(.*?)(?=\/)/", $include, $include_category);
-
-					$include_category	= $include_category[0];
-
-					if ($include_category == "code") {
-
-						$file_contents	= str_replace("\\", "\\\\", $file_contents);
-						preg_match_all("/.*?\t/", $file_contents, $tab_indents);
-
-						foreach ($tab_indents[0] as &$tab_indent) {
-							
-							$tab_width		= 4;
-							$position		= strlen($tab_indent) - 1;
-							$space_count	= $tab_width - $position % $tab_width;
-							$space_count	= $space_count < 4 ? $space_count + substr_count($tab_indent, "\\n") : $space_count;
-							$file_contents	= preg_replace("/\t/", str_repeat(" ", $space_count), $file_contents, 1);
-
-						}
-
-						$file_contents		= preg_replace("/(.*\n)/", "\t$1", $file_contents);							// indent each line with a tab for markdown
-
-					}
-
-					if ($include_extension == "html") {
-
-						preg_match("/<body[A-z0-9='.,:; \"]*>((?s).*?)<\/body>/", $file_contents, $file_contents);
-						$file_contents	= $file_contents[1];
-						$file_contents	= preg_replace("/[\n\r\t]*/", "", $file_contents);	// prevents markdown from converting markup to HTML entities
-
-					}
-
-				}
-
-				# replace include line with processed file contents
-
-				$include		= preg_quote($include,"/");							// escape regex syntax
-				$markdown		= preg_replace("/<!--\[INCLUDE\] $include -->/", $file_contents, $markdown);
-
-			}
-
-		}
+		$markdown	= process_includes($markdown);
 
 		# downscale headings by one level
 
@@ -197,8 +139,8 @@ if ($is_given) {
 		 * str_replace() and hand it arrays, but this causes issues if there are
 		 * multiple identical headings. As str_replace() doesn't have a limit
 		 * parameter, and preg_replace() is clunky and would require stuff to be
-		 * escaped with preg_quote(). This is imperfect, but I don't think
-		 * there's another way.
+		 * escaped with preg_quote(), I did this. It's imperfect, but I don't
+		 * think there's another way.
 		 * Thanks to http://stackoverflow.com/questions/1252693
 		 *
 		 */
@@ -213,7 +155,7 @@ if ($is_given) {
 		}
 
 		$contents 			= $headings_handler->contents($heading_lines[0]);
-		if ($contents != 1) {               
+		if ($contents != 1) {
 			$output			= preg_replace("/(?<=<\/head><body>)(?=<section>)/", "<aside>" . $contents . "</aside>", $output);
 		}
 
