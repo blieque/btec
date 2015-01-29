@@ -337,18 +337,18 @@ div+.i { /* image containers following divs */
 	width:calc(100% + 32px);
 	background:#fff;
 }
-.r,.l { /* all image containers, but full sizers */
+.r,.l,.tab-r+table,.tab-l+table { /* all image containers, except full sizers */
 	width:40%;
 }
-.r { /* right floated containers */
+.r,.tab-r+table { /* right floated containers */
 	margin:0 0 .7em 1em;
 	float:right;
 }
-.l { /* left floated containers */
+.l,.tab-l+table { /* left floated containers */
 	margin:0 1em .7em 0;
 	float:left;
 }
-.s { /* small; narrower image containers */
+.s,.tab-s+table { /* small; narrower image containers */
 	width:24%;
 }
 .h { /* halved image containers clear floats */
