@@ -10,12 +10,12 @@ include 'includes/class.headings-handler.php';
 # variables
 
 $unit_names	= array (
-	1  => "Communication and Employability Skills",
-	2  => "Computer Systems",
-	3  => "Information Systems",
-	6  => "Software Design & Development",
-	8  => "e-Commerce",
-	9  => "Computer Networks",
+	1 => "Communication and Employability Skills",
+	2 => "Computer Systems",
+	3 => "Information Systems",
+	6 => "Software Design and Development",
+	8 => "e-Commerce",
+	9 => "Computer Networks",
 	11 => "Systems Analysis",
 	12 => "IT Technical Support",
 	14 => "Event Driven Programming",
@@ -59,19 +59,20 @@ if ($is_given) {
 
 	}
 
-	$split	= explode(".", $_GET["a"]);
+	$split		= explode(".", $_GET["a"]);
+	$_GET["a"]	= strcmp(substr($_GET["a"], 1, 1), ".") == 0 ? "0" . $_GET["a"] : $_GET["a"];
 
 	if ($ext) {															// extra assignment page (see docs for detail)
 
-		$markdown_file = "markdown/ext/" . strtolower($_GET['a']) . ".md";
-		$word_split = explode("-", $split[1]);
+		$markdown_file	= "markdown/ext/" . strtolower($_GET['a']) . ".md";
+		$word_split		= explode("-", $split[1]);
 
-		$title = $unit_names[$split[0]] . " &ndash; Assignment " . $word_split[0] . " &ndash; Excerpt";
+		$title = $unit_names[intval($split[0])] . " &ndash; Assignment " . $word_split[0] . " &ndash; Excerpt";
 
 	} else if ($doc) {													// documentation page
 
-		$word_split = str_replace("-", " ", $split[2]);
-		$word_split = ucwords(strtolower($word_split));
+		$word_split	= str_replace("-", " ", $split[2]);
+		$word_split	= ucwords(strtolower($word_split));
 
 		$markdown_file = "doc/" . strtolower($_GET['a']) . ".md";
 		$title = "Documentation &ndash; " . $word_split;
@@ -84,7 +85,7 @@ if ($is_given) {
 	} else {															// standard assignment page
 
 		$markdown_file = "markdown/" . $_GET['a'] . ".md";
-		$title = $unit_names[$split[0]] . " &ndash; Assignment " . $split[1];
+		$title = $unit_names[intval($split[0])] . " &ndash; Assignment " . $split[1];
 
 	}
 
@@ -174,17 +175,30 @@ if ($is_given) {
 
 } else {
 
-	# no markdown name given ($_GET['a'] not set)
+	/*
+	 * No markdown name given ($_GET['a'] unset)
+	 *
+	 * The following builds a list of all of the assignments that the script can
+	 * find. At the moment, this list is in the form of an ugly HTML <ul>, but I
+	 * may make it a better formatted table at some point.
+	 *
+	 * Links without zero-padding (e.g., "/btec/6.1") are preferred to those
+	 * with (e.g., "/btec/06.1"), although both will work fine. I may make the
+	 * latter redirect to the former one day.
+	 *
+	 */
 	
 	$output .= '<h1>BTEC IT</h1>An assignment was not specified. All of the available assignments are listed below.<ul>';
 
 	foreach (glob("markdown/*.md") as $filename) {
 
-		$path_split		= explode("/", $filename);
-		$doc_split		= explode(".", end($path_split));
-		$doc_module		= $unit_names[$doc_split[0]];
+		$path_split	= explode("/", $filename);				// e.g., ["markdown", "06.1.md"]
+		$doc_split	= explode(".", end($path_split));		// e.g., ["06", "1", "md"]
+		$doc_unit	= $unit_names[intval($doc_split[0])];	// e.g., "Software Design and Development"
+		$doc_id		= strcmp(substr($doc_split[0], 0, 1), "0") == 0 ? substr($doc_split[0], 1, 1) : $doc_split[0];
+		$doc_id	   .= "." . $doc_split[1];
 
-		$output .= '<li><a href="/btec/' . substr($path_split[1], 0, -3) . '">' . $doc_module . ' &ndash; Assignment ' . $doc_split[1] . '</a></li>';
+		$output .= '<li><a href="/btec/' . $doc_id . '">' . $doc_unit . ' &ndash; Assignment ' . $doc_split[1] . '</a></li>';
 
 	}
 
@@ -193,9 +207,9 @@ if ($is_given) {
 	foreach (glob("markdown/ext/*.md") as $filename) {
 
 		$path_split		= explode("/", $filename);
-
-		preg_match("/[0-9]+/", $path_split[2], $doc_unit);
-		$doc_unit		= $unit_names[$doc_unit[0]];
+		preg_match("/[0-9]+/", $path_split[2], $doc_split);
+		$doc_unit		= $doc_split[0];
+		$doc_unit		= $unit_names[intval($doc_unit)];
 
 		preg_match("/(?<=-).*?(?=.md)/", $path_split[2], $doc_name);
 		$doc_name		= ucwords(strtolower(str_replace("-", " ", $doc_name[0])));

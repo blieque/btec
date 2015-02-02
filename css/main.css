@@ -208,7 +208,7 @@ h1+p,h2+p,h3+p,h4+p,h5+p,h6+p { /* paragraphs after headings have no top margin 
 h2 a,h3 a,h4 a,h5 a,h6 a { /* permalinks to the left of headings */
 	display:inline-block;
 	position:relative;
-	top:.18em;
+	top:-.08em;
 	width:26px;
 	height:20px;
 	background:url(../img/sprite.svg) no-repeat 0 6px;
