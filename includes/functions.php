@@ -63,7 +63,10 @@ function process_includes($markdown) {
 
 					$file_contents		= preg_replace("/(.*\n)/", "\t$1", $file_contents);							// indent each line with a tab for markdown
 
-				} else if ($include_category == "article") {
+				}
+
+				/*
+				if $include_template == "article") {
 
 					$parsedown_article	= new Parsedown();
 					$file_contents		= $parsedown_article->text($file_contents);
@@ -73,6 +76,7 @@ function process_includes($markdown) {
 					$file_contents		= "<hr><article>" . $file_contents . "</article><hr>";
 
 				}
+				*/
 
 				if ($include_extension == "html") {
 

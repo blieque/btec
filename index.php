@@ -10,12 +10,12 @@ include 'includes/class.headings-handler.php';
 # variables
 
 $unit_names	= array (
-	1 => "Communication and Employability Skills",
-	2 => "Computer Systems",
-	3 => "Information Systems",
-	6 => "Software Design and Development",
-	8 => "e-Commerce",
-	9 => "Computer Networks",
+	1  => "Communication and Employability Skills",
+	2  => "Computer Systems",
+	3  => "Information Systems",
+	6  => "Software Design and Development",
+	8  => "e-Commerce",
+	9  => "Computer Networks",
 	11 => "Systems Analysis",
 	12 => "IT Technical Support",
 	14 => "Event Driven Programming",
