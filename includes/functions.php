@@ -36,14 +36,13 @@ function process_includes($markdown) {
 
 			# process the contents, for some filetypes
 
-			$include_split		= explode(".", $include);
-			$include_directory	= explode("/", $include)[0];
+			$include_directory	= explode("/", $include)[0];	// e.g., "markdown"
+			$include_extension	= explode(".", $include);		// e.g., ["markdown/ext/06", "1-sdlc", "md"]
+			$include_extension	= end($include_extension);		// e.g., "md"
 
 			if ($include_directory == "file") {
 
-				$include_extension	= end($include_split);
 				preg_match("/(?<=file\/)(.*?)(?=\/)/", $include, $include_category);
-
 				$include_category	= $include_category[0];
 
 				if ($include_category == "code") {
@@ -63,26 +62,36 @@ function process_includes($markdown) {
 
 					$file_contents		= preg_replace("/(.*\n)/", "\t$1", $file_contents);							// indent each line with a tab for markdown
 
-				}
-
-				/*
-				if $include_template == "article") {
-
-					$parsedown_article	= new Parsedown();
-					$file_contents		= $parsedown_article->text($file_contents);
-					$file_contents		= str_replace("<!--[COL-1]-->", "<div class=\"col-1\">", $file_contents);
-					$file_contents		= str_replace("<!--[COL-2]-->", "</div><div>", $file_contents);
-					$file_contents		= $file_contents . "</div>";
-					$file_contents		= "<hr><article>" . $file_contents . "</article><hr>";
-
-				}
-				*/
-
-				if ($include_extension == "html") {
+				} else if ($include_extension == "html") {
 
 					preg_match("/<body[A-z0-9='.,:; \"]*>((?s).*?)<\/body>/", $file_contents, $file_contents);
 					$file_contents	= $file_contents[1];
 					$file_contents	= preg_replace("/[\n\r\t]*/", "", $file_contents);	// prevents markdown from converting markup to HTML entities
+
+				}
+
+			}
+
+			if ($include_extension == "md") {
+
+				preg_match("/(?<=<!--\[TEMPLATE\] )(.*?)(?= -->)/", $file_contents, $include_template);
+
+				if (isset($include_template[0])) {
+
+					$include_template	= $include_template[0];
+					echo $include_template;
+
+					$parsedown		= new Parsedown();
+					$file_contents	= $parsedown->text($file_contents);
+
+					if ($include_template == "article") {
+
+						$file_contents		= str_replace("<!--[COL-1]-->", "<div class=\"col-1\">", $file_contents);
+						$file_contents		= str_replace("<!--[COL-2]-->", "</div><div>", $file_contents);
+						$file_contents		= $file_contents . "</div>";
+						$file_contents		= "<hr><article>" . $file_contents . "</article><hr>";
+
+					}
 
 				}
 
