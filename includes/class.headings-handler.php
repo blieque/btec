@@ -1,13 +1,22 @@
 <?php
 
-/* contents:
+/**
+ * Headings Handler
  *
- * Class for processing markdown headings. The two public functions do the
+ * @author Blieque Mariguan <himself@blieque.co.uk>
+ */
+
+/*
+ * Contents:
+ *
+ * Class for processing Markdown headings. The two public functions do the
  * following:
- *  - replacement_array(): accepts an array of markdown-formatted headings and
- *      the assignment id, and returns another array of id'd, HTML headings.
- *  - contents(): accepts an array of markdown-formatted headings and returns a
- *      string holding an HTML contents list, wiki-style.
+ *
+ * - replacement_array(): accepts an array of markdown-formatted headings and
+ *   the assignment id, and returns another array of id'd, HTML headings.
+ *
+ * - contents(): accepts an array of markdown-formatted headings and returns a
+ *   string holding an HTML contents list, wiki-style.
  * 
  */
 
