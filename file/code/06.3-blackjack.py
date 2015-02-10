@@ -6,8 +6,9 @@
 # as part of an IT BTEC.
 # GPLv3 license applies
 
-import os.path
 import sys
+import platform
+import os.path
 import random
 
 def load(path):
@@ -21,13 +22,13 @@ def load(path):
             wins_split  = wins_string.split()
             wins_split  = [int(wins_split[0]), int(wins_split[1])]
             return wins_split
-            
+
         else:
             return [0, 0]
 
     except IOError:
         print(highlight(1, "Failed to open win table."))
-    
+
     except ValueError:
         print(highlight(1, "Corrupted wins table file.") +
               " Will overwrite (" +
@@ -35,7 +36,7 @@ def load(path):
               ").")
 
 def save(path, wins):
-    
+
     try:
         wins_file = open(path, "w+")
         wins_file.write(str(wins[0]) + " " + str(wins[1]))
@@ -135,17 +136,30 @@ def scoreTable(wins):
     index_of_smaller = (index_of_bigger - 1) * (index_of_bigger - 1)
     wins_str[index_of_bigger]  = highlight(5, wins_str[index_of_bigger])
     wins_str[index_of_smaller] = highlight(6, wins_str[index_of_smaller])
-    
-    print("Wins table:\n" +
-          "┌────────┬─" + col_width * "─" + "─┐\n" +
-          "│ Dealer │ " + wins_str[1]     + " │\n" +
-          "├────────┼─" + col_width * "─" + "─┤\n" +
-          "│ You    │ " + wins_str[0]     + " │\n" +
-          "└────────┴─" + col_width * "─" + "─┘" )
+
+    if not windows:
+        # unicode box-drawing
+        print("Wins table:\n" +
+              "┌────────┬─" + col_width * "─" + "─┐\n" +
+              "│ Dealer │ " + wins_str[1]     + " │\n" +
+              "├────────┼─" + col_width * "─" + "─┤\n" +
+              "│ You    │ " + wins_str[0]     + " │\n" +
+              "└────────┴─" + col_width * "─" + "─┘" )
+
+    else:
+        # dos box-drawing
+        print("Wins table:\n" +
+              "┌────────┬─" + col_width * "─" + "─┐\n" +
+              "│ Dealer │ " + wins_str[1]     + " │\n" +
+              "├────────┼─" + col_width * "─" + "─┤\n" +
+              "│ You    │ " + wins_str[0]     + " │\n" +
+              "└────────┴─" + col_width * "─" + "─┘" )
 
 def highlight(colour, string):
 
-    if sys.stdout.isatty():         # ensure colours will be supported
+    # no colours is the output is a file or similar
+    # no colours for Windows as they aren't supported
+    if sys.stdout.isatty() and not windows:
 
         colour_codes = ["\033[m",   # normal
                         "\033[31m", # red/error
@@ -165,16 +179,24 @@ def game(firstRound):
 
     # ========================== introduce the game ===========================
 
-    welcome  = "\n " + "─" * 33         # unicode box-drawing lines 
-    welcome += highlight(5, "  ╺╸ ")    # highlight bolder lines in the centre
-    welcome += highlight(1, "╺╸")
-    welcome += highlight(5, " ╺╸  ")
-    welcome += "─" * 33 + "\n\n"
+    welcome = ""
+
+    if not windows:
+        welcome  = "\n " + "─" * 33         # unicode box-drawing lines
+        welcome += highlight(5, "  ╺╸ ")    # highlight bolder lines in the centre
+        welcome += highlight(1, "╺╸")
+        welcome += highlight(5, " ╺╸  ")
+        welcome += "─" * 33 + "\n\n"
+
+    else:
+        # dos box-drawing
+        welcome  = "\n " + "─" * 33 + "   ╣ ╬ ╠   " + "─" * 33 + "\n\n"
+
     if firstRound:                      # if the game has just been launched
         welcome += "Welcome to the table"
     else:                               # if the user is playing another round
         welcome += "Welcome back"
-    print(welcome + ". Lets play.\n")   # send it out in one call
+    print(welcome + ". Let's play.\n")   # send it out in one call
 
     # ================== initialise scores, deal two cards  ===================
 
@@ -262,7 +284,7 @@ def game(firstRound):
                       ", bringing your score to " +
                       highlight(4, str(scores[0])) +
                       ".")
-                
+
                 twist_count[0] += 1
 
                 if scores[0] > 21:
@@ -281,7 +303,6 @@ def game(firstRound):
                     stuck[0] = True
                     if not stuck[1]:
                         dealer_cont = True
-            
 
         if not stuck[1] and not game_over:  # is dealer is in the game
             
@@ -320,7 +341,7 @@ def game(firstRound):
                       highlight(8, "stick") +
                       ".")
                 stuck[1] = True
-    
+
     if game_over == False:
 
         if dealer_cont:
@@ -356,13 +377,27 @@ def game(firstRound):
     else:
         print("See you next time.\n")
 
-print(highlight(4, "\n ╔" + "═" * 76 + "╗ \n ║" + " " * 16) +
-      highlight(1, "┳━┓  ┳    ┏━━┓ ┏━━┓ ┳ ┏   ╺┳ ┏━━┓ ┏━━┓ ┳ ┏ ") +
-      highlight(4, " " * 17 + "║ \n ║" + " " * 16) +
-      highlight(1, "┣━┻┓ ┃    ┣━━┫ ┃    ┣━┻┓   ┃ ┣━━┫ ┃    ┣━┻┓") +
-      highlight(4, " " * 17 + "║ \n ║" + " " * 16) +
-      highlight(1, "┻━━┛ ┻━━┛ ┻  ┻ ┗━━┛ ┻  ┻ ┗━┛ ┻  ┻ ┗━━┛ ┻  ┻") +
-      highlight(4, " " * 17 + "║ \n ╚" + "═" * 76 + "╝ "))
+windows = platform.system() == 'Windows'
+
+if not windows:
+    # unicode box-drawing
+    print(highlight(4, "\n ╔" + "═" * 76 + "╗ \n ║" + " " * 16) +
+          highlight(1, "┳━┓  ┳    ┏━━┓ ┏━━┓ ┳ ┏   ╺┳ ┏━━┓ ┏━━┓ ┳ ┏ ") +
+          highlight(4, " " * 17 + "║ \n ║" + " " * 16) +
+          highlight(1, "┣━┻┓ ┃    ┣━━┫ ┃    ┣━┻┓   ┃ ┣━━┫ ┃    ┣━┻┓") +
+          highlight(4, " " * 17 + "║ \n ║" + " " * 16) +
+          highlight(1, "┻━━┛ ┻━━┛ ┻  ┻ ┗━━┛ ┻  ┻ ┗━┛ ┻  ┻ ┗━━┛ ┻  ┻") +
+          highlight(4, " " * 17 + "║ \n ╚" + "═" * 76 + "╝ "))
+
+else:
+    # dos box-drawing
+    print("\n ╔" + "═" * 75 + "╗ \n ║" + " " * 15 +
+          "┬─┐  ┬    ┌──┐ ┌──┐ ┬ ┌    ─┬  ┌──┐ ┌──┐ ┬ ┌ " +
+          " " * 15 + "║ \n ║" + " " * 15 +
+          "├─┴┐ │    ├──┤ │    ├─┴┐    │  ├──┤ │    ├─┴┐" +
+          " " * 15 + "║ \n ║" + " " * 15 +
+          "┴──┘ ┴──┘ ┴  ┴ └──┘ ┴  ┴ └──┘  ┴  ┴ └──┘ ┴  ┴" +
+          " " * 15 + "║ \n ╚" + "═" * 75 + "╝ ")
 
 path = "blackjack-wins.txt"
 wins = load(path)
