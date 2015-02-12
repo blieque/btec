@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e86aaa7be518e64f0e384d7db2631cb5",
+    "hash": "9a7df9b98c6a47ff78cb8ab462f640c7",
     "packages": [
         {
             "name": "kzykhys/ciconia",

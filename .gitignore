@@ -1,2 +1,3 @@
 # exclude composer guff
 /vendor
+composer.phar

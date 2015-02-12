@@ -1,18 +1,32 @@
 ## Images
 
-All images are subject to the license given to them by their authors. They are used for educational purposes, and will be removed from any of the pages upon request (a request being an email to himself@blieque.co.uk, tweet to @blieque on twitter, or issue submitted on GitHub [repository](https://github.com/blieque/btec/issues)).
+All images are subject to the license given to them by their authors. They are used for educational purposes, and will be removed from any of the pages upon request (a request being an email to himself [AT] blieque.co.uk, a tweet to [@blieque](https://twitter.com/blieque) on Twitter, or an issue submitted on the GitHub [repository](https://github.com/blieque/btec/issues)).
 
-Images that I or class members have created are free of copyright. I allow anyone to use, modify, distribute (including commercially) and re-license these images, without giving any attribution. They are given without any guarantee whatsoever. Neither I nor any other class members accept any responsibility for harm caused to anything or anyone as a result of the images or their use.
+Images that I or class members have created are licensed under the [CC BY-SA 4.0 license](https://creativecommons.org/licenses/by-sa/4.0/). 
 
-## My Source Code
+## Source Code
 
-All souce code and text that I have written is provided under a GPL v3 license, detailed below.
+### Ciconia
+
+The Ciconia Markdown processor, written in PHP, is used via Composer. Ciconia is used under the terms specified in the MIT license below.
+
+Copyright (c) 2013 Kazuyuki Hayashi
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+### My Code
+
+All source code that I have written is provided under a GPL v3.0 license, detailed below.
 
 ### GNU GENERAL PUBLIC LICENSE
 
 Version 3, 29 June 2007
 
-Copyright &copy; 2007 Free Software Foundation, Inc. <http://fsf.org/>
+Copyright &copy; 2007 Free Software Foundation, Inc. <[http://fsf.org/](http://fsf.org/)>
 
 Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.
 
