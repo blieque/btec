@@ -106,7 +106,7 @@ function process_includes($markdown) {
 
 	preg_match_all("/(?<=<!--\[INCLUDE\] )[A-z0-9\-_\/.]*.[md|txt|html|vba|conf|py|c](?= -->)/", $markdown, $includes);
 
-	foreach ($includes[0] as &$include) {
+	foreach ($includes[0] as $include) {
 
 		if (file_exists($include)) {
 
@@ -118,8 +118,8 @@ function process_includes($markdown) {
 			$file_contents	= process_includes($file_contents);
 
 			# replace include line with processed file contents
-			$include		= preg_quote($include,"/");
-			$markdown		= preg_replace("/<!--\[INCLUDE\] $include -->/", $file_contents, $markdown);
+			$include_quote	= preg_quote($include,"/");
+			$markdown		= preg_replace("/<!--\[INCLUDE\] $include_quote -->/", $file_contents, $markdown);
 
 		}
 

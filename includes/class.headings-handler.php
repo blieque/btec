@@ -42,7 +42,7 @@ class HeadingsHandler {
 
 		$output				= array();
 
-		foreach ($headings as &$heading) {
+		foreach ($headings as $heading) {
 			
 			preg_match("/[#]+/", $heading, $hashes);							// isolate hashes at the beginning
 			$heading_level	= strlen($hashes[0]);								// number of hashes -> size of heading

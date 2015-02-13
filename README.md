@@ -1,5 +1,7 @@
 # BTEC IT
 
+<!-- [![Build Status](https://api.travis-ci.org/blieque/btec.svg?branch=master)](https://travis-ci.org/blieque/btec) *<sup><sup>I have no idea what I'm doing</sup></sup>* -->
+
 This is just an easier way for me to manage my college assignments for an IT BTEC course. Feel free to [have a read](https://edu.blieque.co.uk/btec/) if you like. :smile:
 
 ## License

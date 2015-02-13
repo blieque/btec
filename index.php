@@ -35,7 +35,6 @@ $unit_names	= array (
 $is_given	= isset($_GET['a']);									// has an assignment or doc name been given?
 $output		= '<!DOCTYPE html><html><head><title>';
 
-
 # script
 
 if ($is_given) {
@@ -117,18 +116,12 @@ if ($is_given) {
 
 		# downscale headings by one level
 
-		/* This isn't as neat as using preg_replace(), but it is better for
-		 * performance. */
+		$markdown	= "\n" . $markdown;										// makes everything easier
+		$markdown	= str_replace("\n#", "\n##", $markdown);
 
-		if (substr($markdown, 0, 1) == '#') {								// downscale first heading if it's the first line
-			$markdown		= '#' . $markdown;
-		}
+		# find markdown heading lines
 
-		$markdown			= str_replace("\n#", "\n##", $markdown);
-
-		# find markdown header lines
-
-		preg_match_all('/[#]{2,6} .*/', $markdown, $heading_lines);
+		preg_match_all('/\n[#]{2,6} .*/', $markdown, $heading_lines);
 
 		# id headings and contents list
 
@@ -242,8 +235,20 @@ $output = str_replace(
 
 # add ext class to external anchors
 
-$prefix_quote	= preg_quote($prefix_full, '/');
-$output			= preg_replace('/<a href="(?!=$prefix_quote|#)/', '<a class="ext" href="', $output);
+$prefix_full	= preg_quote($prefix_full, "/");
+preg_match_all("/<a href=\"(?=$prefix_full)/", $output, $anchors);
+$anchors		= $anchors[0];
+
+foreach ($anchors as $anchor) {
+
+	if (strcmp(substr($anchor, 9, strlen($prefix_full)), $prefix_full) == 0) {
+
+		$anchor_new	= str_replace('href', 'class="ext" href', $anchor);
+		$output		= str_replace($anchor, $anchor_new, $output);
+
+	}
+
+}
 
 # un-escape escaped characters (hello /r/shittyprogramming)
 
