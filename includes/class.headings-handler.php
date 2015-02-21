@@ -22,7 +22,7 @@
 
 class HeadingsHandler {
 
-	private function index_headings($headings) {
+	private static function index_headings($headings) {
 
 		/*
 		 * This function accepts a list of headings in markdown formatting.
@@ -77,7 +77,7 @@ class HeadingsHandler {
 
 	}
 
-	public function replacement_array($headings, $assignment_id) {
+	public static function replacement_array($headings, $assignment_id) {
 
 		/*
 		 * This function formats markdown headings as HTML, IDing them in the
@@ -94,7 +94,7 @@ class HeadingsHandler {
 		 */
 
 		$output	= array();
-		$index_of_headings	= $this->index_headings($headings);
+		$index_of_headings	= HeadingsHandler::index_headings($headings);
 
 		for ($i = 0; $i < count($index_of_headings); $i++) {
 
@@ -110,7 +110,7 @@ class HeadingsHandler {
 
 	}
 
-	public function contents($headings) {
+	public static function contents($headings) {
 
 		/*
 		 * This function generates an HTML-formatted, un-ordered (although in
@@ -127,7 +127,7 @@ class HeadingsHandler {
 
 		}
 
-		$index_of_headings	= $this->index_headings($headings);
+		$index_of_headings	= HeadingsHandler::index_headings($headings);
 		$output				= "<h6>Contents</h6><ul><li>";
 
 		$heading_level_prev	= 1;

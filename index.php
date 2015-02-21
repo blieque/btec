@@ -125,8 +125,7 @@ if ($is_given) {
 
 		# id headings and contents list
 
-		$headings_handler	= new HeadingsHandler();
-		$replacements		= $headings_handler->replacement_array($heading_lines[0], $_GET['a']);
+		$replacements		= HeadingsHandler::replacement_array($heading_lines[0], $_GET['a']);
 
 		/* 
 		 * Below, I had to use a for loop to replace the markdown headings with
@@ -149,7 +148,7 @@ if ($is_given) {
 
 		}
 
-		$contents 			= $headings_handler->contents($heading_lines[0]);
+		$contents 			= HeadingsHandler::contents($heading_lines[0]);
 		if ($contents != 1) {
 			$output			= preg_replace('/(?<=<\/head><body>)(?=<section>)/', '<aside>' . $contents . '</aside>', $output);
 		}
