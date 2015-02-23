@@ -342,7 +342,7 @@ def game(firstRound):
                       ".")
                 stuck[1] = True
 
-    if game_over == False:
+    if not game_over:
 
         if dealer_cont:
             print("")
