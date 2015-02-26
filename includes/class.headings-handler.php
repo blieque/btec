@@ -37,10 +37,9 @@ class HeadingsHandler {
 		 *
 		 */
 		
-		$index				= array(0);		// keeps track of position in headings
-		$heading_level_prev	= 2;											// headings will never be bigger than h2
-
-		$output				= array();
+		$heading_level_prev	= 2;	// headings will never be bigger than h2
+		$index	= array(0);			// keeps track of position in headings
+		$output	= array();
 
 		foreach ($headings as $heading) {
 			
@@ -53,11 +52,23 @@ class HeadingsHandler {
 
 			} else if ($heading_level < $heading_level_prev) {					// if heading is bigger than the previous
 
-				for ($i = $heading_level; $i < $heading_level_prev + 1; $i++) {
+				// for ($i = $heading_level; $i < $heading_level_prev + 1; $i++) {
+
+				// 	unset($index[$i - 2]);
+
+				// }
+
+				var_dump($heading_level);
+				var_dump($heading_level_prev);
+				var_dump($index);
+
+				for ($i = $heading_level_prev; $i > $heading_level; $i--) {
 
 					unset($index[$i - 1]);
 
 				}
+
+				var_dump($index);
 
 				$index[$heading_level - 2]++;
 
