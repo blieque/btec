@@ -73,6 +73,8 @@ section>:last-child { /* last element in wrapper */
 aside {
 	padding:8px;
 	width:320px;
+	max-height:calc(100% - 5em);
+	overflow-y:scroll;
 	position:fixed;
 	top:3em;
 	left:calc(50% - 550px);

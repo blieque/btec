@@ -38,48 +38,35 @@ class HeadingsHandler {
 		 */
 		
 		$heading_level_prev	= 2;	// headings will never be bigger than h2
-		$index	= array(0);			// keeps track of position in headings
-		$output	= array();
+		$index	= [0];				// keeps track of position in headings
+		$output	= [];
 
 		foreach ($headings as $heading) {
-			
-			preg_match("/[#]+/", $heading, $hashes);							// isolate hashes at the beginning
-			$heading_level	= strlen($hashes[0]);								// number of hashes -> size of heading
 
-			if ($heading_level > $heading_level_prev) {							// if heading is smaller than the previous
+			// isolate hashes at the beginning
+			preg_match("/[#]+/", $heading, $hashes);
+			// number of hashes = size of heading
+			// more hashes -> smaller heading, and vice versa
+			$heading_level	= strlen($hashes[0]);
+
+			// child heading
+			if ($heading_level > $heading_level_prev) {
 
 				array_push($index, 1);
 
-			} else if ($heading_level < $heading_level_prev) {					// if heading is bigger than the previous
-
-				// for ($i = $heading_level; $i < $heading_level_prev + 1; $i++) {
-
-				// 	unset($index[$i - 2]);
-
-				// }
-
-				var_dump($heading_level);
-				var_dump($heading_level_prev);
-				var_dump($index);
-
-				for ($i = $heading_level_prev; $i > $heading_level; $i--) {
-
-					unset($index[$i - 1]);
-
+			// ancestor or sibling heading
+			} else {
+				
+				// ancestors only
+				if ($heading_level_prev > $heading_level) {
+					array_splice($index, $heading_level - 1);
 				}
 
-				var_dump($index);
-
-				$index[$heading_level - 2]++;
-
-			} else {															// if heading is the same size as the previous
-
-				$index[$heading_level - 2]++;
+				$index[count($index) - 1]++;
 
 			}
 
-			$heading_level_prev	= $heading_level;								// update last level variable
-
+			$heading_level_prev	= $heading_level;
 			array_push($output, $index);
 
 		}
@@ -109,10 +96,12 @@ class HeadingsHandler {
 
 		for ($i = 0; $i < count($index_of_headings); $i++) {
 
-			$heading_id		= implode(".", $index_of_headings[$i]);
+			$heading_id		= implode('.', $index_of_headings[$i]);
 			$heading_level	= count($index_of_headings[$i]) + 1;
 
-			$heading_new	= preg_replace("/[#]+ (.*)/", "<h$heading_level id=\"$heading_id\"><a href=\"#$heading_id\" title=\"permalink\"></a>$1</h$heading_level>", $headings[$i]);
+			$heading_new	= preg_replace('/[#]+ (.*)/', "<h$heading_level " .
+				"id=\"$heading_id\"><a href=\"#$heading_id\" " .
+				"title=\"permalink\"></a>$1</h$heading_level>", $headings[$i]);
 			array_push($output, $heading_new);
 
 		}
@@ -134,7 +123,7 @@ class HeadingsHandler {
 
 		if (count($headings) < 1) {
 
-			return 1;															// abandon ship if no headings have been supplied.
+			return 1; // abandon ship if no headings have been supplied.
 
 		}
 
@@ -148,25 +137,24 @@ class HeadingsHandler {
 			$heading_level	= count($index_of_headings[$i]);
 			$heading_text	= preg_replace("/[#]+ /", "", $headings[$i], 1);
 
-			if ($i > 0) {														// we don't want to add a divider on the first round
+			if ($i > 0) { // we don't want to add a divider on the first round
 
-				if ($heading_level > $heading_level_prev) {							// if heading is smaller than the previous
+				// child heading
+				if ($heading_level > $heading_level_prev) {
 
-					$output		   .= "<ul><li>";
+					$output		   .= '<ul><li>';
 
-				} else if ($heading_level < $heading_level_prev) {					// if heading is bigger than the previous
+				// ancestor heading
+				} else if ($heading_level_prev > $heading_level) {
 
-					for ($j = $heading_level; $j < $heading_level_prev; $j++) {
+					$difference = $heading_level_prev - $heading_level;
+					$output	.= str_repeat('</li></ul></li>', $difference);
+					$output	.= '<li>';
 
-						$output		   .= "</li></ul></li>";
+				// sibling heading
+				} else {
 
-					}
-
-					$output		   .= "<li>";
-
-				} else {															// if heading is the same size as the previous
-
-					$output 	   .= "</li><li>";
+					$output	.= '</li><li>';
 
 				}
 
@@ -174,20 +162,20 @@ class HeadingsHandler {
 
 			}
 
-			$bold	= "";
+			$bold	= '';
 
-			if (preg_match("/\[[P|M|D][0-9]\]/", $headings[$i])) {
+			if (preg_match('/\[[P|M|D][0-9]\]/', $headings[$i])) {
 				
-				$bold	= " class=\"b\"";
+				$bold	= ' class="b"';
 
 			}
 
-			$index		= implode(".", $index_of_headings[$i]);
+			$index		= implode('.', $index_of_headings[$i]);
 			$output    .= "<a href=\"#$index\"$bold>$index: $heading_text</a>";
 
 		}
 
-		$output	    .= str_repeat("</li></ul>", $heading_level_prev);
+		$output	    .= str_repeat('</li></ul>', $heading_level_prev);
 
 		return $output;
 
