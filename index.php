@@ -158,7 +158,8 @@ if ($is_given) {
 
 		# id headings and contents list
 
-		$replacements = HeadingsHandler::replacement_array($heading_lines[0], $_GET['a']);
+		$replacements =
+			HeadingsHandler::replacement_array($heading_lines[0], $_GET['a']);
 
 		/* 
 		 * Below, I had to use a for loop to replace the markdown headings with
