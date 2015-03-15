@@ -8,29 +8,53 @@ require __DIR__ . '/vendor/autoload.php';
 
 # variables
 
-$unit_names = array (
-	1  => 'Communication and Employability Skills',
-	2  => 'Computer Systems',
-	3  => 'Information Systems',
-	6  => 'Software Design and Development',
-	8  => 'e-Commerce',
-	9  => 'Computer Networks',
-	11 => 'Systems Analysis',
+$unit_names = array(
+	# "mandatory units"
+	1 => 'Communication and Employability Skills',
+	2 => 'Computer Systems',
+	# "optional units"
+	3 => 'Information Systems',
+	4 => 'Impact of the Use of IT on Business Systems',
+	5 => 'Managing Networks',
+	6 => 'Software Design and Development',
+	7 => 'Organisational Systems Security',
+	8 => 'e-Commerce',
+	9 => 'Computer Networks',
+	10 => 'Communication Technologies',
+	11 => 'Systems Analysis and Design',
 	12 => 'IT Technical Support',
+	13 => 'IT Systems Troubleshooting and Repair',
 	14 => 'Event Driven Programming',
+	15 => 'Object Oriented Programming',
 	16 => 'Procedural Programming',
+	17 => 'Project Planning with IT',
 	18 => 'Database Design',
 	19 => 'Computer Systems Architecture',
-	20 => 'Client-Side Customisation of Web Pages',
+	20 => 'Client Side Customisation of Web Pages',
+	21 => 'Data Analysis and Design',
 	22 => 'Developing Computer Games',
+	23 => 'Human Computer Interaction',
+	24 => 'Controlling Systems Using IT',
+	25 => 'Maintaining Computer Systems',
+	26 => 'Mathematics for IT Practitioners',
 	27 => 'Web Server Scripting',
 	28 => 'Website Production',
 	29 => 'Installing and Upgrading Software',
 	30 => 'Digital Graphics',
 	31 => 'Computer Animation',
 	32 => 'Networked Systems Security',
+	33 => 'Supporting Business Activity',
+	34 => 'Business Resources',
+	# "specialist optional units"
+	35 => 'Digital Graphics for Interactive Media',
+	36 => 'Computer Game Platforms and Technologies',
+	37 => '2D Animation Production',
+	38 => 'Interactive Media Authoring',
+	39 => 'Web Animation for Interactive Media',
+	40 => 'Computer Game Design',
 	41 => '3D Modelling',
-	42 => 'Spreadsheet Modelling'
+	42 => 'Spreadsheet Modelling',
+	43 => 'Multimedia Design'
 );
 
 $is_given = isset($_GET['a']); // has an assignment or doc name been given?
