@@ -158,18 +158,18 @@ function process_includes($markdown) {
 function new_gfm() {
 
 	$ciconia = new \Ciconia\Ciconia();
-	$ciconia->
-		addExtension(new \Ciconia\Extension\Gfm\FencedCodeBlockExtension());
-	$ciconia->
-		addExtension(new \Ciconia\Extension\Gfm\TaskListExtension());
-	$ciconia->
-		addExtension(new \Ciconia\Extension\Gfm\InlineStyleExtension());
-	$ciconia->
-		addExtension(new \Ciconia\Extension\Gfm\WhiteSpaceExtension());
-	$ciconia->
-		addExtension(new \Ciconia\Extension\Gfm\TableExtension());
-	$ciconia->
-		addExtension(new \Ciconia\Extension\Gfm\UrlAutoLinkExtension());
+	$ciconia->addExtension(
+		new \Ciconia\Extension\Gfm\FencedCodeBlockExtension());
+	$ciconia->addExtension(
+		new \Ciconia\Extension\Gfm\TaskListExtension());
+	$ciconia->addExtension(
+		new \Ciconia\Extension\Gfm\InlineStyleExtension());
+	$ciconia->addExtension(
+		new \Ciconia\Extension\Gfm\WhiteSpaceExtension());
+	$ciconia->addExtension(
+		new \Ciconia\Extension\Gfm\TableExtension());
+	$ciconia->addExtension(
+		new \Ciconia\Extension\Gfm\UrlAutoLinkExtension());
 
 	return $ciconia;
 
