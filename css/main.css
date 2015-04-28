@@ -38,6 +38,25 @@
 	unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2212,U+2215,U+E0FF,U+EFFD,U+F000;
 }
 
+/* multi-selectors */
+p:not(:only-child):last-child,
+blockquote :last-child,
+.tl>ul>li:last-child p,
+section>:last-child,
+article p:last-child { /* last element in certain sections */
+	margin-bottom:0;
+}
+h1,
+aside h6,
+blockquote,
+code,
+pre,
+.i,
+.n,
+.p-title { /* grey background for all sorts */
+	background:#eee!important;
+}
+
 /* styling */
 body { /* u-a styles overriding,text */
 	margin:1.8em 0;
@@ -45,18 +64,17 @@ body { /* u-a styles overriding,text */
 	font-size:105%;
 	line-height:135%;
 }
-section,aside { /* main wrapper */
+section,
+aside { /* main wrapper */
 	margin:0 auto;
 	padding:32px;
-	width:60%;
-	max-width:800px;
+	width:800px;
 	position:relative;
 	left:0;
 	background:#fff;
 	border:solid 1px #ccc;
 	border-radius:2px;
-	-webkit-transition:all ease .2s;
-	transition:all ease .2s;
+	transition:all .2s;
 	box-shadow:0 1px 2px 2px rgba(0,0,0,.08);
 }
 section {
@@ -66,9 +84,6 @@ section:after { /* wrapper clearfix up in here */
 	content:"";
 	display:block;
 	clear:both;
-}
-section>:last-child { /* last element in wrapper */
-	margin-bottom:0;
 }
 aside {
 	padding:8px;
@@ -84,7 +99,6 @@ aside {
 aside h6 {
 	margin:-8px -8px 8px;
 	padding:8px;
-	background:#eee;
 	border-bottom:solid 1px #ccc;
 }
 aside>ul {
@@ -95,7 +109,8 @@ aside li>ul {
 	margin:2px 0 4px;
 	padding-left:16px;
 }
-aside ul,aside li {
+aside ul,
+aside li {
 	list-style:none;
 	margin-bottom:3px;
 }
@@ -125,7 +140,6 @@ h1 { /* real big headings (sod html5 user-agent styles) */
 	display:block;
 	margin:-32px -32px 32px;
 	padding:32px 32px;
-	background:#eee;
 	border-bottom:solid 1px #ccc;
 	font-size:28pt;
 }
@@ -167,20 +181,22 @@ h2 a,h3 a,h4 a,h5 a,h6 a { /* permalinks to the left of headings */
 	margin:0 0 -2px -26px;
 	opacity:0;
 }
-h2:hover a,h3:hover a,h4:hover a,h5:hover a,h6:hover a { /* permalinks visible when their heading is hovered over */
+h2:hover a,
+h3:hover a,
+h4:hover a,
+h5:hover a,
+h6:hover a { /* permalinks visible when their heading is hovered over */
 	opacity:.3;
 }
-h2 a:hover,h3 a:hover,h4 a:hover,h5 a:hover,h6 a:hover { /* darker on direct hover */
+h2 a:hover,
+h3 a:hover,
+h4 a:hover,
+h5 a:hover,
+h6 a:hover { /* darker on direct hover */
 	opacity:.8;
 }
 p:not(:only-child):first-child {
 	margin-top:0;
-}
-p:not(:only-child):last-child {
-	margin-bottom:0;
-}
-pre,code,.i { /* grey background for code and image captions */
-	background:#eee;
 }
 pre,code { /* monospace font and grey border for code */
 	border:solid 1px #ccc;
@@ -206,16 +222,13 @@ pre code { /* code in big blocks */
 blockquote { /* aids positioning of quotation mark */
 	margin:16px 0;
 	padding:24px 32px 0;
-	background:#eee;
 	overflow:hidden;
 }
 blockquote :first-child {
 	margin-top:0;
 }
-blockquote :last-child {
-	margin-bottom:0;
-}
-blockquote:before,blockquote:after {  /* quotation marks */
+blockquote:before,
+blockquote:after {  /* quotation marks */
 	display:block;
 	width:100%;
 	font-weight:bold;
@@ -292,7 +305,8 @@ div+.i { /* image containers following divs */
 	font-size:80%;
 	line-height:110%;
 }
-.i img,.a>div:first-child { /* actual image */
+.i img,
+.a>div:first-child { /* actual image */
 	margin:-16px -16px 12px;
 	width:calc(100% + 32px);
 	background:#fff;
@@ -363,7 +377,6 @@ div+.i { /* image containers following divs */
 	border-radius:2px;
 }
 .n { /* notes */
-	background:#eee;
 	box-shadow:0 0 0 1px #ccc;
 	font-style:italic;
 }
@@ -401,9 +414,6 @@ a.ext:after { /* add external link svg thingy */
 .tl>ul>li:first-child p {
 	margin-top:0;
 }
-.tl>ul>li:last-child p {
-	margin-bottom:0;
-}
 .tl>ul>li>p>span {
 	display:inline-block;
 	margin-left:-5em;
@@ -421,7 +431,7 @@ a.ext:after { /* add external link svg thingy */
 	height:12px;
 	background:#fff;
 	border:2px solid #666;
-	-webkit-border-radius:7px;
+	-webkit-border-radius:8px;
 	border-radius:8px;
 	z-index:2;
 }
@@ -434,13 +444,17 @@ article { /* embedded news/magazine articles */
 	font-family:droid serif,serif;
 	font-size:90%;
 }
-article h1,article h2,article h3,article h4,article h5 { /* headings in montserrat (if installed)  */
+article h1,
+article h2,
+article h3,
+article h4,
+article h5 { /* headings in montserrat (if installed)  */
 	margin:0;
 	padding:0;
 	color:#222;
 	background:none;
 	border:none;
-	font-family:montserrat,helvetica neue,sans-serif;
+	font-family:montserrat,helvetica neue,segoe ui,sans-serif;
 	line-height:1.3;
 }
 article h1 span {
@@ -480,4 +494,81 @@ article p:first-child {
 }
 article p:last-child {
 	margin-bottom:0;
+}
+
+/* presentations */
+.p {
+	margin:1em -4px;
+	/*padding:4px;*/
+	position:relative;
+	height:506px;
+	background-color:#242424;
+	border:4px solid #242424;
+	overflow:hidden;
+}
+.p>nav {
+	text-align:center;
+}
+.p>nav a {
+	height:36px;
+	padding:10px;
+	cursor:pointer;
+}
+.p>nav a:first-child {
+	float:left;	
+}
+.p>nav a:last-child {
+	float:right;	
+}
+.p>nav svg {
+	stroke:#fff;
+	stroke-width:4px;
+	stroke-linecap:square;
+	fill:transparent;
+	transition:all .1s;
+}
+.p>nav a:hover svg {
+	stroke-width:6px;
+}
+.p>nav>span {
+	display:inline-block;
+	margin:14px auto;
+	font-size:16pt;
+	letter-spacing:2px;
+	color:#fff;
+}
+.p>nav>span>span {
+	position:relative;
+	top:2px;
+}
+.p>div {
+	position:absolute;
+	padding:1em;
+	top:60px;
+	left:0px;
+	width:800px;
+	height:450px;
+	box-sizing:border-box;
+	background:#fff;
+	font-size:16pt;
+	line-height:1.4;
+	transition:all .4s;
+}
+.p>div:not(:first-of-type) {
+	left:804px;
+}
+.p li {
+	margin:.5em 0;
+}
+.p h1 {
+	margin:-.5em -.5em .5em -.5em;
+	padding:.5em;
+	font-size:32pt;
+	border:none;
+}
+.p-title h1 {
+	margin:.8em 0 0;
+	text-align:center;
+	font-size:60pt;
+	font-family:montserrat,helvetica neue,segoe ui,sans-serif;
 }
