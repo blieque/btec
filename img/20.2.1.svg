@@ -2,15 +2,15 @@
 <!-- Generator: Adobe Illustrator 16.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="800px" height="275px" viewBox="0 0 800 275" enable-background="new 0 0 800 275" xml:space="preserve">
+	 width="800px" height="195px" viewBox="0 0 800 195" enable-background="new 0 0 800 195" xml:space="preserve">
 <g>
 	<rect x="341" y="1" fill="#FFFFFF" width="118" height="58"/>
 	<path d="M458,2v56H342V2H458 M460,0H340v60h120V0L460,0z"/>
 </g>
-<text transform="matrix(1 0 0 1 361.5132 33.6177)" font-family="'Consolas'" font-size="14">index.html</text>
+<text transform="matrix(1 0 0 1 361.5134 33.6172)" font-family="'Consolas'" font-size="14">index.html</text>
 <g>
 	<g>
-		<line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="400" y1="60" x2="400" y2="112.824"/>
+		<rect x="399" y="60" width="2" height="52.824"/>
 		<g>
 			<polygon points="395.014,111.365 399.999,120 404.986,111.365 			"/>
 		</g>
@@ -20,30 +20,30 @@
 	<rect x="341" y="121" fill="#FFFFFF" width="118" height="58"/>
 	<path d="M458,122v56H342v-56H458 M460,120H340v60h120V120L460,120z"/>
 </g>
-<text transform="matrix(1 0 0 1 380.7563 153.6177)" font-family="'Consolas'" font-size="14">/blog</text>
+<text transform="matrix(1 0 0 1 349.9675 153.6172)" font-family="'Consolas'" font-size="14">/3-speed.html</text>
 <g>
 	<rect x="1" y="121" fill="#FFFFFF" width="118" height="58"/>
 	<path d="M118,122v56H2v-56H118 M120,120H0v60h120V120L120,120z"/>
 </g>
-<text transform="matrix(1 0 0 1 29.2104 153.6177)" font-family="'Consolas'" font-size="14">/gallery</text>
+<text transform="matrix(1 0 0 1 33.0593 153.6172)" font-family="'Consolas'" font-size="14">/2.html</text>
 <g>
 	<rect x="171" y="121" fill="#FFFFFF" width="118" height="58"/>
 	<path d="M288,122v56H172v-56H288 M290,120H170v60h120V120L290,120z"/>
 </g>
-<text transform="matrix(1 0 0 1 210.7563 153.6177)" font-family="'Consolas'" font-size="14">/shop</text>
+<text transform="matrix(1 0 0 1 203.0593 153.6172)" font-family="'Consolas'" font-size="14">/3.html</text>
 <g>
 	<rect x="681" y="121" fill="#FFFFFF" width="118" height="58"/>
 	<path d="M798,122v56H682v-56H798 M800,120H680v60h120V120L800,120z"/>
 </g>
-<text transform="matrix(1 0 0 1 689.9668 153.6177)" font-family="'Consolas'" font-size="14">/get-in-touch</text>
+<text transform="matrix(1 0 0 1 690.864 153.6172)" enable-background="new    "><tspan x="0" y="0" font-family="'Consolas'" font-size="14">/3-original</tspan><tspan x="84.67" y="0" font-family="'Consolas'" font-size="14" letter-spacing="-3">...</tspan></text>
 <g>
 	<rect x="511" y="121" fill="#FFFFFF" width="118" height="58"/>
 	<path d="M628,122v56H512v-56H628 M630,120H510v60h120V120L630,120z"/>
 </g>
-<text transform="matrix(1 0 0 1 535.3613 153.6177)" font-family="'Consolas'" font-size="14">/about-me</text>
+<text transform="matrix(1 0 0 1 523.8162 153.6172)" font-family="'Consolas'" font-size="14">/3-mini.html</text>
 <g>
 	<g>
-		<polyline fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" points="400,90 230,90 230,112.824 		"/>
+		<polygon points="231,112.824 229,112.824 229,89 400,89 400,91 231,91 		"/>
 		<g>
 			<polygon points="225.014,111.365 229.999,120 234.985,111.365 			"/>
 		</g>
@@ -51,7 +51,7 @@
 </g>
 <g>
 	<g>
-		<polyline fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" points="230,90 60,90 60,112.824 		"/>
+		<polygon points="61,112.824 59,112.824 59,89 230,89 230,91 61,91 		"/>
 		<g>
 			<polygon points="55.014,111.365 60,120 64.986,111.365 			"/>
 		</g>
@@ -59,7 +59,7 @@
 </g>
 <g>
 	<g>
-		<polyline fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" points="400,90 570,90 570,112.824 		"/>
+		<polygon points="571,112.824 569,112.824 569,91 400,91 400,89 571,89 		"/>
 		<g>
 			<polygon points="565.014,111.365 570,120 574.986,111.365 			"/>
 		</g>
@@ -67,59 +67,54 @@
 </g>
 <g>
 	<g>
-		<polyline fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" points="569.999,90 739.999,90 740,112.824 		"/>
+		<polygon points="741,112.824 739,112.824 739,91 570,91 570,89 741,89 		"/>
 		<g>
 			<polygon points="735.014,111.365 740,120 744.985,111.365 			"/>
 		</g>
 	</g>
 </g>
 <g>
+	<rect x="510" y="6" fill="#FFFFFF" width="96" height="48"/>
+	<path d="M604,8v44h-92V8H604 M606,6h-96v48h96V6L606,6z"/>
+</g>
+<text transform="matrix(1 0 0 1 527.2107 33.6172)" font-family="'Consolas'" font-size="14">/assets/</text>
+<g>
+	<rect x="460" y="29" width="42.824" height="2"/>
 	<g>
-		<polyline fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" points="230,180 230,200 286,200 286,212.824 		
-			"/>
-		<g>
-			<polygon points="281.014,211.365 285.999,220 290.985,211.365 			"/>
-		</g>
-	</g>
-</g>
-<text transform="matrix(1 0 0 1 152.832 243.6177)" font-family="'Consolas'" font-size="11">/basket</text>
-<g>
-	<path d="M212,222v36h-76v-36H212 M214,220h-80v40h80V220L214,220z"/>
-</g>
-<text transform="matrix(1 0 0 1 264.832 243.6177)"><tspan x="0" y="0" font-family="'Consolas'" font-size="11">/item?</tspan><tspan x="36.287" y="0" font-family="'Consolas-Italic'" font-size="11">x</tspan></text>
-<g>
-	<path d="M324,222v36h-76v-36H324 M326,220h-80v40h80V220L326,220z"/>
-</g>
-<g>
-	<g>
-		<polyline fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" points="230,200 174,200 174,212.824 		"/>
-		<g>
-			<polygon points="169.014,211.365 174,220 178.986,211.365 			"/>
-		</g>
+		<polygon points="501.365,34.986 510,30 501.365,25.014 		"/>
 	</g>
 </g>
 <g>
-	<g>
-		<polyline fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" points="400,200 520,200 520,212.824 		"/>
-		<g>
-			<polygon points="515.014,211.365 520,220 524.986,211.365 			"/>
-		</g>
-	</g>
+	<rect x="646" fill="#FFFFFF" width="52" height="26"/>
+	<path d="M696,2v22h-48V2H696 M698,0h-52v26h52V0L698,0z"/>
 </g>
-<text transform="matrix(1 0 0 1 375.8086 243.6177)"><tspan x="0" y="0" font-family="'Consolas'" font-size="11">/tag?</tspan><tspan x="30.239" y="0" font-family="'Consolas-Italic'" font-size="11">tag</tspan></text>
 <g>
-	<path d="M438,222v36h-76v-36H438 M440,220h-80v40h80V220L440,220z"/>
-</g>
-<text transform="matrix(1 0 0 1 486.7363 243.6177)"><tspan x="0" y="0" font-family="'Consolas'" font-size="11">/</tspan><tspan x="6.049" y="0" font-family="'Consolas-Italic'" font-size="11">date</tspan><tspan x="30.24" y="0" font-family="'Consolas'" font-size="11">/</tspan><tspan x="36.287" y="0" font-family="'Consolas-Italic'" font-size="11">title</tspan></text>
-<g>
+	<rect x="606" y="12" width="32.824" height="2"/>
 	<g>
-		<line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="400" y1="180" x2="400" y2="212.824"/>
-		<g>
-			<polygon points="395.014,211.365 400,220 404.986,211.365 			"/>
-		</g>
+		<polygon points="637.365,17.986 646,13 637.365,8.014 		"/>
 	</g>
 </g>
 <g>
-	<path d="M566,222v36h-92v-36H566 M568,220h-96v40h96V220L568,220z"/>
+	<rect x="646" y="34" fill="#FFFFFF" width="52" height="26"/>
+	<path d="M696,36v22h-48V36H696 M698,34h-52v26h52V34L698,34z"/>
 </g>
+<g>
+	<rect x="606" y="46" width="32.824" height="2"/>
+	<g>
+		<polygon points="637.365,51.986 646,47 637.365,42.014 		"/>
+	</g>
+</g>
+<g>
+	<rect x="606" y="29" width="104.824" height="2"/>
+	<g>
+		<polygon points="709.365,34.986 718,30 709.365,25.014 		"/>
+	</g>
+</g>
+<g>
+	<rect x="718" y="17" fill="#FFFFFF" width="52" height="26"/>
+	<path d="M768,19v22h-48V19H768 M770,17h-52v26h52V17L770,17z"/>
+</g>
+<text transform="matrix(1 0 0 1 659.9041 15.8428)" font-family="'Consolas'" font-size="11">img/</text>
+<text transform="matrix(1 0 0 1 662.9275 49.8428)" font-family="'Consolas'" font-size="11">js/</text>
+<text transform="matrix(1 0 0 1 731.9041 32.8428)" font-family="'Consolas'" font-size="11">css/</text>
 </svg>
