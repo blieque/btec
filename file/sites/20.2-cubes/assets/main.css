@@ -1,0 +1,132 @@
+/* main layout elements */
+body { /* change user-agent styles */
+	margin:0;
+	font-family:myriad pro,segoe ui,helvetica neue,sans-serif;
+	line-height:150%;
+}
+header nav,section { /* centre content and top navigation */
+	margin:0 auto;
+	width:60%;
+	min-width:1060px;
+}
+header { /* navigation container */
+	background:#69af98;
+}
+
+/* top navigation */
+nav a { /* page links */
+	display:inline-block;
+	padding:1.2em 1.6em;
+	color:#fff;
+	text-decoration:none;
+	box-shadow:inset 0 0 0 0 rgba(255,255,255,.16);
+	transition:.16s;
+}
+nav a.active { /* highlight current page's link */
+	background:rgba(255,255,255,.04);
+	box-shadow:inset 0 0 0 .4em rgba(255,255,255,.12);
+}
+nav a:hover { /* hover effect (light inner border) */
+	background:rgba(255,255,255,.08);
+	box-shadow:inset 0 0 0 .6em rgba(255,255,255,.16);
+}
+
+/* full-size images */
+section .img { /* image containers */
+	margin:0 0 1.6em 1.6em;
+	position:relative;
+	float:right;
+	height:500px;
+	overflow:hidden;
+	border-radius:.4em;
+}
+section .img:after { /* tooltip */
+	content:attr(data-tooltip);
+	display:inline-block;
+	padding:.4em;
+	width:500px;
+	height:34px;
+	box-sizing:border-box;
+	position:absolute;
+	top:500px;
+	left:0;
+	text-align:center;
+	color:#fff;
+	background:rgba(0,0,0,.7);
+	transition:1s .16s;
+}
+section .img:hover:after { /* hover effect (reveal tooltip)  */
+	top:466px;
+	transition:.16s;
+}
+
+/* contact form */
+input,textarea { /* common styles for all form elements used */
+	display:inline-block;
+	padding:.8em;
+	background:#ddd;
+	border-radius:.8em;
+	border:none;
+	box-shadow:inset 0 0 0 2px #ddd;
+	box-sizing:border-box;
+	overflow:hidden;
+	transition:.16s;
+}
+input { /* just less than 50% in width */
+	width:calc(50% - .5em);
+}
+input:first-child { /* space between name and email inputs */
+	margin-right:1em;
+}
+input:focus,textarea:focus { /* styles when input field in use */
+	background:#fafafa;
+}
+input[type="submit"] { /* submit button */
+	margin:0 auto 2em;
+	display:block;
+	width:20%;
+	min-width:100px;
+	background:#69af98;
+	box-shadow:none;
+	color:#fff;
+	box-shadow:inset 0 0 0 0 rgba(255,255,255,.16);
+	transition:.16s;
+}
+input[type="submit"]:hover { /* submit button hover state */
+	cursor:pointer;
+	box-shadow:inset 0 0 0 .4em rgba(255,255,255,.16);
+}
+textarea { /* full-width field */
+	margin:1em 0;
+	width:100%;
+	min-height:100px;
+	font-size:12pt;
+	font-family:inherit;
+	resize:vertical;
+}
+
+/* home-page image links */
+#showcase:after { /* clearfix */
+	content:'';
+	display:block;
+	clear:both;
+}
+#showcase a { /* anchors */
+	display:block;
+	margin:0 1em 1em 0;
+	float:left;
+	width:128px;
+	height:128px;
+	background:#69af98;
+	text-indent:-999em;
+	box-shadow:inset 0 0 0 0 rgba(255,255,255,.16);
+	transition:.16s;
+}
+#showcase a:hover { /* hover effect on anchors */
+	box-shadow:inset 0 0 0 .6em rgba(255,255,255,.16);
+}
+
+/* general element styling */
+li:not(:last-child) { /* space out lists a little */
+	margin-bottom:.8em;
+}
