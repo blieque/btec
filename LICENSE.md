@@ -14,7 +14,7 @@ Images that I or class members have created are licensed under the [CC BY-SA 4.0
 
 The Ciconia Markdown processor, written in PHP, is used via Composer. Ciconia is used under the terms specified in the MIT license below.
 
-Copyright (c) 2013 Kazuyuki Hayashi
+Copyright &copy; 2013 Kazuyuki Hayashi
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
