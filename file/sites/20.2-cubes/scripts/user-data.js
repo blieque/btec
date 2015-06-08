@@ -9,7 +9,8 @@ function User(nameFirst, age) {
 
     // full name generated from first and last name
     this.nameFull = function() {
-        var space = this.nameLast.length > 0 ? ' ' : '';
+        var space = this.nameFirst.length > 0 &&
+                    this.nameLast.length > 0 ? ' ' : '';
         return this.nameFirst + space + this.nameLast;
     }
 
