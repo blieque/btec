@@ -1,7 +1,9 @@
+@import url(type.css);
+
 /* main layout elements */
 body { /* change user-agent styles */
 	margin:0;
-	font-family:myriad pro,segoe ui,helvetica neue,sans-serif;
+	font-family:'clear sans',myriad pro,segoe ui,helvetica neue,sans-serif;
 	line-height:150%;
 }
 header nav,section { /* centre content and top navigation */
@@ -72,8 +74,13 @@ input,textarea,button { /* common styles for all form elements used */
 	overflow:hidden;
 	transition:.16s;
 }
-input,textarea,button { /* get rid of browser styling */
+input,textarea,button { /* fix user-agent styling */
+	font-size:inherit;
+	font-family:inherit;
 	outline:none!important;
+}
+button::-moz-focus-inner { /* as above */
+	border:none;
 }
 input { /* just less than 50% in width */
 	width:calc(50% - .5em);
