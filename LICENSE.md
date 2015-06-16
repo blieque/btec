@@ -12,7 +12,7 @@ Images that I or class members have created are licensed under the [CC BY-SA 4.0
 
 ## Ciconia
 
-The Ciconia Markdown processor, written in PHP, is used via Composer. Ciconia is used under the terms specified in the MIT license below.
+The Ciconia Markdown processor, written in PHP, is used via Composer. Ciconia is used under the terms specified by the MIT license below.
 
 Copyright &copy; 2013 Kazuyuki Hayashi
 
