@@ -6,25 +6,25 @@ In order to ease the writing and presentation of BTEC IT assignment work, I deci
 
 Below the key directories and files in the repository are listed, and their contents explained.
 
-* **css** &ndash; the lone stylesheet I've created, and any others I add in the future
+* **css** &ndash; the stylesheets used on all pages.
 
-* **doc** &ndash; the documentation you're presumably reading now
+* **doc** &ndash; the documentation you're presumably reading now.
 
-* **file** &ndash; attachments I have added to some assignments, such as spreadsheets, archives and project files
+* **file** &ndash; attachments I have added to some assignments, such as spreadsheets, archives and project files.
 
-* **img** &ndash; images either created by myself or not hosted on their source domains
+* **img** &ndash; images either created by myself or not hosted on their source domains.
 
-* **include** &ndash; php include scripts (currently just `parsedown.php`)
+* **includes** &ndash; some parts of PHP kept in separate files.
 
-* **markdown** &ndash; all assignment markdown documents
+* **markdown** &ndash; all assignment markdown documents.
 
-    * **ext** &ndash; extra markdown for particular assignments, often included in the main assignment document (i.e., pointlessness)
+    * **ext** &ndash; extra markdown for particular assignments, often included in the main assignment document (i.e., pointlessness).
 
-* **index.php** &ndash; the magic script, that handles almost all requests (certainly any markdown pages)
+* **index.php** &ndash; the magic script, that handles almost all requests (certainly any markdown pages).
 
-* **README.md** &ndash; the repository read-me
+* **README.md** &ndash; the repository read-me.
 
-* **LICENSE.md** &ndash; the repository license file
+* **LICENSE.md** &ndash; the repository license file.
 
 ## Webserver Configuration
 

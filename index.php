@@ -121,7 +121,7 @@ if ($is_given) {
 
 	} else if ($doc) { // documentation page
 
-		$word_split = str_replace('-', ' ', $split[2]);
+		$word_split = str_replace('-', ' ', $split[0]);
 		$word_split = ucwords(strtolower($word_split));
 
 		$markdown_file = 'doc/' . strtolower($_GET['a']) . '.md';

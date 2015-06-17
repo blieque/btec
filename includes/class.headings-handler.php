@@ -99,7 +99,7 @@ class HeadingsHandler {
 			$heading_id		= implode('.', $index_of_headings[$i]);
 			$heading_level	= count($index_of_headings[$i]) + 1;
 
-			$heading_new	= preg_replace('/[#]+ (.*)/', "<h$heading_level " .
+			$heading_new	= preg_replace('/[#]+[ ]*(.*)/', "<h$heading_level " .
 				"id=\"$heading_id\"><a href=\"#$heading_id\" " .
 				"title=\"permalink\"></a>$1</h$heading_level>", $headings[$i]);
 			array_push($output, $heading_new);
@@ -135,7 +135,7 @@ class HeadingsHandler {
 		for ($i = 0; $i < count($headings); $i++) { 
 
 			$heading_level	= count($index_of_headings[$i]);
-			$heading_text	= preg_replace("/[#]+ /", "", $headings[$i], 1);
+			$heading_text	= preg_replace("/[\n]*[#]+[ ]*/", "", $headings[$i], 1);
 
 			if ($i > 0) { // we don't want to add a divider on the first round
 

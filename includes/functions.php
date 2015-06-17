@@ -20,7 +20,7 @@ function minify($input) {
 	// tab indentation
 	$output = preg_replace("/[\t]*/", "", $output);
 	// HTML comments
-	$output = preg_replace("/<!\-\-.*?\-\->/", "", $output);
+	$output = preg_replace("/<!\-\-.*?\-\->/s", "", $output);
 
 	return $output;
 
