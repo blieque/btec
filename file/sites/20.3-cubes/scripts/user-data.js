@@ -17,12 +17,14 @@ function getUserData(isInit) {
     }
 
     data.nameFirst = prompt('What\'s your first name?', echo.nameFirst);
+    data.nameFirst = trimTrailing(data.nameFirst);
     
     if (isInit) {
         data.nameLast = null;
     } else {
         // don't ask for a last name when the page loads
         data.nameLast = prompt('What\'s your last name?', echo.nameLast);
+        data.nameLast = trimTrailing(data.nameLast);
     }
 
     var ageInput = prompt('How old are you, in years?', echo.age),
@@ -56,6 +58,12 @@ function getUserData(isInit) {
 
 }
 
+function trimTrailing(name) { // remove guff from start and end of string
+    var toTrim = ' ,._!?£$%^&*\(\)\[\]\/\\\'"`|;:@#~<>=+-',
+        regexpTrailing = new RegExp("(^[${toTrim}]+)|([${toTrim}]+$)");
+    return name.replace(regexpTrailing, '');
+}
+
 /* event handlers */
 
 window.onload = function() { // fired once everything has loaded
@@ -80,24 +88,17 @@ window.onload = function() { // fired once everything has loaded
     
     // "view user data" button event
     elemBtnView.onclick = function() {
-
-        /* This definition must be within the window.onload function, as
-         * elemBtnView will not otherwise be defined (and therefore cannot be
-         * bound to). The definition of elemBtnView must be in the function as
-         * well, as the element will not otherwise be loaded. */
-
         alert('Full name: ' + localUser.nameFull() + ',\n' +
               'Age: ' + localUser.ageFormatted() + '.');
-
     };
 
-    // "update data" button event
+    // "update user data" button event
     elemBtnUpdate.onclick = function() {
-        data = getUserData(false);
+        var data = getUserData(false);
         localUser.updateData(data);
     };
 
-    // "clear data" button event
+    // "clear user data" button event
     elemBtnClear.onclick = function() {
         localUser.clear();
         localStorage.removeItem('localUserData');
@@ -106,10 +107,11 @@ window.onload = function() { // fired once everything has loaded
 }
 
 window.onunload = function() {
-    // save user data when the page is navigated away from, if it's worth it
-    if (localUser.nameFirst !== null &&
-        localUser.nameLast !== null &&
-        localUser.age !== null) {
+    // save user data when the page is navigated away from, if it should be
+    if (!(localUser.nameFirst === null &&
+          localUser.nameLast === null &&
+          localUser.age === null &&
+          typeof localStorage.localUserData === 'undefined')) {
         localStorage.localUserData = JSON.stringify(localUser.exportData());
     }
 };

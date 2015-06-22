@@ -1,0 +1,150 @@
+/* main layout elements */
+body {
+	font-size:12pt;
+}
+header nav,section {
+	box-sizing:border-box;
+}
+section,header {
+	width:100%!important;
+	min-width:100%!important;
+}
+section {
+	padding:6em 1.2em 1.2em;
+}
+section :first-child {
+	margin-top:0!important;
+}
+section :last-child {
+	margin-bottom:0!important;
+}
+
+/* form elements */
+input {
+	width:100%;
+}
+button,input,textarea {
+	display:block!important;
+	margin:1.2em 0 0!important;
+	width:100%!important;
+}
+
+/* images */
+img {
+	z-index:1;
+}
+
+/* menu */
+header {
+	position:fixed!important;
+	box-shadow:0 .4em 0 0 rgba(0,0,0,.06),0 100vh 0 0 rgba(0,0,0,0);
+	min-height:4.4em;
+	overflow:hidden;
+	z-index:2;
+}
+header:before,header:after { /* menu toggle: top and bottom lines */
+	content:'';
+	display:block;
+	width:2em;
+	height:.2em;
+	position:absolute;
+	left:1.2em;
+	background:#fff;
+	border-radius:.2em;
+	-webkit-transform-origin:.1em;
+	-moz-transform-origin:.1em;
+	-ms-transform-origin:.1em;
+	-o-transform-origin:.1em;
+	transform-origin:.1em;
+	transition:width ease-out .25s,
+			   transform linear .25s,
+			   box-shadow .15s .25s;
+	z-index:1;
+}
+header:before { /* menu toggle: middle line */
+	top:1.2em;
+	box-shadow:0 .9em 0 0 #fff;
+}
+header:after { /* menu toggle: bottom line */
+	top:3em;
+}
+nav {
+	width:100%!important;
+	height:4.4em;
+	min-width:100%!important;
+	padding-left:4.4em;
+	position:relative;
+	overflow:hidden;
+	transition:height .15s .25s; /* menu closing */
+}
+nav a {
+	display:block!important;
+	padding:1.4em 1.6em!important;
+	height:1.6em;
+	opacity:0;
+	transition:opacity .25s;
+}
+#mtm { /* menu toggle mask */
+	display:block!important;
+	width:100%;
+	height:4.4em;
+	position:fixed;
+	top:0;
+	left:4.4em;
+	z-index:3;
+}
+#mc { /* menu curtain */
+	display:block!important;
+	width:100%;
+	height:100vh;
+	position:fixed;
+	left:110%;
+	background:#000;
+	opacity:0;
+	transition:opacity .15s .25s,left .01s .4s; /* fade out, delayed */
+}
+
+/* menu open */
+header:focus { /* prevent user agent focus styles */
+	outline:none;
+}
+header:focus:before,header:focus:after { /* turn lines into x shape */
+	width:2.828em; /* 2 * sqrt(2) */
+	transition:all .25s .15s,box-shadow .15s;
+	transition:width ease-in .25s .15s,
+			   transform linear .25s .15s,
+			   box-shadow .15s;
+}
+header:focus:before { /* top line */
+	box-shadow:0 .9em 0 0 transparent;
+	-webkit-transform:rotate(45deg);
+	-moz-transform:rotate(45deg);
+	-ms-transform:rotate(45deg);
+	-o-transform:rotate(45deg);
+	transform:rotate(45deg);
+}
+header:focus:after { /* bottom line */
+	-webkit-transform:rotate(-45deg);
+	-moz-transform:rotate(-45deg);
+	-ms-transform:rotate(-45deg);
+	-o-transform:rotate(-45deg);
+	transform:rotate(-45deg);
+}
+header:focus nav { /* grow page links container */
+	height:26.4em;
+	color:rgba(0,0,0,1);
+	transition:height .15s; /* menu opening */
+}
+header:focus nav a { /* show page links */
+	opacity:1;
+	transition:opacity .25s .15s;
+}
+header:focus ~ #mtm { /* use menu toggle mask */
+	width:4.4em;
+	left:0;
+}
+header:focus ~ #mc { /* use menu curtain */
+	left:0;
+	opacity:.5;
+	transition:opacity .15s;
+}

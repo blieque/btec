@@ -1,4 +1,5 @@
 @import url(type.css);
+@import url(mobile.css) (max-width:960px);
 
 /* main layout elements */
 body { /* change user-agent styles */
@@ -11,7 +12,7 @@ header nav,section { /* centre content and top navigation */
 	width:60%;
 	min-width:1060px;
 }
-header { /* navigation container */
+header,header nav { /* navigation container, menu toggle */
 	background:#69af98;
 }
 
@@ -138,6 +139,14 @@ textarea { /* full-width field */
 }
 #showcase a:hover { /* hover effect on anchors */
 	box-shadow:inset 0 0 0 .6em rgba(255,255,255,.16);
+}
+
+/* menu */
+#mtm { /* menu toggle */
+	display:none; /* only show on mobile */
+}
+#mc { /* menu curtain */
+	display:none; /* only show on mobile */
 }
 
 /* general element styling */
