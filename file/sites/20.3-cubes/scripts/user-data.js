@@ -1,3 +1,8 @@
+/* globals */
+var toTrim = ' ,.;:_~=+<>!?|$%^&*@#`\'"{}()[\\\]\\/-',
+    regexpTrailing = new RegExp("(^[" + toTrim + "]+)|" +
+                                 "([" + toTrim + "]+$)", 'g');
+
 /* functions */
 
 function getUserData(isInit) {
@@ -61,8 +66,6 @@ function getUserData(isInit) {
 function trimTrailing(name) { // remove guff from start and end of string
 
     if (name !== null) {
-        var toTrim = ' ,._!?$%^&*\\\(\)\[\]\/\\\'"`|;:@#~<>=+-',
-            regexpTrailing = new RegExp("(^[${toTrim}]+)|([${toTrim}]+$)");
         return name.replace(regexpTrailing, '');
     } else {
         return name;
