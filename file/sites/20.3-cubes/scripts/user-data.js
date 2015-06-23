@@ -59,9 +59,15 @@ function getUserData(isInit) {
 }
 
 function trimTrailing(name) { // remove guff from start and end of string
-    var toTrim = ' ,._!?£$%^&*\(\)\[\]\/\\\'"`|;:@#~<>=+-',
-        regexpTrailing = new RegExp("(^[${toTrim}]+)|([${toTrim}]+$)");
-    return name.replace(regexpTrailing, '');
+
+    if (name !== null) {
+        var toTrim = ' ,._!?$%^&*\(\)\[\]\/\\\'"`|;:@#~<>=+-',
+            regexpTrailing = new RegExp("(^[${toTrim}]+)|([${toTrim}]+$)");
+        return name.replace(regexpTrailing, '');
+    } else {
+        return name;
+    }
+
 }
 
 /* event handlers */
@@ -87,19 +93,19 @@ window.onload = function() { // fired once everything has loaded
     elemBtnClear = document.getElementById('bc');
     
     // "view user data" button event
-    elemBtnView.onclick = function() {
+    elemBtnView.onmousedown = function() {
         alert('Full name: ' + localUser.nameFull() + ',\n' +
               'Age: ' + localUser.ageFormatted() + '.');
     };
 
     // "update user data" button event
-    elemBtnUpdate.onclick = function() {
+    elemBtnUpdate.onmousedown = function() {
         var data = getUserData(false);
         localUser.updateData(data);
     };
 
     // "clear user data" button event
-    elemBtnClear.onclick = function() {
+    elemBtnClear.onmousedown = function() {
         localUser.clear();
         localStorage.removeItem('localUserData');
     }

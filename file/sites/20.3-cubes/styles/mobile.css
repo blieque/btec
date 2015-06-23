@@ -2,20 +2,23 @@
 body {
 	font-size:12pt;
 }
-header nav,section {
+header nav,
+section {
+	-webkit-box-sizing:border-box;
 	box-sizing:border-box;
 }
-section,header {
+section,
+header {
 	width:100%!important;
 	min-width:100%!important;
 }
 section {
 	padding:6em 1.2em 1.2em;
 }
-section :first-child {
+section > :first-child {
 	margin-top:0!important;
 }
-section :last-child {
+section > :last-child {
 	margin-bottom:0!important;
 }
 
@@ -23,26 +26,45 @@ section :last-child {
 input {
 	width:100%;
 }
-button,input,textarea {
+button,
+input,
+textarea {
 	display:block!important;
 	margin:1.2em 0 0!important;
 	width:100%!important;
+	-webkit-appearance:none; /* proprietary user agent styling over-ride */
+	-moz-appearance:none;
 }
 
 /* images */
-img {
+.img { /* image containers */
+	margin:0 0 1.6em;
+	width:100%;
+	height:auto;
+	float:none;
+}
+.img img { /* prevent images showing above other elements */
+	width:100%;
 	z-index:1;
+}
+
+/* home-page image links */
+#showcase {
+	margin-right:-1em;
+	margin-left:0;
 }
 
 /* menu */
 header {
 	position:fixed!important;
+	-webkit-box-shadow:0 .4em 0 0 rgba(0,0,0,.06),0 100vh 0 0 rgba(0,0,0,0);
 	box-shadow:0 .4em 0 0 rgba(0,0,0,.06),0 100vh 0 0 rgba(0,0,0,0);
 	min-height:4.4em;
 	overflow:hidden;
-	z-index:2;
+	z-index:3;
 }
-header:before,header:after { /* menu toggle: top and bottom lines */
+header:before,
+header:after { /* menu toggle: top and bottom lines */
 	content:'';
 	display:block;
 	width:2em;
@@ -56,6 +78,9 @@ header:before,header:after { /* menu toggle: top and bottom lines */
 	-ms-transform-origin:.1em;
 	-o-transform-origin:.1em;
 	transform-origin:.1em;
+	-webkit-transition:width ease-out .25s,
+			   transform linear .25s,
+			   -webkit-box-shadow .15s .25s;
 	transition:width ease-out .25s,
 			   transform linear .25s,
 			   box-shadow .15s .25s;
@@ -63,6 +88,7 @@ header:before,header:after { /* menu toggle: top and bottom lines */
 }
 header:before { /* menu toggle: middle line */
 	top:1.2em;
+	-webkit-box-shadow:0 .9em 0 0 #fff;
 	box-shadow:0 .9em 0 0 #fff;
 }
 header:after { /* menu toggle: bottom line */
@@ -75,6 +101,7 @@ nav {
 	padding-left:4.4em;
 	position:relative;
 	overflow:hidden;
+	-webkit-transition:height .15s .25s; /* menu closing */
 	transition:height .15s .25s; /* menu closing */
 }
 nav a {
@@ -82,7 +109,7 @@ nav a {
 	padding:1.4em 1.6em!important;
 	height:1.6em;
 	opacity:0;
-	transition:opacity .25s;
+	z-index:3;
 }
 #mtm { /* menu toggle mask */
 	display:block!important;
@@ -92,6 +119,8 @@ nav a {
 	top:0;
 	left:4.4em;
 	z-index:3;
+	-webkit-transition:.01s .4s; /* delayed changed hack */
+	transition:.01s .4s;
 }
 #mc { /* menu curtain */
 	display:block!important;
@@ -101,21 +130,29 @@ nav a {
 	left:110%;
 	background:#000;
 	opacity:0;
-	transition:opacity .15s .25s,left .01s .4s; /* fade out, delayed */
+	z-index:2;
+	-webkit-transition:opacity .15s .25s,
+			   left .01s .4s; /* fade out, delayed */
+	transition:opacity .15s .25s,
+			   left .01s .4s; /* fade out, delayed */
 }
 
 /* menu open */
 header:focus { /* prevent user agent focus styles */
 	outline:none;
 }
-header:focus:before,header:focus:after { /* turn lines into x shape */
+header:focus:before,
+header:focus:after { /* turn lines into x shape */
 	width:2.828em; /* 2 * sqrt(2) */
-	transition:all .25s .15s,box-shadow .15s;
+	-webkit-transition:width ease-in .25s .15s,
+			   transform linear .25s .15s,
+			   -webkit-box-shadow .15s;
 	transition:width ease-in .25s .15s,
 			   transform linear .25s .15s,
 			   box-shadow .15s;
 }
 header:focus:before { /* top line */
+	-webkit-box-shadow:0 .9em 0 0 transparent;
 	box-shadow:0 .9em 0 0 transparent;
 	-webkit-transform:rotate(45deg);
 	-moz-transform:rotate(45deg);
@@ -133,11 +170,13 @@ header:focus:after { /* bottom line */
 header:focus nav { /* grow page links container */
 	height:26.4em;
 	color:rgba(0,0,0,1);
+	-webkit-transition:height .15s; /* menu opening */
 	transition:height .15s; /* menu opening */
 }
 header:focus nav a { /* show page links */
 	opacity:1;
-	transition:opacity .25s .15s;
+	-webkit-transition:.15s,opacity .25s .15s;
+	transition:.15s,opacity .25s .15s;
 }
 header:focus ~ #mtm { /* use menu toggle mask */
 	width:4.4em;
@@ -145,6 +184,7 @@ header:focus ~ #mtm { /* use menu toggle mask */
 }
 header:focus ~ #mc { /* use menu curtain */
 	left:0;
-	opacity:.5;
+	opacity:.7;
+	-webkit-transition:opacity .15s;
 	transition:opacity .15s;
 }

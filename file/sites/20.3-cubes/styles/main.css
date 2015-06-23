@@ -1,18 +1,34 @@
 @import url(type.css);
 @import url(mobile.css) (max-width:960px);
 
+/* shared properties */
+.img:after,
+input,
+textarea,
+button { /* common styles for all form elements used */
+	-webkit-box-sizing:border-box;
+	box-sizing:border-box;
+}
+button::-moz-focus-inner,
+nav a { /* fix firefox user agent styles */
+	border:none!important;
+	outline:none!important;
+}
+
 /* main layout elements */
-body { /* change user-agent styles */
+body { /* change user agent styles */
 	margin:0;
 	font-family:'clear sans',myriad pro,segoe ui,helvetica neue,sans-serif;
 	line-height:150%;
 }
-header nav,section { /* centre content and top navigation */
+header nav,
+section { /* centre content and top navigation */
 	margin:0 auto;
 	width:60%;
 	min-width:1060px;
 }
-header,header nav { /* navigation container, menu toggle */
+header,
+header nav { /* navigation container, menu toggle */
 	background:#69af98;
 }
 
@@ -22,66 +38,75 @@ nav a { /* page links */
 	padding:1.2em 1.6em;
 	color:#fff;
 	text-decoration:none;
+	-webkit-box-shadow:inset 0 0 0 0 rgba(255,255,255,.16);
 	box-shadow:inset 0 0 0 0 rgba(255,255,255,.16);
-	transition:.16s;
+	-webkit-transition:.15s,opacity .25s;
+	transition:.15s,opacity .25s;
 }
 nav a.active { /* highlight current page's link */
 	background:rgba(255,255,255,.04);
+	-webkit-box-shadow:inset 0 0 0 .4em rgba(255,255,255,.12);
 	box-shadow:inset 0 0 0 .4em rgba(255,255,255,.12);
 }
 nav a:hover { /* hover effect (light inner border) */
 	background:rgba(255,255,255,.08);
+	-webkit-box-shadow:inset 0 0 0 .6em rgba(255,255,255,.16);
 	box-shadow:inset 0 0 0 .6em rgba(255,255,255,.16);
 }
 
 /* full-size images */
-section .img { /* image containers */
+.img { /* image containers */
 	margin:0 0 1.6em 1.6em;
 	position:relative;
 	float:right;
-	height:500px;
-	overflow:hidden;
 	border-radius:.4em;
+	overflow:hidden;
 }
-section .img:after { /* tooltip */
+.img:after { /* tooltip */
 	content:attr(data-tooltip);
 	display:inline-block;
 	padding:.4em;
-	width:500px;
-	height:34px;
-	box-sizing:border-box;
+	width:100%;
+	height:2.5em;
 	position:absolute;
-	top:500px;
+	top:100%;
 	left:0;
 	text-align:center;
 	color:#fff;
 	background:rgba(0,0,0,.7);
-	transition:1s .16s;
+	-webkit-transition:1s .15s;
+	transition:1s .15s;
 }
-section .img:hover:after { /* hover effect (reveal tooltip)  */
-	top:466px;
-	transition:.16s;
+.img:hover:after,.img:focus:after { /* hover effect (reveal tooltip)  */
+	top:calc(100% - 2.5em);
+	-webkit-transition:.15s;
+	transition:.15s;
+}
+.img img {
+	margin-bottom:-6px;
 }
 
 /* contact form */
-input,textarea,button { /* common styles for all form elements used */
+input,
+textarea,
+button { /* common styles for all form elements used */
 	display:inline-block;
 	padding:.8em;
 	background:#ddd;
 	border-radius:.8em;
 	border:none;
-	box-shadow:inset 0 0 0 2px #ddd;
-	box-sizing:border-box;
 	overflow:hidden;
-	transition:.16s;
+	-webkit-box-shadow:inset 0 0 0 2px #ddd;
+	box-shadow:inset 0 0 0 2px #ddd;
+	-webkit-transition:.15s;
+	transition:.15s;
 }
-input,textarea,button { /* fix user-agent styling */
+input,
+textarea,
+button { /* fix user agent styling */
 	font-size:inherit;
 	font-family:inherit;
 	outline:none!important;
-}
-button::-moz-focus-inner { /* as above */
-	border:none;
 }
 input { /* just less than 50% in width */
 	width:calc(50% - .5em);
@@ -89,26 +114,31 @@ input { /* just less than 50% in width */
 input:first-child { /* space between name and email inputs */
 	margin-right:1em;
 }
-input:focus,textarea:focus { /* styles when input field in use */
+input:focus,
+textarea:focus { /* styles when input field in use */
 	background:#fafafa;
 }
-input[type="submit"],button { /* submit button */
+input[type="submit"],
+button { /* submit button */
 	margin:1em 1em 1em 0;
 	display:inline-block;
 	width:20%;
 	min-width:100px;
 	background:#69af98;
-	box-shadow:none;
 	color:#fff;
+	-webkit-box-shadow:inset 0 0 0 0 rgba(255,255,255,.16);
 	box-shadow:inset 0 0 0 0 rgba(255,255,255,.16);
-	transition:.16s;
+	-webkit-transition:.15s;
+	transition:.15s;
 }
 input[type="submit"].c { /* centred submits */
 	display:block;
 	margin:0 auto 2em;
 }
-input[type="submit"]:hover,button:hover { /* submit button hover state */
+input[type="submit"]:hover,
+button:hover { /* submit button hover state */
 	cursor:pointer;
+	-webkit-box-shadow:inset 0 0 0 .4em rgba(255,255,255,.16);
 	box-shadow:inset 0 0 0 .4em rgba(255,255,255,.16);
 }
 textarea { /* full-width field */
@@ -134,10 +164,13 @@ textarea { /* full-width field */
 	height:128px;
 	background:#69af98;
 	text-indent:-999em;
+	-webkit-box-shadow:inset 0 0 0 0 rgba(255,255,255,.16);
 	box-shadow:inset 0 0 0 0 rgba(255,255,255,.16);
-	transition:.16s;
+	-webkit-transition:.15s;
+	transition:.15s;
 }
 #showcase a:hover { /* hover effect on anchors */
+	-webkit-box-shadow:inset 0 0 0 .6em rgba(255,255,255,.16);
 	box-shadow:inset 0 0 0 .6em rgba(255,255,255,.16);
 }
 
