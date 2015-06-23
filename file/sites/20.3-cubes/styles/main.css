@@ -77,7 +77,8 @@ nav a:hover { /* hover effect (light inner border) */
 	-webkit-transition:1s .15s;
 	transition:1s .15s;
 }
-.img:hover:after,.img:focus:after { /* hover effect (reveal tooltip)  */
+.img:hover:after,
+.img:focus:after { /* hover effect (reveal tooltip)  */
 	top:calc(100% - 2.5em);
 	-webkit-transition:.15s;
 	transition:.15s;

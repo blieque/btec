@@ -111,7 +111,7 @@ window.onload = function() { // fired once everything has loaded
     elemBtnClear.onmousedown = function() {
         localUser.clear();
         localStorage.removeItem('localUserData');
-    }
+    };
 
 }
 

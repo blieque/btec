@@ -55,6 +55,9 @@ textarea {
 }
 
 /* menu */
+header,nav a,#mtm,#mc { /* remove tap highlight from some elements */
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+}
 header {
 	position:fixed!important;
 	-webkit-box-shadow:0 .4em 0 0 rgba(0,0,0,.06),0 100vh 0 0 rgba(0,0,0,0);
@@ -139,10 +142,12 @@ nav a {
 
 /* menu open */
 header:focus { /* prevent user agent focus styles */
-	outline:none;
+	outline:none!important;
 }
 header:focus:before,
-header:focus:after { /* turn lines into x shape */
+header:focus:after,
+header.focus:before,
+header.focus:after { /* turn lines into x shape */
 	width:2.828em; /* 2 * sqrt(2) */
 	-webkit-transition:width ease-in .25s .15s,
 			   transform linear .25s .15s,
@@ -151,7 +156,8 @@ header:focus:after { /* turn lines into x shape */
 			   transform linear .25s .15s,
 			   box-shadow .15s;
 }
-header:focus:before { /* top line */
+header:focus:before,
+header.focus:before { /* top line */
 	-webkit-box-shadow:0 .9em 0 0 transparent;
 	box-shadow:0 .9em 0 0 transparent;
 	-webkit-transform:rotate(45deg);
@@ -160,29 +166,34 @@ header:focus:before { /* top line */
 	-o-transform:rotate(45deg);
 	transform:rotate(45deg);
 }
-header:focus:after { /* bottom line */
+header:focus:after,
+header.focus:after { /* bottom line */
 	-webkit-transform:rotate(-45deg);
 	-moz-transform:rotate(-45deg);
 	-ms-transform:rotate(-45deg);
 	-o-transform:rotate(-45deg);
 	transform:rotate(-45deg);
 }
-header:focus nav { /* grow page links container */
+header:focus nav,
+header.focus nav { /* grow page links container */
 	height:26.4em;
 	color:rgba(0,0,0,1);
 	-webkit-transition:height .15s; /* menu opening */
 	transition:height .15s; /* menu opening */
 }
-header:focus nav a { /* show page links */
+header:focus nav a,
+header.focus nav a { /* show page links */
 	opacity:1;
 	-webkit-transition:.15s,opacity .25s .15s;
 	transition:.15s,opacity .25s .15s;
 }
-header:focus ~ #mtm { /* use menu toggle mask */
+header:focus ~ #mtm,
+header.focus ~ #mtm { /* use menu toggle mask */
 	width:4.4em;
 	left:0;
 }
-header:focus ~ #mc { /* use menu curtain */
+header:focus ~ #mc,
+header.focus ~ #mc { /* use menu curtain */
 	left:0;
 	opacity:.7;
 	-webkit-transition:opacity .15s;

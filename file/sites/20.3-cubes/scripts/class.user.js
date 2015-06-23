@@ -28,7 +28,7 @@ function User() {
 
         return out;
 
-    }
+    };
 
     this.ageFormatted = function() {
 
@@ -44,7 +44,7 @@ function User() {
 
         return ageStr;
 
-    }
+    };
 
     this.clear = function() {
 
@@ -52,7 +52,7 @@ function User() {
         this.nameLast = null;
         this.age = null;
 
-    }
+    };
 
     this.updateData = function(data) {
 
@@ -62,7 +62,7 @@ function User() {
         this.nameLast = data.nameLast;
         this.age = data.age;
 
-    }
+    };
 
     this.exportData = function() {
 
@@ -72,6 +72,6 @@ function User() {
                  nameLast: this.nameLast,
                  age: this.age };
 
-    }
+    };
 
 }
